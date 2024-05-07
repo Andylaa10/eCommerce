@@ -1,4 +1,6 @@
-﻿using ProductService.Core.Helpers;
+﻿using MonitoringService;
+using OpenTelemetry.Trace;
+using ProductService.Core.Helpers;
 using ProductService.Core.Repositories;
 using ProductService.Core.Repositories.Interfaces;
 using ProductService.Core.Services.Interfaces;
@@ -18,5 +20,11 @@ public static class DependencyInjectionConfig
         
         // Automapper
         services.AddSingleton(AutoMapperConfig.ConfigureAutoMapper());
+        
+        // Monitoring
+        var serviceName = "PatientService";
+        var serviceVersion = "1.0.0"; 
+        services.AddOpenTelemetry().Setup(serviceName, serviceVersion);
+        services.AddSingleton(TracerProvider.Default.GetTracer(serviceName));
     }
 }
