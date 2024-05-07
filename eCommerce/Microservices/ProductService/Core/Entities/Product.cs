@@ -1,6 +1,15 @@
-﻿namespace ProductService.Core.Entities;
+﻿using MongoDB.Bson;
+
+namespace ProductService.Core.Entities;
 
 public class Product
 {
-    public int ObjectID { get; set; }
+    public ObjectId Id { get; set; }
+    public string Title { get; set; }
+    public string Description { get; set; }
+    public float Price { get; set; }
+    public bool InStock { get; set; }
+    public int NumberInStock { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime? UpdatedAt { get; set; }
 }

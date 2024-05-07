@@ -18,8 +18,6 @@
 
     <ItemGroup>
       <Folder Include="Core\Helpers\" />
-      <Folder Include="Core\Repositories\Interfaces\" />
-      <Folder Include="Core\Services\Interfaces\" />
     </ItemGroup>
 
 </Project>
