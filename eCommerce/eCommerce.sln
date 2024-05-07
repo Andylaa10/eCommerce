@@ -1,4 +1,3 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService", "Microservices\ProductService\ProductService.csproj", "{B834AE84-E701-4F8E-91EA-EC79504650FE}"
 EndProject
@@ -9,6 +8,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService", "Microservices\UserService\UserService.csproj", "{9B7073B9-D136-4F18-B085-22381C19BB9B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductControllerTest", "Tests\ProductControllerTest\ProductControllerTest.csproj", "{6A3FA3ED-11A3-4270-A9B8-387E7775DD9A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonitoringService", "Shared\MonitoringService\MonitoringService.csproj", "{5C3472BB-521D-4393-B145-4D9ADD2654E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,5 +37,9 @@ Global
 		{6A3FA3ED-11A3-4270-A9B8-387E7775DD9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A3FA3ED-11A3-4270-A9B8-387E7775DD9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A3FA3ED-11A3-4270-A9B8-387E7775DD9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C3472BB-521D-4393-B145-4D9ADD2654E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C3472BB-521D-4393-B145-4D9ADD2654E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C3472BB-521D-4393-B145-4D9ADD2654E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C3472BB-521D-4393-B145-4D9ADD2654E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

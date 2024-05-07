@@ -20,4 +20,9 @@
       <Folder Include="Configs\" />
     </ItemGroup>
 
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Shared\MonitoringService\MonitoringService.csproj" />
+    </ItemGroup>
+
 </Project>
