@@ -1,14 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService", "ProductService\ProductService.csproj", "{B834AE84-E701-4F8E-91EA-EC79504650FE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService", "Microservices\ProductService\ProductService.csproj", "{B834AE84-E701-4F8E-91EA-EC79504650FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CategoryService", "CategoryService\CategoryService.csproj", "{16F1D9EB-4864-4AF5-8C24-54E62B2F6D4E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CategoryService", "Microservices\CategoryService\CategoryService.csproj", "{16F1D9EB-4864-4AF5-8C24-54E62B2F6D4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CartService", "CartService\CartService.csproj", "{1101F622-0555-4011-BEFC-F48427A45D04}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CartService", "Microservices\CartService\CartService.csproj", "{1101F622-0555-4011-BEFC-F48427A45D04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService", "AuthService\AuthService.csproj", "{2A1B9B93-69C6-4281-AEEA-0132FEA31EF1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService", "Microservices\AuthService\AuthService.csproj", "{2A1B9B93-69C6-4281-AEEA-0132FEA31EF1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService", "UserService\UserService.csproj", "{9B7073B9-D136-4F18-B085-22381C19BB9B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService", "Microservices\UserService\UserService.csproj", "{9B7073B9-D136-4F18-B085-22381C19BB9B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

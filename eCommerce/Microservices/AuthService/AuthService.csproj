@@ -13,10 +13,7 @@
 
     <ItemGroup>
       <Folder Include="Configs\" />
-      <Folder Include="Core\Helpers\" />
-      <Folder Include="Core\Models\" />
-      <Folder Include="Core\Repositories\Interfaces\" />
-      <Folder Include="Core\Services\Interfaces\" />
+      <Folder Include="Core\" />
     </ItemGroup>
 
 </Project>
