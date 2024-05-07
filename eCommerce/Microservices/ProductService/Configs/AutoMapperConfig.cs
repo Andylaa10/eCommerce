@@ -4,7 +4,7 @@ using ProductService.Core.Services.DTOs;
 
 namespace ProductService.Configs;
 
-public class AutoMapperConfig
+public static class AutoMapperConfig
 {
     public static IMapper ConfigureAutoMapper()
     {
