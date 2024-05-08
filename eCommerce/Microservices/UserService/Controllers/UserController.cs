@@ -70,6 +70,7 @@ public class UserController : ControllerBase
     }
 
     [HttpDelete]
+    [Route("{id}")]
     public async Task<IActionResult> DeleteUser([FromRoute] int id)
     {
         try
