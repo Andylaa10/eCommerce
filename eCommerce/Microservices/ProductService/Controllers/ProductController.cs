@@ -16,6 +16,20 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
+    [Route("{id}")]
+    public async Task<IActionResult> GetProductById([FromRoute] string id)
+    {
+        try
+        {
+            return Ok(await _productService.GetProductById(id));
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+    
+    [HttpGet]
     public async Task<IActionResult> GetProducts([FromQuery] PaginatedDto dto)
     {
         try
@@ -34,8 +48,7 @@ public class ProductController : ControllerBase
     {
         try
         {
-            await _productService.CreateProduct(dto);
-            return StatusCode(201, "Product successfully created");
+            return StatusCode(201, await _productService.CreateProduct(dto));
         }
         catch (Exception e)
         {
@@ -50,8 +63,7 @@ public class ProductController : ControllerBase
     {
         try
         {
-            await _productService.UpdateProduct(id, dto);
-            return Ok();
+            return Ok(await _productService.UpdateProduct(id, dto));
         }
         catch (Exception e)
         {
@@ -61,12 +73,11 @@ public class ProductController : ControllerBase
 
     [HttpDelete]
     [Route("{id}")]
-    public async Task<IActionResult> DeleteComment([FromRoute] string id)
+    public async Task<IActionResult> DeleteProduct([FromRoute] string id)
     {
         try
         {
-            await _productService.DeleteProduct(id);
-            return Ok();
+            return Ok(await _productService.DeleteProduct(id));
         }
         catch (Exception e)
         {

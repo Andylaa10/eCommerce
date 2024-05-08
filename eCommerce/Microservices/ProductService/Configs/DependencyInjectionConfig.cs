@@ -1,4 +1,5 @@
-﻿using MonitoringService;
+﻿using Cache;
+using MonitoringService;
 using OpenTelemetry.Trace;
 using ProductService.Core.Helpers;
 using ProductService.Core.Repositories;
@@ -20,6 +21,9 @@ public static class DependencyInjectionConfig
         
         // Automapper
         services.AddSingleton(AutoMapperConfig.ConfigureAutoMapper());
+        
+        // Caching
+        services.AddSingleton(RedisClientFactory.CreateRedisClient());
         
         // Monitoring
         var serviceName = "PatientService";

@@ -20,8 +20,7 @@ public class UserController : ControllerBase
     {
         try
         {
-            await _userService.AddUser(dto);
-            return StatusCode(201, "Successfully created");
+            return StatusCode(201, await _userService.AddUser(dto));
         }
         catch (Exception e)
         {
@@ -62,13 +61,25 @@ public class UserController : ControllerBase
     {
         try
         {
-            await _userService.UpdateUser(id, dto);
-            return Ok();
+            return Ok(await _userService.UpdateUser(id, dto));
         }
         catch (Exception e)
         {
             return BadRequest(e.Message);
         }
     }
-    
+
+    [HttpDelete]
+    public async Task<IActionResult> DeleteUser([FromRoute] int id)
+    {
+        try
+        {
+            return Ok(await _userService.DeleteUser(id));
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
 }

@@ -17,6 +17,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\Shared\MonitoringService\MonitoringService.csproj" />
+        <ProjectReference Include="..\UserService\UserService.csproj" />
     </ItemGroup>
 
 </Project>
