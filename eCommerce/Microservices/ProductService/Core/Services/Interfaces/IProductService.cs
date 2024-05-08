@@ -8,9 +8,10 @@ public interface IProductService
 {
     public Task<PaginatedResult<Product>> GetProducts(PaginatedDto dto);
 
-    public Task CreateProduct(CreateProductDto product);
+    public Task<Product> GetProductById(string id);
+    public Task<Product> CreateProduct(CreateProductDto dto);
 
-    public Task UpdateProduct(string id, UpdatedProductDto product);
+    public Task<Product> UpdateProduct(string id, UpdatedProductDto dto);
 
-    public Task DeleteProduct(string id);
+    public Task<Product> DeleteProduct(string id);
 }

@@ -33,15 +33,24 @@ public class ProductRepository : IProductRepository
         };
     }
 
-    public async Task CreateProduct(Product product)
+    public async Task<Product> GetProductById(string id)
+    {
+        var objectId = new ObjectId(id);
+        var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == objectId);
+        return product ?? throw new KeyNotFoundException($"No product with id of {id}");
+    }
+
+    public async Task<Product>  CreateProduct(Product product)
     {
         await _context.Products.AddAsync(product);
         await _context.SaveChangesAsync();
+
+        return product;
     }
 
-    public async Task UpdateProduct(string id, Product updatedProduct)
+    public async Task<Product>  UpdateProduct(string id, Product updatedProduct)
     {
-        var productToUpdate = await _context.Products.FirstOrDefaultAsync(p => p.Id == updatedProduct.Id);
+        var productToUpdate = await GetProductById(id);
 
         var objectId = new ObjectId(id);
         if (objectId != updatedProduct.Id)
@@ -55,14 +64,17 @@ public class ProductRepository : IProductRepository
         productToUpdate.UpdatedAt = DateTime.Now;
         _context.Products.Update(productToUpdate);
         await _context.SaveChangesAsync();
+
+        return productToUpdate;
     }
 
-    public async Task DeleteProduct(string id)
+    public async Task<Product> DeleteProduct(string id)
     {
-        var objectId = new ObjectId(id);
-        var productToDelete = await _context.Products.FirstOrDefaultAsync(p => p.Id == objectId);
+        var productToDelete = await GetProductById(id);
         _context.Products.Remove(productToDelete);
         await _context.SaveChangesAsync();
+
+        return productToDelete;
     }
     
 }

@@ -1,4 +1,5 @@
-﻿using UserService.Core.Helpers;
+﻿using Cache;
+using UserService.Core.Helpers;
 using UserService.Core.Repositories;
 using UserService.Core.Repositories.Interfaces;
 using UserService.Core.Services.Interfaces;
@@ -18,6 +19,9 @@ public static class DependencyInjectionConfig
         
         // Automapper
         services.AddSingleton(AutoMapperConfig.ConfigureAutoMapper());
+        
+        // Caching
+        services.AddSingleton(RedisClientFactory.CreateRedisClient());
 
     }
 }

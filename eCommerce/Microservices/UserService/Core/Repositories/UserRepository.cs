@@ -32,7 +32,7 @@ public class UserRepository : IUserRepository
         return await _context.Users.ToListAsync();
     }
 
-    public async Task AddUser(User user)
+    public async Task<User> AddUser(User user)
     {
         var exist = await DoesUserExist(user.Email);
         if (exist)
@@ -40,9 +40,11 @@ public class UserRepository : IUserRepository
 
         await _context.Users.AddAsync(user);
         await _context.SaveChangesAsync();
+        
+        return user;
     }
 
-    public async Task UpdateUser(int id, User user)
+    public async Task<User> UpdateUser(int id, User user)
     {
         if (id != user.Id)
             throw new ArgumentException("Id int the route does not match the id of the user");
@@ -56,13 +58,16 @@ public class UserRepository : IUserRepository
 
         _context.Users.Update(userUpdate);
         await _context.SaveChangesAsync();
+
+        return userUpdate;
     }
 
-    public async Task DeleteUser(int id)
+    public async Task<User> DeleteUser(int id)
     {
         var user = await GetUserById(id);
         _context.Users.Remove(user);
         await _context.SaveChangesAsync();
+        return user;
     }
 
     public async Task<bool> DoesUserExist(string email)
