@@ -1,0 +1,126 @@
+﻿version: '3.9'
+
+services:
+  #Messaging
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    healthcheck:
+      test: rabbitmq-diagnostics check_port_connectivity
+      interval: 1s
+      timeout: 3s
+      retries: 30
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  #Cache
+  redis:
+    image: 'redislabs/redisearch:latest'
+    container_name: 'redis'
+    healthcheck:
+      test: [ "CMD-SHELL", "redis-cli ping | grep PONG" ]
+      interval: 1s
+      timeout: 3s
+      retries: 5
+    ports:
+      - '6379:6379'
+  
+  #Databases
+  
+  #Postgres db
+  userdb:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - userdb_data:/data
+  
+  authdb:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5433:5432'
+    volumes:
+      - authdb_data:/data
+  
+  #Mongodb
+  productdb:
+    image: 'mongo:latest'
+    ports:
+      - '27017:27017'
+    volumes:
+      - productdb_data:/data
+  
+  cartdb:
+    image: 'mongo:latest'
+    ports:
+      - '27018:27017'
+    volumes:
+      - cartdb_data:/data
+  
+  #Monitoring
+  seq:
+    image: datalust/seq:latest
+    ports:
+      - "5341:5341"
+      - "5342:80"
+    volumes:
+      - seq_data:/data
+    environment:
+      ACCEPT_EULA: "Y"
+
+  zipkin:
+    image: openzipkin/zipkin
+    ports:
+      - "9411:9411"
+  
+  #APIS
+  authservice:
+    image: authservice
+    build:
+      context: .
+      dockerfile: ./eCommerce/Microservices/AuthService/Dockerfile
+    ports:
+      - '9090:80'
+  
+  userservice:
+    image: userservice
+    build:
+      context: .
+      dockerfile: ./eCommerce/Microservices/UserService/Dockerfile
+    ports:
+      - '9091:80'
+  
+  productservice:
+    image: productservice
+    build:
+      context: .
+      dockerfile: ./eCommerce/Microservices/ProductService/Dockerfile
+    ports:
+      - '9092:80'
+  
+  cartservice:
+    image: cartservice
+    build:
+      context: .
+      dockerfile: ./eCommerce/Microservices/CartService/Dockerfile
+    ports:
+      - '9093:80'
+  
+volumes:
+  seq_data:
+  userdb_data:
+  authdb_data:
+  productdb_data:
+
+networks:
+  local_network:
+    driver: bridge
