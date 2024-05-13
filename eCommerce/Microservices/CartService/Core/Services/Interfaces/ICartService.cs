@@ -1,14 +1,14 @@
 using CartService.Core.Entities;
+using CartService.Core.Services.DTOs;
 
 namespace CartService.Core.Services.Interfaces;
 
 public interface ICartService
 {
-    
-    public Task<Cart> CreateCart(Cart cart);
+    public Task<Cart> CreateCart(CreateCartDto dto);
     public Task<Cart> GetCartByUserId(int userId);
-    
-    public Task<Cart> AddProductToCart(int userId, Object product);
-    public Task<Cart> RemoveProductFromCart(int userId, int productId);
+
+    public Task<Cart> AddProductToCart(int cartId, AddProductToCartDto dto);
+    public Task<Cart> RemoveProductFromCart(int cartId, string productId);
     public Task RebuildDatabase();
 }

@@ -7,22 +7,18 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AutoMapper" Version="13.0.1" />
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.4" />
-        <PackageReference Include="MongoDB.Bson" Version="2.25.0" />
-        <PackageReference Include="MongoDB.EntityFrameworkCore" Version="8.0.0" />
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageReference Include="AutoMapper" Version="13.0.1"/>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.4"/>
+        <PackageReference Include="MongoDB.Bson" Version="2.25.0"/>
+        <PackageReference Include="MongoDB.EntityFrameworkCore" Version="8.0.0"/>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
     </ItemGroup>
 
 
     <ItemGroup>
-      <Folder Include="Configs\" />
-    </ItemGroup>
-
-
-    <ItemGroup>
-      <ProjectReference Include="..\..\Shared\MonitoringService\MonitoringService.csproj" />
+        <ProjectReference Include="..\..\Shared\Cache\Cache.csproj"/>
+        <ProjectReference Include="..\..\Shared\MonitoringService\MonitoringService.csproj"/>
     </ItemGroup>
 
 </Project>
