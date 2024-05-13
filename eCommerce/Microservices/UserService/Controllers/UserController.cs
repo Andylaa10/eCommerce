@@ -84,7 +84,7 @@ public class UserController : ControllerBase
         }
     }
     
-    [HttpGet]
+    [HttpPost]
     [Route("Rebuild")]
     public async Task<IActionResult> RebuildDatabase()
     {

@@ -8,9 +8,11 @@ public class DatabaseContext : DbContext
 {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        string connectionString = ConfigurationManager.AppSettings.Get("USER_SERVICE_CONNECTION_STRING");
+        string connectionString = ConfigurationManager.AppSettings.Get("USER_SERVICE_CONNECTION_STRING")!;
 
-        optionsBuilder.UseNpgsql(connectionString); // TODO        
+        Console.WriteLine(ConfigurationManager.AppSettings.Keys.Count);
+        //optionsBuilder.UseNpgsql(connectionString); // TODO        
+        optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=UserDB;Username=postgres;Password=postgres");      
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

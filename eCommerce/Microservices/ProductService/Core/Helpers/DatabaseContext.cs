@@ -9,9 +9,9 @@ public class DatabaseContext : DbContext
 {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        string connectionString = ConfigurationManager.AppSettings.Get("PRODUCT_SERVICE_CONNECTION_STRING");
+        string connectionString = ConfigurationManager.AppSettings.Get("PRODUCT_SERVICE_CONNECTION_STRING")!;
 
-        optionsBuilder.UseMongoDB(connectionString, "ProductDB");
+        optionsBuilder.UseMongoDB("mongodb://localhost:27017", "ProductDB");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

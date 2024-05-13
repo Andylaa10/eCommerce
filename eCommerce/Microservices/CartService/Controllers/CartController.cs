@@ -69,19 +69,4 @@ public class CartController : ControllerBase
             return BadRequest(e.Message);
         }
     }
-
-    [HttpGet]
-    [Route("Rebuild")]
-    public async Task<IActionResult> RebuildDatabase()
-    {
-        try
-        {
-            await _cartService.RebuildDatabase();
-            return Ok();
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
-    }
 }

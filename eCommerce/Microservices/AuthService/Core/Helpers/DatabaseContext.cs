@@ -11,7 +11,9 @@ public class DatabaseContext : DbContext
     {
         string connectionString = ConfigurationManager.AppSettings.Get("AUTH_SERVICE_CONNECTION_STRING");
 
-        optionsBuilder.UseNpgsql(connectionString);
+        //optionsBuilder.UseNpgsql(connectionString);
+        optionsBuilder.UseNpgsql("Server=localhost;Port=5433;Database=AuthDB;Username=postgres;Password=postgres");      
+
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

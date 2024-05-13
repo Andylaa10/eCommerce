@@ -10,9 +10,10 @@ public class DatabaseContext : DbContext
 {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        string connectionString = ConfigurationManager.AppSettings.Get("CART_SERVICE_CONNECTION_STRING");
+        string connectionString = ConfigurationManager.AppSettings.Get("CART_SERVICE_CONNECTION_STRING")!;
         
-        optionsBuilder.UseMongoDB(connectionString, "CartDB"); //TODO
+        //optionsBuilder.UseMongoDB(connectionString, "CartDB");
+        optionsBuilder.UseMongoDB("mongodb://localhost:27018", "CartDB");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -98,6 +98,11 @@ services:
       dockerfile: ./eCommerce/Microservices/AuthService/Dockerfile
     ports:
       - '9090:80'
+    depends_on:
+      redis:
+        condition: service_healthy
+      authdb:
+        condition: service_started  
   
   userservice:
     image: userservice
@@ -106,6 +111,11 @@ services:
       dockerfile: ./eCommerce/Microservices/UserService/Dockerfile
     ports:
       - '9091:80'
+    depends_on:
+      redis:
+        condition: service_healthy
+      userdb:
+        condition: service_started
   
   productservice:
     image: productservice
@@ -114,6 +124,11 @@ services:
       dockerfile: ./eCommerce/Microservices/ProductService/Dockerfile
     ports:
       - '9092:80'
+    depends_on:
+      redis:
+        condition: service_healthy
+      productdb:
+        condition: service_started
   
   cartservice:
     image: cartservice
@@ -122,6 +137,11 @@ services:
       dockerfile: ./eCommerce/Microservices/CartService/Dockerfile
     ports:
       - '9093:80'
+    depends_on:
+      redis:
+        condition: service_healthy
+      cartdb:
+        condition: service_started
   
 volumes:
   seq_data:

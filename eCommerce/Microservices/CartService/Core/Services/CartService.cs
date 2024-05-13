@@ -34,8 +34,8 @@ public class CartService : ICartService
 
     public async Task<Cart> GetCartByUserId(int userId)
     {
-        if (userId <= 0)
-            throw new ArgumentException("UserId cannot be 0");
+        if (userId < 1)
+            throw new ArgumentException("UserId cannot be less than 1");
 
         var cartJson = _redisClient.GetValue(userId.ToString());
 
@@ -47,8 +47,8 @@ public class CartService : ICartService
 
     public async Task<Cart> AddProductToCart(int cartId, AddProductToCartDto dto)
     {
-        if (cartId <= 0)
-            throw new ArgumentException("UserId cannot be 0");
+        if (cartId < 1)
+            throw new ArgumentException("UserId cannot be less than 1");
 
         var cart = await _cartRepository.AddProductToCart(cartId, _mapper.Map<ProductLine>(dto));
 
@@ -60,8 +60,8 @@ public class CartService : ICartService
 
     public async Task<Cart> RemoveProductFromCart(int cartId, string productId)
     {
-        if (cartId <= 0)
-            throw new ArgumentException("UserId cannot be 0");
+        if (cartId < 1)
+            throw new ArgumentException("UserId cannot be less than 1");
         if (string.IsNullOrEmpty(productId))
             throw new ArgumentException("ProductId cannot be null or empty");
 
@@ -69,10 +69,5 @@ public class CartService : ICartService
         _redisClient.RemoveValue(productId);
 
         return cart;
-    }
-
-    public async Task RebuildDatabase()
-    {
-        await _cartRepository.RebuildDatabase();
     }
 }
