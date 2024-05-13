@@ -120,6 +120,7 @@ volumes:
   userdb_data:
   authdb_data:
   productdb_data:
+  cartdb_data: 
 
 networks:
   local_network:
