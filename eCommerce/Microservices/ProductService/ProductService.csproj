@@ -13,9 +13,11 @@
         <PackageReference Include="MongoDB.EntityFrameworkCore" Version="8.0.0" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
+        <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\Shared\ConConfig\ConConfig.csproj" />
         <ProjectReference Include="..\..\Shared\MonitoringService\MonitoringService.csproj" />
         <ProjectReference Include="..\UserService\UserService.csproj" />
     </ItemGroup>
