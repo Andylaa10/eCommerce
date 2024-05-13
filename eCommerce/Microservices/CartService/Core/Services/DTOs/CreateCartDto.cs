@@ -1,10 +1,9 @@
-﻿using MongoDB.Bson;
+using CartService.Core.Entities;
 
-namespace CartService.Core.Entities;
+namespace CartService.Core.Services.DTOs;
 
-public class Cart
+public class CreateCartDto
 {
-    public ObjectId Id { get; set; }
     public int UserId { get; set; }
     public float TotalPrice { get; set; }
     public DateTime CreatedAt { get; set; }
