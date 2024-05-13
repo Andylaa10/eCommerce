@@ -18,18 +18,18 @@ public class MessageClient
         var exchange = await _bus.Advanced.ExchangeDeclareAsync(exchangeName, ExchangeType.Direct);
         
         //Maybe this would work
-        await _bus.Advanced.PublishAsync(exchange, routingKey, true, new Message<T>(message));
+        await _bus.Advanced.PublishAsync(exchange, routingKey, false, new Message<T>(message));
     }
 
     public async Task Listen<T>(Action<T> handler, string exchangeName, string queueName, string routingKey)
     {
         var mainExchange = await _bus.Advanced.ExchangeDeclareAsync(exchangeName, ExchangeType.Direct);
 
-        var dqlExchangeName = $"dlq{exchangeName}";
-        
-        var dlqExchange = await _bus.Advanced.ExchangeDeclareAsync(dqlExchangeName, ExchangeType.Fanout);
+        var dlqExchangeName = $"dlq{exchangeName}";
 
-        // Find some rules which 
+        var dlqExchange = await DeclareExchange(dlqExchangeName, ExchangeType.Fanout);
+
+        // Find some rules to determine whether the should be publish to the main queue or to the dead letter queue   
         var expires = new TimeSpan(0, 0, 0, 5);
         
         var mainQueue = await _bus.Advanced.QueueDeclareAsync(queueName, 
@@ -48,5 +48,10 @@ public class MessageClient
         var dlqQueue = await _bus.Advanced.QueueDeclareAsync(dlqQueueName);
         await _bus.Advanced.BindAsync(dlqExchange, dlqQueue, string.Empty);
         await _bus.SendReceive.ReceiveAsync(queueName, handler);
+    }
+
+    public async Task<Exchange> DeclareExchange(string dlqExchangeName, string exchangeType)
+    {
+        return await _bus.Advanced.ExchangeDeclareAsync(dlqExchangeName, exchangeType);
     }
 }
