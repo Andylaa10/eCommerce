@@ -10,5 +10,4 @@ public interface ICartService
 
     public Task<Cart> AddProductToCart(int cartId, AddProductToCartDto dto);
     public Task<Cart> RemoveProductFromCart(int cartId, string productId);
-    public Task RebuildDatabase();
 }

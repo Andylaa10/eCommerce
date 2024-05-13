@@ -1,12 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <configuration>
-    
-    
     <appSettings>
-        <add key="CART_SERVICE_CONNECTION_STRING" value="0" />
-        <add key="PRODUCT_SERVICE_CONNECTION_STRING" value="1" />
-        <add key="USER_SERVICE_CONNECTION_STRING" value="2" />
-        <add key="AUTH_SERVICE_CONNECTION_STRING" value="3" />
+        <add key="CART_SERVICE_CONNECTION_STRING" value="mongodb://localhost:27018" />
+        <add key="PRODUCT_SERVICE_CONNECTION_STRING" value="mongodb://localhost:27017" />
+        <add key="USER_SERVICE_CONNECTION_STRING" value="Server=localhost;Port=5432;Database=UserDB;Username=postgres;Password=postgres" />
+        <add key="AUTH_SERVICE_CONNECTION_STRING" value="Server=localhost;Port=5433;Database=AuthDB;Username=postgres;Password=postgres" />
         <add key="MESSAGING_CONNECTION_STRING" value="4" />
     </appSettings>
     

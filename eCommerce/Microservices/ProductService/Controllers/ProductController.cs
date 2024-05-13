@@ -83,19 +83,4 @@ public class ProductController : ControllerBase
             return BadRequest(e.Message);
         }
     }
-    
-    [HttpGet]
-    [Route("Rebuild")]
-    public async Task<IActionResult> RebuildDatabase()
-    {
-        try
-        {
-            await _productService.RebuildDatabase();
-            return Ok();
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
-    }
 }

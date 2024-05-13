@@ -61,7 +61,7 @@
     {
       "UpstreamPathTemplate": "/api/User/Rebuild",
       "UpstreamHttpMethod": [
-        "GET"
+        "POST"
       ],
       "DownstreamPathTemplate": "/api/User/Rebuild",
       "DownstreamScheme": "http",
@@ -123,7 +123,7 @@
     {
       "UpstreamPathTemplate": "/api/Auth/Rebuild",
       "UpstreamHttpMethod": [
-        "GET"
+        "POST"
       ],
       "DownstreamPathTemplate": "/api/Auth/Rebuild",
       "DownstreamScheme": "http",
@@ -136,11 +136,11 @@
     },
     {
       "//ProductService": "ProductService",
-      "UpstreamPathTemplate": "/api/Product/Products",
+      "UpstreamPathTemplate": "/api/Product/Products?pageNumber={pageNumber}&pageSize={pageSize}",
       "UpstreamHttpMethod": [
         "GET"
       ],
-      "DownstreamPathTemplate": "/api/Product/Products",
+      "DownstreamPathTemplate": "/api/Product/Products?pageNumber={pageNumber}&pageSize={pageSize}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -181,25 +181,6 @@
         "POST"
       ],
       "DownstreamPathTemplate": "/api/Product",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "productservice",
-          "Port": 80
-        }
-      ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "dev",
-        "AllowedScopes": [
-        ]
-      }
-    },
-    {
-      "UpstreamPathTemplate": "/api/Product/Rebuild",
-      "UpstreamHttpMethod": [
-        "GET"
-      ],
-      "DownstreamPathTemplate": "/api/Product/Rebuild",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -272,25 +253,6 @@
         "DELETE"
       ],
       "DownstreamPathTemplate": "/api/Cart/{cartId}/products/{productId}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "cartservice",
-          "Port": 80
-        }
-      ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "dev",
-        "AllowedScopes": [
-        ]
-      }
-    },
-    {
-      "UpstreamPathTemplate": "/api/Cart/Rebuild",
-      "UpstreamHttpMethod": [
-        "GET"
-      ],
-      "DownstreamPathTemplate": "/api/Cart/Rebuild",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {

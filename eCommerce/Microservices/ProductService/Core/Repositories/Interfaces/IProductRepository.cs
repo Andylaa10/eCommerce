@@ -10,5 +10,4 @@ public interface IProductRepository
     public Task<Product>  CreateProduct(Product product);
     public Task<Product>  UpdateProduct(string id, Product product);
     public Task<Product>  DeleteProduct(string id);
-    public Task RebuildDatabase();
 }

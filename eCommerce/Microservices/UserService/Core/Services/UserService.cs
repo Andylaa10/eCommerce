@@ -19,7 +19,7 @@ public class UserService : IUserService
         _userRepository = userRepository;
         _mapper = mapper;
         _redisClient = redisClient;
-        _redisClient.Connect();
+        //_redisClient.Connect();
     }
 
 
@@ -29,7 +29,7 @@ public class UserService : IUserService
             throw new ArgumentException("Id could be less than 0");
         
         var userJson = _redisClient.GetValue(id.ToString());
-
+        
         if (!string.IsNullOrEmpty(userJson))
             return await Task.FromResult(_redisClient.DeserializeObject<GetUserDto>(userJson)!);
 

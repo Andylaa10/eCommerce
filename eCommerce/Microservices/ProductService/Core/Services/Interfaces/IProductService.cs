@@ -14,6 +14,4 @@ public interface IProductService
     public Task<Product> UpdateProduct(string id, UpdatedProductDto dto);
 
     public Task<Product> DeleteProduct(string id);
-    public Task RebuildDatabase();
-
 }

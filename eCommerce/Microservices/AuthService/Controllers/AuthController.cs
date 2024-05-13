@@ -70,7 +70,7 @@ public class AuthController : ControllerBase
         }
     }
     
-    [HttpGet]
+    [HttpPost]
     [Route("Rebuild")]
     public async Task<IActionResult> RebuildDatabase()
     {

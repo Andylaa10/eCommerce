@@ -61,10 +61,4 @@ public class CartRepository : ICartRepository
 
         return cart;
     }
-
-    public async Task RebuildDatabase()
-    {
-        await _context.Database.EnsureDeletedAsync();
-        await _context.Database.EnsureCreatedAsync();
-    }
 }
