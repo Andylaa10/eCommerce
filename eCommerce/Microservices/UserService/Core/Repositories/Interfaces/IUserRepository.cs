@@ -11,4 +11,5 @@ public interface IUserRepository
     public Task<User> UpdateUser(int id, User user);
     public Task<User> DeleteUser(int id);
     public Task<bool> DoesUserExist(string email);
+    public Task RebuildDatabase();
 }

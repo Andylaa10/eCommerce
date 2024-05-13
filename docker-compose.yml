@@ -83,6 +83,14 @@ services:
       - "9411:9411"
   
   #APIS
+  apigateway:
+    image: apigateway
+    build:
+      context: .
+      dockerfile: ./eCommerce/Microservices/APIGateway/Dockerfile
+    ports:
+      - '5206:80'
+  
   authservice:
     image: authservice
     build:

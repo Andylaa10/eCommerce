@@ -9,4 +9,5 @@ public interface IUserService
     public Task<GetUserDto> AddUser(CreateUserDto user);
     public Task<GetUserDto> UpdateUser(int id, UpdateUserDto user);
     public Task<GetUserDto> DeleteUser(int id);
+    public Task RebuildDatabase();
 }

@@ -54,4 +54,10 @@ public class AuthRepository : IAuthRepository
         
         return await Task.Run(() => true);
     }
+    
+    public async Task RebuildDatabase()
+    {
+        await _context.Database.EnsureDeletedAsync();
+        await _context.Database.EnsureCreatedAsync();
+    }
 }

@@ -30,6 +30,7 @@ public class ProductController : ControllerBase
     }
     
     [HttpGet]
+    [Route("Products")]
     public async Task<IActionResult> GetProducts([FromQuery] PaginatedDto dto)
     {
         try
@@ -41,7 +42,6 @@ public class ProductController : ControllerBase
             return BadRequest(e.Message);
         }
     }
-
 
     [HttpPost]
     public async Task<IActionResult> CreateProduct([FromBody] CreateProductDto dto)
@@ -55,7 +55,6 @@ public class ProductController : ControllerBase
             return BadRequest(e.Message);
         }
     }
-
 
     [HttpPut]
     [Route("{id}")]
@@ -78,6 +77,21 @@ public class ProductController : ControllerBase
         try
         {
             return Ok(await _productService.DeleteProduct(id));
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+    
+    [HttpGet]
+    [Route("Rebuild")]
+    public async Task<IActionResult> RebuildDatabase()
+    {
+        try
+        {
+            await _productService.RebuildDatabase();
+            return Ok();
         }
         catch (Exception e)
         {
