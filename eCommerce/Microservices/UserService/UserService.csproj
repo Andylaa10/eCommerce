@@ -23,10 +23,8 @@
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
     </ItemGroup>
 
-
     <ItemGroup>
-      <Folder Include="Configs\" />
-      <Folder Include="Core\" />
+      <ProjectReference Include="..\..\Shared\Cache\Cache.csproj" />
     </ItemGroup>
 
 </Project>
