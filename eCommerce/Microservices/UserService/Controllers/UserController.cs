@@ -43,6 +43,7 @@ public class UserController : ControllerBase
     }
     
     [HttpGet]
+    [Route("Users")]
     public async Task<IActionResult> GetAllUsers()
     {
         try
@@ -76,6 +77,21 @@ public class UserController : ControllerBase
         try
         {
             return Ok(await _userService.DeleteUser(id));
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+    
+    [HttpGet]
+    [Route("Rebuild")]
+    public async Task<IActionResult> RebuildDatabase()
+    {
+        try
+        {
+            await _userService.RebuildDatabase();
+            return Ok();
         }
         catch (Exception e)
         {

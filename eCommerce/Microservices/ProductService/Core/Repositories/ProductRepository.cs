@@ -77,4 +77,10 @@ public class ProductRepository : IProductRepository
         return productToDelete;
     }
     
+    public async Task RebuildDatabase()
+    {
+        await _context.Database.EnsureDeletedAsync();
+        await _context.Database.EnsureCreatedAsync();
+    }
+    
 }

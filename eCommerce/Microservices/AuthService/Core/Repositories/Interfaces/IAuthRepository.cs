@@ -9,4 +9,5 @@ public interface IAuthRepository
     public Task<Auth> GetAuthByEmail(string email);
     public Task DeleteAuth(int authId);
     public Task<bool> DoesAuthExists(string email);
+    public Task RebuildDatabase();
 }

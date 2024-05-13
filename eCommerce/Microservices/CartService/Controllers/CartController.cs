@@ -71,7 +71,7 @@ public class CartController : ControllerBase
     }
 
     [HttpGet]
-    [Route("rebuild")]
+    [Route("Rebuild")]
     public async Task<IActionResult> RebuildDatabase()
     {
         try

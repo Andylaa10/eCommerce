@@ -88,4 +88,9 @@ public class UserService : IUserService
         
         return user;
     }
+    
+    public async Task RebuildDatabase()
+    {
+        await _userRepository.RebuildDatabase();
+    }
 }

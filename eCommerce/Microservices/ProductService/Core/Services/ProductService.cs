@@ -78,4 +78,9 @@ public class ProductService : IProductService
 
         return product;
     }
+    
+    public async Task RebuildDatabase()
+    {
+        await _productRepository.RebuildDatabase();
+    }
 }

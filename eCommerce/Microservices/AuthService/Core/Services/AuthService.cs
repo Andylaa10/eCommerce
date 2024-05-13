@@ -120,4 +120,9 @@ public class AuthService : IAuthService
 
         return authToken;
     }
+    
+    public async Task RebuildDatabase()
+    {
+        await _authRepository.RebuildDatabase();
+    }
 }

@@ -70,4 +70,19 @@ public class AuthController : ControllerBase
         }
     }
     
+    [HttpGet]
+    [Route("Rebuild")]
+    public async Task<IActionResult> RebuildDatabase()
+    {
+        try
+        {
+            await _authService.RebuildDatabase();
+            return Ok();
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+    
 }
