@@ -33,7 +33,7 @@ public class ProductService : IProductService
         if (string.IsNullOrEmpty(id))
             throw new ArgumentException("Id cannot be null or empty");
 
-        var productJson = _redisClient.GetValue(id);
+        var productJson = _redisClient.GetValue($"Product:{id}");
 
         if (!string.IsNullOrEmpty(productJson))
             return await Task.FromResult(_redisClient.DeserializeObject<Product>(productJson)!);
@@ -46,7 +46,7 @@ public class ProductService : IProductService
         var product = await _productRepository.CreateProduct(_mapper.Map<Product>(dto));
 
         var productJson = _redisClient.SerializeObject(product);
-        _redisClient.StoreValue(product.Id.ToString(), productJson);
+        _redisClient.StoreValue($"Product:{product.Id}", productJson);
 
         return product;
     }
@@ -63,7 +63,7 @@ public class ProductService : IProductService
         var product = await _productRepository.UpdateProduct(id, _mapper.Map<Product>(dto));
         
         var productJson = _redisClient.SerializeObject(product);
-        _redisClient.StoreValue(product.Id.ToString(), productJson);
+        _redisClient.StoreValue($"Product:{product.Id}", productJson);
 
         return product;
     }
@@ -74,7 +74,7 @@ public class ProductService : IProductService
             throw new ArgumentException("Id cannot be null or empty");
         
         var product = await _productRepository.DeleteProduct(id);
-        _redisClient.RemoveValue(id);
+        _redisClient.RemoveValue($"Product:{product.Id}");
 
         return product;
     }

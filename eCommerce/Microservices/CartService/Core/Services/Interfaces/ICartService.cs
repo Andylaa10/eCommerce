@@ -8,6 +8,8 @@ public interface ICartService
     public Task<Cart> CreateCart(CreateCartDto dto);
     public Task<Cart> GetCartByUserId(int userId);
 
-    public Task<Cart> AddProductToCart(int cartId, AddProductToCartDto dto);
-    public Task<Cart> RemoveProductFromCart(int cartId, string productId);
+    public Task<Cart> AddProductToCart(int userId, AddProductToCartDto dto);
+    public Task<Cart> RemoveProductFromCart(int userId, string productId);
+    public Task<Cart> DeleteCart(int cartId);
+
 }

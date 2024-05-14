@@ -1,6 +1,8 @@
 ﻿using System.Data;
 using AutoMapper;
 using Cache;
+using Messaging;
+using Messaging.SharedMessages;
 using UserService.Core.Entities;
 using UserService.Core.Repositories.Interfaces;
 using UserService.Core.Services.DTOs;
@@ -13,13 +15,15 @@ public class UserService : IUserService
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
     private readonly RedisClient _redisClient;
+    private readonly MessageClient _messageClient;
 
-    public UserService(IUserRepository userRepository, IMapper mapper, RedisClient redisClient)
+    public UserService(IUserRepository userRepository, IMapper mapper, RedisClient redisClient, MessageClient messageClient)
     {
         _userRepository = userRepository;
         _mapper = mapper;
         _redisClient = redisClient;
-        //_redisClient.Connect();
+        _messageClient = messageClient;
+        _redisClient.Connect();
     }
 
 
@@ -28,7 +32,7 @@ public class UserService : IUserService
         if (id < 1)
             throw new ArgumentException("Id could be less than 0");
         
-        var userJson = _redisClient.GetValue(id.ToString());
+        var userJson = _redisClient.GetValue($"User:{id}");
         
         if (!string.IsNullOrEmpty(userJson))
             return await Task.FromResult(_redisClient.DeserializeObject<GetUserDto>(userJson)!);
@@ -42,8 +46,6 @@ public class UserService : IUserService
     {
         var users = await _userRepository.GetAllUsers();
         return _mapper.Map<IEnumerable<GetUserDto>>(users);
-        
-        //Find a good way to cache all users, how should I update the cache 
     }
 
     public async Task<GetUserDto> AddUser(CreateUserDto dto)
@@ -56,7 +58,13 @@ public class UserService : IUserService
         var user = _mapper.Map<GetUserDto>(await _userRepository.AddUser(_mapper.Map<User>(dto)));
         
         var userJson = _redisClient.SerializeObject(user);
-        _redisClient.StoreValue(user.Id.ToString(), userJson);
+        _redisClient.StoreValue($"User:{user.Id}", userJson);
+        
+        // TODO Create Cart
+        const string exchangeName = "DeleteCartExchange";
+        const string routingKey = "DeleteCart";
+        
+        await _messageClient.Send(new DeleteCartIfUserIsDeletedMessage("Delete Cart", user.Id), exchangeName, routingKey);
         
         return user;
     }
@@ -72,7 +80,7 @@ public class UserService : IUserService
         var user = _mapper.Map<GetUserDto>(await _userRepository.UpdateUser(id, _mapper.Map<User>(dto)));
         
         var userJson = _redisClient.SerializeObject(user);
-        _redisClient.StoreValue(id.ToString(), userJson);
+        _redisClient.StoreValue($"User:{id}", userJson);
         
         return user;
     }
@@ -84,7 +92,14 @@ public class UserService : IUserService
 
         var user = _mapper.Map<GetUserDto>(await _userRepository.DeleteUser(id));
         
-        _redisClient.RemoveValue(id.ToString());
+        _redisClient.RemoveValue($"User:{id}");
+        
+        const string exchangeName = "DeleteCartExchange";
+        const string routingKey = "DeleteCart";
+        
+        await _messageClient.Send(new DeleteCartIfUserIsDeletedMessage("Delete Cart", user.Id), exchangeName, routingKey);
+        
+        // TODO Delete Auth
         
         return user;
     }

@@ -6,7 +6,7 @@ public interface ICartRepository
 {
     public Task<Cart> CreateCart(Cart cart);
     public Task<Cart> GetCartByUserId(int userId);
-
-    public Task<Cart> AddProductToCart(int cartId, ProductLine product);
-    public Task<Cart> RemoveProductFromCart(int cartId, string productId);
+    public Task<Cart> AddProductToCart(int userId, ProductLine product);
+    public Task<Cart> RemoveProductFromCart(int userId, string productId);
+    public Task<Cart> DeleteCart(int userId);
 }

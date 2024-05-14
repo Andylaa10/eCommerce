@@ -27,7 +27,7 @@ public class CartService : ICartService
         var cart = await _cartRepository.CreateCart(_mapper.Map<Cart>(dto));
 
         var productJson = _redisClient.SerializeObject(cart);
-        _redisClient.StoreValue(cart.Id.ToString(), productJson);
+        _redisClient.StoreValue($"Cart:{dto.UserId}", productJson);
 
         return cart;
     }
@@ -37,7 +37,7 @@ public class CartService : ICartService
         if (userId < 1)
             throw new ArgumentException("UserId cannot be less than 1");
 
-        var cartJson = _redisClient.GetValue(userId.ToString());
+        var cartJson = _redisClient.GetValue($"Cart:{userId}");
 
         if (!string.IsNullOrEmpty(cartJson))
             return await Task.FromResult(_redisClient.DeserializeObject<Cart>(cartJson)!);
@@ -45,29 +45,43 @@ public class CartService : ICartService
         return await _cartRepository.GetCartByUserId(userId);
     }
 
-    public async Task<Cart> AddProductToCart(int cartId, AddProductToCartDto dto)
+    public async Task<Cart> AddProductToCart(int userId, AddProductToCartDto dto)
     {
-        if (cartId < 1)
-            throw new ArgumentException("UserId cannot be less than 1");
+        if (userId < 1)
+            throw new ArgumentException("UserId can not be less than 1");
 
-        var cart = await _cartRepository.AddProductToCart(cartId, _mapper.Map<ProductLine>(dto));
+        var cart = await _cartRepository.AddProductToCart(userId, _mapper.Map<ProductLine>(dto));
 
         var cartJson = _redisClient.SerializeObject(cart);
-        _redisClient.StoreValue(cart.Id.ToString(), cartJson);
+        _redisClient.StoreValue($"Cart:{userId}", cartJson);
 
         return cart;
     }
 
-    public async Task<Cart> RemoveProductFromCart(int cartId, string productId)
+    public async Task<Cart> RemoveProductFromCart(int userId, string productId)
     {
-        if (cartId < 1)
-            throw new ArgumentException("UserId cannot be less than 1");
+        if (userId < 1)
+            throw new ArgumentException("UserId can not be less than 1");
+        
         if (string.IsNullOrEmpty(productId))
             throw new ArgumentException("ProductId cannot be null or empty");
 
-        var cart = await _cartRepository.RemoveProductFromCart(cartId, productId);
-        _redisClient.RemoveValue(productId);
+        var cart = await _cartRepository.RemoveProductFromCart(userId, productId);
+
+        var cartJson = _redisClient.SerializeObject(cart);
+        _redisClient.StoreValue($"Cart:{userId}", cartJson);
 
         return cart;
     }
+
+    public async Task<Cart> DeleteCart(int userId)
+    {
+        if (userId < 1)
+            throw new ArgumentException("UserId can not be less than 1");
+        
+        _redisClient.RemoveValue($"Cart:{userId}");
+
+        return await _cartRepository.DeleteCart(userId);
+    }
+
 }
