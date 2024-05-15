@@ -1,8 +1,8 @@
 ﻿FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER $APP_UID
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
+EXPOSE 8080
+EXPOSE 8081
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
@@ -11,6 +11,8 @@ COPY ["./eCommerce/Microservices/ProductService/ProductService.csproj", "./eComm
 COPY ["./eCommerce/Shared/MonitoringService/MonitoringService.csproj", "./eCommerce/Shared/MonitoringService/"]
 COPY ["./eCommerce/Shared/Cache/Cache.csproj", "./eCommerce/Shared/Cache/"]
 COPY ["./eCommerce/Shared/ConConfig/ConConfig.csproj", "./eCommerce/Shared/ConConfig/"]
+COPY ["./eCommerce/Shared/Messaging/Messaging.csproj", "./eCommerce/Shared/Messaging/"]
+
 RUN dotnet restore "./eCommerce/Microservices/ProductService/ProductService.csproj"
 COPY . .
 WORKDIR "/src/eCommerce/Microservices/ProductService"

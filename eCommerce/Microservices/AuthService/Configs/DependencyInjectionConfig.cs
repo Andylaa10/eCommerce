@@ -19,8 +19,8 @@ public static class DependencyInjectionConfig
         services.AddScoped<IAuthService, Core.Services.AuthService>();
 
 
-        // Messaging 
-        const string connectionStringRabbitMq = "host=rabbitmq;port=5672;virtualHost=/;username=guest;password=guest"; // TODO
-        services.AddSingleton(new MessageClient(RabbitHutch.CreateBus(connectionStringRabbitMq)));
+        // // Messaging 
+        // const string connectionStringRabbitMq = "host=rabbitmq;port=5672;virtualHost=/;username=guest;password=guest"; // TODO
+        // services.AddSingleton(new MessageClient(RabbitHutch.CreateBus(connectionStringRabbitMq)));
     }
 }

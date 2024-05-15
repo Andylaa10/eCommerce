@@ -10,7 +10,7 @@ namespace ProductService.Configs;
 
 public static class DependencyInjectionConfig
 {
-    public static void ConfigureDi(this IServiceCollection services)
+    public static void ConfigureDependencyInjection(this IServiceCollection services)
     {
         // DB
         services.AddDbContext<DatabaseContext>();

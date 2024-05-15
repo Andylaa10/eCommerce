@@ -123,7 +123,8 @@ services:
       context: .
       dockerfile: ./eCommerce/Microservices/ProductService/Dockerfile
     ports:
-      - '9092:80'
+      - '9092:8080'
+      - '9093:8081'
     depends_on:
       redis:
         condition: service_healthy
@@ -136,7 +137,7 @@ services:
       context: .
       dockerfile: ./eCommerce/Microservices/CartService/Dockerfile
     ports:
-      - '9093:80'
+      - '9094:80'
     depends_on:
       redis:
         condition: service_healthy

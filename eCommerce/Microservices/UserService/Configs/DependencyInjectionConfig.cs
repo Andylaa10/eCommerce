@@ -26,11 +26,11 @@ public static class DependencyInjectionConfig
         // Caching
         services.AddSingleton(RedisClientFactory.CreateRedisClient());
 
-        // Messaging 
-        const string connectionStringRabbitMq = "host=rabbitmq;port=5672;virtualHost=/;username=guest;password=guest"; // TODO
-        services.AddSingleton(new MessageClient(RabbitHutch.CreateBus(connectionStringRabbitMq)));
-        
-        // MessageHandler 
-        services.AddHostedService<CreateUserHandler>();
+        // // Messaging 
+        // const string connectionStringRabbitMq = "host=rabbitmq;port=5672;virtualHost=/;username=guest;password=guest"; // TODO
+        // services.AddSingleton(new MessageClient(RabbitHutch.CreateBus(connectionStringRabbitMq)));
+        //
+        // // MessageHandler 
+        // services.AddHostedService<CreateUserHandler>();
     }
 }

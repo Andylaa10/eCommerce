@@ -2,7 +2,6 @@ using CartService.Core.Entities;
 using CartService.Core.Helpers;
 using CartService.Core.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using MongoDB.Bson;
 
 namespace CartService.Core.Repositories;
 

@@ -7,7 +7,6 @@ using AuthService.Core.Entities;
 using AuthService.Core.Repositories.Interfaces;
 using AuthService.Core.Services.DTOs;
 using AuthService.Core.Services.Interfaces;
-using AutoMapper;
 using Messaging;
 using Messaging.SharedMessages;
 using Microsoft.AspNetCore.Authentication;

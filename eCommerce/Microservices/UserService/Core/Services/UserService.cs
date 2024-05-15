@@ -61,10 +61,10 @@ public class UserService : IUserService
         _redisClient.StoreValue($"User:{user.Id}", userJson);
         
         // TODO Create Cart
-        const string exchangeName = "DeleteCartExchange";
-        const string routingKey = "DeleteCart";
+        const string exchangeName = "CreateCartExchange";
+        const string routingKey = "CreateCart";
         
-        await _messageClient.Send(new DeleteCartIfUserIsDeletedMessage("Delete Cart", user.Id), exchangeName, routingKey);
+        //await _messageClient.Send(new CreateCartMessage, exchangeName, routingKey);
         
         return user;
     }
