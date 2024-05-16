@@ -21,6 +21,8 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\Shared\Cache\Cache.csproj"/>
+        <ProjectReference Include="..\..\Shared\ConConfig\ConConfig.csproj" />
+        <ProjectReference Include="..\..\Shared\Messaging\Messaging.csproj" />
         <ProjectReference Include="..\..\Shared\MonitoringService\MonitoringService.csproj"/>
     </ItemGroup>
 

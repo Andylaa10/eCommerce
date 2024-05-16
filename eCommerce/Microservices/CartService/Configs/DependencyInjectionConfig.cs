@@ -3,6 +3,8 @@ using CartService.Core.Helpers;
 using CartService.Core.Repositories;
 using CartService.Core.Repositories.Interfaces;
 using CartService.Core.Services.Interfaces;
+using EasyNetQ;
+using Messaging;
 using MonitoringService;
 using OpenTelemetry.Trace;
 
@@ -25,6 +27,10 @@ public static class DependencyInjectionConfig
         // Caching
         services.AddSingleton(RedisClientFactory.CreateRedisClient());
 
+        // Messaging 
+        const string connectionStringRabbitMq = "host=rabbitmq;port=5672;virtualHost=/;username=guest;password=guest"; // TODO
+        services.AddSingleton(new MessageClient(RabbitHutch.CreateBus(connectionStringRabbitMq)));
+        
         // Monitoring
         var serviceName = "CartService";
         var serviceVersion = "1.0.0";

@@ -89,7 +89,7 @@ services:
       context: .
       dockerfile: ./eCommerce/Microservices/APIGateway/Dockerfile
     ports:
-      - '5206:80'
+      - '5206:8080'
   
   authservice:
     image: authservice
@@ -97,7 +97,7 @@ services:
       context: .
       dockerfile: ./eCommerce/Microservices/AuthService/Dockerfile
     ports:
-      - '9090:80'
+      - '9090:8080'
     depends_on:
       redis:
         condition: service_healthy
@@ -110,7 +110,7 @@ services:
       context: .
       dockerfile: ./eCommerce/Microservices/UserService/Dockerfile
     ports:
-      - '9091:80'
+      - '9091:8080'
     depends_on:
       redis:
         condition: service_healthy
@@ -124,7 +124,6 @@ services:
       dockerfile: ./eCommerce/Microservices/ProductService/Dockerfile
     ports:
       - '9092:8080'
-      - '9093:8081'
     depends_on:
       redis:
         condition: service_healthy
@@ -137,7 +136,7 @@ services:
       context: .
       dockerfile: ./eCommerce/Microservices/CartService/Dockerfile
     ports:
-      - '9094:80'
+      - '9093:8080'
     depends_on:
       redis:
         condition: service_healthy

@@ -12,7 +12,7 @@ public class DatabaseContext : DbContext
         string connectionString = ConfigurationManager.AppSettings.Get("AUTH_SERVICE_CONNECTION_STRING");
 
         //optionsBuilder.UseNpgsql(connectionString);
-        optionsBuilder.UseNpgsql("Server=localhost;Port=5433;Database=AuthDB;Username=postgres;Password=postgres");      
+        optionsBuilder.UseNpgsql("Server=authdb;Port=5433;Database=AuthDB;Username=postgres;Password=postgres");      
 
     }
 
@@ -29,5 +29,5 @@ public class DatabaseContext : DbContext
         #endregion
     }
 
-    public DbSet<Auth> Auths { get; set; }
+    public DbSet<Auth> Auths { get; init; }
 }

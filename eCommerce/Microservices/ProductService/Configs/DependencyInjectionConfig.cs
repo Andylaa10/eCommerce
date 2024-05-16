@@ -1,4 +1,6 @@
 ﻿using Cache;
+using EasyNetQ;
+using Messaging;
 using MonitoringService;
 using OpenTelemetry.Trace;
 using ProductService.Core.Helpers;
@@ -24,6 +26,10 @@ public static class DependencyInjectionConfig
         
         // Caching
         services.AddSingleton(RedisClientFactory.CreateRedisClient());
+        
+        // Messaging 
+        const string connectionStringRabbitMq = "host=rabbitmq;port=5672;virtualHost=/;username=guest;password=guest"; // TODO
+        services.AddSingleton(new MessageClient(RabbitHutch.CreateBus(connectionStringRabbitMq)));
         
         // Monitoring
         var serviceName = "PatientService";

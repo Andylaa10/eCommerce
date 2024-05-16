@@ -13,13 +13,13 @@ public class DatabaseContext : DbContext
         string connectionString = ConfigurationManager.AppSettings.Get("CART_SERVICE_CONNECTION_STRING")!;
         
         //optionsBuilder.UseMongoDB(connectionString, "CartDB");
-        optionsBuilder.UseMongoDB("mongodb://localhost:27018", "CartDB");
+        optionsBuilder.UseMongoDB("mongodb://cartdb:27018", "CartDB");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        modelBuilder.Entity<Cart>().ToCollection("products");
+        modelBuilder.Entity<Cart>().ToCollection("carts");
     }
 
     public DbSet<Cart> Carts { get; init; }

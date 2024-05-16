@@ -20,7 +20,7 @@ public class ProductService : IProductService
         _productRepository = productRepository;
         _mapper = mapper;
         _redisClient = redisClient;
-        //_redisClient.Connect();
+        _redisClient.Connect();
     }
 
     public async Task<PaginatedResult<Product>> GetProducts(PaginatedDto dto)

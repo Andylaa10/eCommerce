@@ -31,15 +31,15 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="..\..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\..\Shared\ConConfig\ConConfig.csproj" />
       <ProjectReference Include="..\..\Shared\Messaging\Messaging.csproj" />
       <ProjectReference Include="..\..\Shared\MonitoringService\MonitoringService.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
     </ItemGroup>
 
 </Project>

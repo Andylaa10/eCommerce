@@ -6,7 +6,7 @@ using Ocelot.Middleware;
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("ocelot.json", false, false);
 
-// Authentication
+// Add services to the container.
 builder.Services
     .AddAuthentication(
         options =>
@@ -21,14 +21,7 @@ builder.Services.AddOcelot(builder.Configuration);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
 var app = builder.Build();
-
-app.UseCors(static x => x
-    .AllowAnyHeader()
-    .AllowAnyOrigin()
-    .AllowAnyMethod()
-);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -38,6 +31,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseOcelot().Wait();
+
+app.UseAuthentication();
+
+app.UseAuthorization();
 
 app.MapControllers();
 
