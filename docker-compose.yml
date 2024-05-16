@@ -5,6 +5,7 @@ services:
   rabbitmq:
     image: rabbitmq:3-management-alpine
     container_name: rabbitmq
+    restart: always
     healthcheck:
       test: rabbitmq-diagnostics check_port_connectivity
       interval: 1s
@@ -54,6 +55,8 @@ services:
   #Mongodb
   productdb:
     image: 'mongo:latest'
+    container_name: productdb_mongo
+    restart: always
     ports:
       - '27017:27017'
     volumes:
@@ -61,6 +64,8 @@ services:
   
   cartdb:
     image: 'mongo:latest'
+    container_name: cartdb_mongo
+    restart: always
     ports:
       - '27018:27017'
     volumes:
@@ -103,6 +108,8 @@ services:
         condition: service_healthy
       authdb:
         condition: service_started  
+      rabbitmq:
+        condition: service_healthy
   
   userservice:
     image: userservice
@@ -116,6 +123,8 @@ services:
         condition: service_healthy
       userdb:
         condition: service_started
+      rabbitmq:
+        condition: service_healthy  
   
   productservice:
     image: productservice
@@ -129,7 +138,9 @@ services:
         condition: service_healthy
       productdb:
         condition: service_started
-  
+      rabbitmq:
+        condition: service_healthy
+      
   cartservice:
     image: cartservice
     build:
@@ -142,6 +153,8 @@ services:
         condition: service_healthy
       cartdb:
         condition: service_started
+      rabbitmq:
+        condition: service_healthy
   
 volumes:
   seq_data:
@@ -149,7 +162,3 @@ volumes:
   authdb_data:
   productdb_data:
   cartdb_data: 
-
-networks:
-  local_network:
-    driver: bridge

@@ -7,6 +7,12 @@ namespace ProductService.Core.Helpers;
 
 public class DatabaseContext : DbContext
 {
+    public DatabaseContext()
+    {
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+        AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
+    }
+    
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         string connectionString = ConfigurationManager.AppSettings.Get("PRODUCT_SERVICE_CONNECTION_STRING")!;
@@ -17,7 +23,7 @@ public class DatabaseContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        modelBuilder.Entity<Product>().ToCollection("products");
+        modelBuilder.Entity<Product>().ToCollection("Products");
     }
 
     public DbSet<Product> Products { get; init; }

@@ -25,7 +25,7 @@ public class CartController : ControllerBase
         }
         catch (Exception e)
         {
-            return BadRequest(e.Message);
+            return BadRequest(e.ToString());
         }
     }
 
@@ -38,7 +38,7 @@ public class CartController : ControllerBase
         }
         catch (Exception e)
         {
-            return BadRequest(e.Message);
+            return BadRequest(e.ToString());
         }
     }
 
@@ -52,7 +52,7 @@ public class CartController : ControllerBase
         }
         catch (Exception e)
         {
-            return BadRequest(e.Message);
+            return BadRequest(e.ToString());
         }
     }
 
@@ -66,7 +66,7 @@ public class CartController : ControllerBase
         }
         catch (Exception e)
         {
-            return BadRequest(e.Message);
+            return BadRequest(e.ToString());
         }
     }
 }

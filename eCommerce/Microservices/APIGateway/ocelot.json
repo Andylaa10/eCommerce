@@ -132,7 +132,12 @@
           "Host": "authservice",
           "Port": 8080
         }
-      ]
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "dev",
+        "AllowedScopes": [
+        ]
+      }
     },
     {
       "//ProductService": "ProductService",

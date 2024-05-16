@@ -7,13 +7,18 @@ namespace AuthService.Core.Helpers;
 
 public class DatabaseContext : DbContext
 {
+    public DatabaseContext()
+    {
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+        AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
+    }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         string connectionString = ConfigurationManager.AppSettings.Get("AUTH_SERVICE_CONNECTION_STRING");
 
         //optionsBuilder.UseNpgsql(connectionString);
-        optionsBuilder.UseNpgsql("Server=authdb;Port=5433;Database=AuthDB;Username=postgres;Password=postgres");      
-
+        optionsBuilder.UseNpgsql("Host=authdb;Port=5432;Database=AuthDB;Username=postgres;Password=postgres");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

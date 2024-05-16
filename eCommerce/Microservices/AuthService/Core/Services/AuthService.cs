@@ -20,7 +20,7 @@ public class AuthService : IAuthService
     private readonly MessageClient _messageClient;
 
     
-    private const string SecurityKey = "Secret"; //TODO 
+    private const string SecurityKey = "SecretSecretSecretSecretSecretSecretSecretSecretSecretSecret"; //TODO 
 
 
     public AuthService(IAuthRepository authRepository, MessageClient messageClient)
@@ -53,10 +53,10 @@ public class AuthService : IAuthService
         
         await _authRepository.Register(newAuth);
         
-        const string exchangeName = "CreateUserExchange";
-        const string routingKey = "CreateUser";
-        
-        await _messageClient.Send(new CreateUserMessage ("Create user message", newAuth.Email, newAuth.PasswordHash, newAuth.CreatedAt ), exchangeName, routingKey);
+    //     const string exchangeName = "CreateUserExchange";
+    //     const string routingKey = "CreateUser";
+    //     
+    //     await _messageClient.Send(new CreateUserMessage ("Create user message", newAuth.Email, newAuth.PasswordHash, newAuth.CreatedAt ), exchangeName, routingKey);
     }
 
     public async Task DeleteAuth(int authId)

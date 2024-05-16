@@ -12,7 +12,7 @@ public class DatabaseContext : DbContext
 
         Console.WriteLine(ConfigurationManager.AppSettings.Keys.Count);
         //optionsBuilder.UseNpgsql(connectionString); // TODO        
-        optionsBuilder.UseNpgsql("Server=userdb;Port=5432;Database=UserDB;Username=postgres;Password=postgres");      
+        optionsBuilder.UseNpgsql("Host=userdb;Port=5432;Database=UserDB;Username=postgres;Password=postgres");      
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
