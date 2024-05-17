@@ -25,7 +25,7 @@ public class CartController : ControllerBase
         }
         catch (Exception e)
         {
-            return BadRequest(e.Message);
+            return BadRequest(e.ToString());
         }
     }
 
@@ -38,35 +38,35 @@ public class CartController : ControllerBase
         }
         catch (Exception e)
         {
-            return BadRequest(e.Message);
+            return BadRequest(e.ToString());
         }
     }
 
     [HttpPost]
     [Route("{cartId}/products")]
-    public async Task<IActionResult> AddProductToCart([FromRoute] int cartId, [FromBody] AddProductToCartDto dto)
+    public async Task<IActionResult> AddProductToCart([FromRoute] int userId, [FromBody] AddProductToCartDto dto)
     {
         try
         {
-            return Ok(await _cartService.AddProductToCart(cartId, dto));
+            return Ok(await _cartService.AddProductToCart(userId, dto));
         }
         catch (Exception e)
         {
-            return BadRequest(e.Message);
+            return BadRequest(e.ToString());
         }
     }
 
     [HttpDelete]
     [Route("{cartId}/products/{productId}")]
-    public async Task<IActionResult> RemoveProductFromCart([FromRoute] int cartId, [FromRoute] string productId)
+    public async Task<IActionResult> RemoveProductFromCart([FromRoute] int userId, [FromRoute] string productId)
     {
         try
         {
-            return Ok(await _cartService.RemoveProductFromCart(cartId, productId));
+            return Ok(await _cartService.RemoveProductFromCart(userId, productId));
         }
         catch (Exception e)
         {
-            return BadRequest(e.Message);
+            return BadRequest(e.ToString());
         }
     }
 }

@@ -11,13 +11,13 @@ public class DatabaseContext : DbContext
     {
         string connectionString = ConfigurationManager.AppSettings.Get("PRODUCT_SERVICE_CONNECTION_STRING")!;
 
-        optionsBuilder.UseMongoDB("mongodb://localhost:27017", "ProductDB");
+        optionsBuilder.UseMongoDB("mongodb://productdb:27017", "ProductDB");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        modelBuilder.Entity<Product>().ToCollection("products");
+        modelBuilder.Entity<Product>().ToCollection("Products");
     }
 
     public DbSet<Product> Products { get; init; }

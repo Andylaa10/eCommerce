@@ -40,7 +40,7 @@ public class ProductRepository : IProductRepository
         return product ?? throw new KeyNotFoundException($"No product with id of {id}");
     }
 
-    public async Task<Product>  CreateProduct(Product product)
+    public async Task<Product> CreateProduct(Product product)
     {
         await _context.Products.AddAsync(product);
         await _context.SaveChangesAsync();
@@ -48,7 +48,7 @@ public class ProductRepository : IProductRepository
         return product;
     }
 
-    public async Task<Product>  UpdateProduct(string id, Product updatedProduct)
+    public async Task<Product> UpdateProduct(string id, Product updatedProduct)
     {
         var productToUpdate = await GetProductById(id);
 

@@ -5,6 +5,7 @@ services:
   rabbitmq:
     image: rabbitmq:3-management-alpine
     container_name: rabbitmq
+    restart: always
     healthcheck:
       test: rabbitmq-diagnostics check_port_connectivity
       interval: 1s
@@ -54,6 +55,8 @@ services:
   #Mongodb
   productdb:
     image: 'mongo:latest'
+    container_name: productdb_mongo
+    restart: always
     ports:
       - '27017:27017'
     volumes:
@@ -61,6 +64,8 @@ services:
   
   cartdb:
     image: 'mongo:latest'
+    container_name: cartdb_mongo
+    restart: always
     ports:
       - '27018:27017'
     volumes:
@@ -89,7 +94,7 @@ services:
       context: .
       dockerfile: ./eCommerce/Microservices/APIGateway/Dockerfile
     ports:
-      - '5206:80'
+      - '5206:8080'
   
   authservice:
     image: authservice
@@ -97,12 +102,14 @@ services:
       context: .
       dockerfile: ./eCommerce/Microservices/AuthService/Dockerfile
     ports:
-      - '9090:80'
+      - '9090:8080'
     depends_on:
       redis:
         condition: service_healthy
       authdb:
         condition: service_started  
+      rabbitmq:
+        condition: service_healthy
   
   userservice:
     image: userservice
@@ -110,12 +117,14 @@ services:
       context: .
       dockerfile: ./eCommerce/Microservices/UserService/Dockerfile
     ports:
-      - '9091:80'
+      - '9091:8080'
     depends_on:
       redis:
         condition: service_healthy
       userdb:
         condition: service_started
+      rabbitmq:
+        condition: service_healthy  
   
   productservice:
     image: productservice
@@ -123,25 +132,29 @@ services:
       context: .
       dockerfile: ./eCommerce/Microservices/ProductService/Dockerfile
     ports:
-      - '9092:80'
+      - '9092:8080'
     depends_on:
       redis:
         condition: service_healthy
       productdb:
         condition: service_started
-  
+      rabbitmq:
+        condition: service_healthy
+      
   cartservice:
     image: cartservice
     build:
       context: .
       dockerfile: ./eCommerce/Microservices/CartService/Dockerfile
     ports:
-      - '9093:80'
+      - '9093:8080'
     depends_on:
       redis:
         condition: service_healthy
       cartdb:
         condition: service_started
+      rabbitmq:
+        condition: service_healthy
   
 volumes:
   seq_data:
@@ -149,7 +162,3 @@ volumes:
   authdb_data:
   productdb_data:
   cartdb_data: 
-
-networks:
-  local_network:
-    driver: bridge

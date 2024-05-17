@@ -2,6 +2,7 @@
 using AuthService.Core.Repositories;
 using AuthService.Core.Repositories.Interfaces;
 using AuthService.Core.Services.Interfaces;
+using Messaging;
 
 namespace AuthService.Configs;
 
@@ -15,8 +16,8 @@ public static class DependencyInjectionConfig
         // DI
         services.AddScoped<IAuthRepository, AuthRepository>();
         services.AddScoped<IAuthService, Core.Services.AuthService>();
-        
-        // Automapper
-        services.AddSingleton(AutoMapperConfig.ConfigureAutomapper());
+
+        // Messaging 
+        services.AddSingleton(new MessageClient());
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Cache;
+using Messaging;
 using MonitoringService;
 using OpenTelemetry.Trace;
 using ProductService.Core.Helpers;
@@ -10,7 +11,7 @@ namespace ProductService.Configs;
 
 public static class DependencyInjectionConfig
 {
-    public static void ConfigureDi(this IServiceCollection services)
+    public static void ConfigureDependencyInjection(this IServiceCollection services)
     {
         // DB
         services.AddDbContext<DatabaseContext>();
@@ -24,6 +25,9 @@ public static class DependencyInjectionConfig
         
         // Caching
         services.AddSingleton(RedisClientFactory.CreateRedisClient());
+        
+        // Messaging 
+        services.AddSingleton(new MessageClient());
         
         // Monitoring
         var serviceName = "PatientService";

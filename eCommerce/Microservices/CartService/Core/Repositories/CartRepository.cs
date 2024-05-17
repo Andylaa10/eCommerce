@@ -2,7 +2,6 @@ using CartService.Core.Entities;
 using CartService.Core.Helpers;
 using CartService.Core.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using MongoDB.Bson;
 
 namespace CartService.Core.Repositories;
 
@@ -30,11 +29,9 @@ public class CartRepository : ICartRepository
         return cart;
     }
 
-    public async Task<Cart> AddProductToCart(int cartId, ProductLine product)
+    public async Task<Cart> AddProductToCart(int userId, ProductLine product)
     {
-        var objectId = new ObjectId(cartId.ToString());
-
-        var cart = await _context.Carts.FirstOrDefaultAsync(c => c.Id == objectId);
+        var cart = await _context.Carts.FirstOrDefaultAsync(c => c.UserId == userId);
         if (cart == null) throw new NullReferenceException();
 
         cart.Products.Add(product);
@@ -45,18 +42,27 @@ public class CartRepository : ICartRepository
     }
 
 
-    public async Task<Cart> RemoveProductFromCart(int cartId, string productId)
+    public async Task<Cart> RemoveProductFromCart(int userId, string productId)
     {
-        var objectId = new ObjectId(productId);
-
-        var cart = await _context.Carts.FirstOrDefaultAsync(c => c.Id == objectId);
+        var cart = await _context.Carts.FirstOrDefaultAsync(c => c.UserId == userId);
         if (cart == null) throw new NullReferenceException();
 
         var product = cart.Products.FirstOrDefault(p => p.ProductId == productId);
         if (product == null) throw new NullReferenceException();
-
+        
         cart.Products.Remove(product);
         _context.Carts.Update(cart);
+        await _context.SaveChangesAsync();
+
+        return cart;
+    }
+
+    public async Task<Cart> DeleteCart(int userId)
+    {
+        var cart = await _context.Carts.FirstOrDefaultAsync(c => c.UserId == userId);
+        if (cart == null) throw new NullReferenceException();
+
+        _context.Carts.Remove(cart);
         await _context.SaveChangesAsync();
 
         return cart;

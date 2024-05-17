@@ -14,7 +14,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "userservice",
-          "Port": 80
+          "Port": 8080
         }
       ]
     },
@@ -30,7 +30,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "userservice",
-          "Port": 80
+          "Port": 8080
         }
       ],
       "AuthenticationOptions": {
@@ -49,7 +49,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "userservice",
-          "Port": 80
+          "Port": 8080
         }
       ],
       "AuthenticationOptions": {
@@ -68,7 +68,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "userservice",
-          "Port": 80
+          "Port": 8080
         }
       ],
       "AuthenticationOptions": {
@@ -88,7 +88,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "authservice",
-          "Port": 80
+          "Port": 8080
         }
       ]
     },
@@ -102,7 +102,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "authservice",
-          "Port": 80
+          "Port": 8080
         }
       ]
     },
@@ -116,7 +116,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "authservice",
-          "Port": 80
+          "Port": 8080
         }
       ]
     },
@@ -130,9 +130,14 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "authservice",
-          "Port": 80
+          "Port": 8080
         }
-      ]
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "dev",
+        "AllowedScopes": [
+        ]
+      }
     },
     {
       "//ProductService": "ProductService",
@@ -145,7 +150,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "productservice",
-          "Port": 80
+          "Port": 8080
         }
       ],
       "AuthenticationOptions": {
@@ -166,7 +171,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "productservice",
-          "Port": 80
+          "Port": 8080
         }
       ],
       "AuthenticationOptions": {
@@ -185,7 +190,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "productservice",
-          "Port": 80
+          "Port": 8080
         }
       ],
       "AuthenticationOptions": {
@@ -205,7 +210,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "cartservice",
-          "Port": 80
+          "Port": 8080
         }
       ]
     },
@@ -219,7 +224,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "cartservice",
-          "Port": 80
+          "Port": 8080
         }
       ],
       "AuthenticationOptions": {
@@ -238,7 +243,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "cartservice",
-          "Port": 80
+          "Port": 8080
         }
       ],
       "AuthenticationOptions": {
@@ -257,7 +262,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "cartservice",
-          "Port": 80
+          "Port": 8080
         }
       ],
       "AuthenticationOptions": {

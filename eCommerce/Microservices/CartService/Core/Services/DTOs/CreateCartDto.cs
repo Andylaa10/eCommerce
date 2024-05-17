@@ -6,7 +6,6 @@ public class CreateCartDto
 {
     public int UserId { get; set; }
     public float TotalPrice { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
-    public List<ProductLine> Products { get; } = new ();
+    public DateTime? CreatedAt { get; set; } = DateTime.Now;
+    public List<ProductLine>? Products { get; } = new ();
 }

@@ -1,5 +1,7 @@
 ﻿using Cache;
+using Messaging;
 using UserService.Core.Helpers;
+using UserService.Core.Helpers.MessageHandlers;
 using UserService.Core.Repositories;
 using UserService.Core.Repositories.Interfaces;
 using UserService.Core.Services.Interfaces;
@@ -23,5 +25,10 @@ public static class DependencyInjectionConfig
         // Caching
         services.AddSingleton(RedisClientFactory.CreateRedisClient());
 
+        // Messaging 
+        services.AddSingleton(new MessageClient());
+        
+        // MessageHandler 
+        services.AddHostedService<CreateUserHandler>();
     }
 }

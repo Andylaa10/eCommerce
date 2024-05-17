@@ -6,13 +6,20 @@ namespace UserService.Core.Helpers;
 
 public class DatabaseContext : DbContext
 {
+    public DatabaseContext()
+    {
+        // Postgres doesnt support c#'s DateTime, thats why we need this
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+        AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
+    }
+    
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         string connectionString = ConfigurationManager.AppSettings.Get("USER_SERVICE_CONNECTION_STRING")!;
 
         Console.WriteLine(ConfigurationManager.AppSettings.Keys.Count);
         //optionsBuilder.UseNpgsql(connectionString); // TODO        
-        optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=UserDB;Username=postgres;Password=postgres");      
+        optionsBuilder.UseNpgsql("Host=userdb;Port=5432;Database=UserDB;Username=postgres;Password=postgres");      
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -28,5 +35,5 @@ public class DatabaseContext : DbContext
         #endregion
     }
 
-    public DbSet<User> Users { get; set; }
+    public DbSet<User> Users { get; init; }
 }
