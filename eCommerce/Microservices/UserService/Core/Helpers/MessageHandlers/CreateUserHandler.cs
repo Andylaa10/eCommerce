@@ -1,7 +1,5 @@
-﻿using EasyNetQ;
-using Messaging;
+﻿using Messaging;
 using Messaging.SharedMessages;
-using RabbitMQ.Client;
 using UserService.Core.Services.DTOs;
 using UserService.Core.Services.Interfaces;
 
@@ -42,21 +40,11 @@ public class CreateUserHandler : BackgroundService
         }
     }
 
-    private async void HandleExchange(CreateUserMessage user)
-    {
-        Console.WriteLine(user.Message);
-        
-    }
-
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         Console.WriteLine("Message handler is running..");
 
-        const string connectionStringRabbitMq = "host=rabbitmq;port=5672;virtualHost=/;username=guest;password=guest";
-
-        var messageClient = new MessageClient(
-            connectionStringRabbitMq
-        );
+        var messageClient = new MessageClient();
 
         const string exchangeName = "CreateUserExchange";
         const string queueName = "CreateUserQueue";

@@ -24,10 +24,15 @@ public class CartService : ICartService
 
     public async Task<Cart> CreateCart(CreateCartDto dto)
     {
+        Console.WriteLine("Heyeeeee");
+
         var cart = await _cartRepository.CreateCart(_mapper.Map<Cart>(dto));
 
         var productJson = _redisClient.SerializeObject(cart);
         _redisClient.StoreValue($"Cart:{dto.UserId}", productJson);
+
+        Console.WriteLine("Heyeeeee");
+
 
         return cart;
     }
@@ -62,7 +67,7 @@ public class CartService : ICartService
     {
         if (userId < 1)
             throw new ArgumentException("UserId can not be less than 1");
-        
+
         if (string.IsNullOrEmpty(productId))
             throw new ArgumentException("ProductId cannot be null or empty");
 
@@ -78,10 +83,9 @@ public class CartService : ICartService
     {
         if (userId < 1)
             throw new ArgumentException("UserId can not be less than 1");
-        
+
         _redisClient.RemoveValue($"Cart:{userId}");
 
         return await _cartRepository.DeleteCart(userId);
     }
-
 }

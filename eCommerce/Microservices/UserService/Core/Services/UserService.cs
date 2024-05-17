@@ -12,12 +12,13 @@ namespace UserService.Core.Services;
 
 public class UserService : IUserService
 {
-    private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
-    private readonly RedisClient _redisClient;
     private readonly MessageClient _messageClient;
+    private readonly RedisClient _redisClient;
+    private readonly IUserRepository _userRepository;
 
-    public UserService(IUserRepository userRepository, IMapper mapper, RedisClient redisClient, MessageClient messageClient)
+    public UserService(IUserRepository userRepository, IMapper mapper, RedisClient redisClient,
+        MessageClient messageClient)
     {
         _userRepository = userRepository;
         _mapper = mapper;
@@ -31,14 +32,14 @@ public class UserService : IUserService
     {
         if (id < 1)
             throw new ArgumentException("Id could be less than 0");
-        
+
         var userJson = _redisClient.GetValue($"User:{id}");
-        
+
         if (!string.IsNullOrEmpty(userJson))
             return await Task.FromResult(_redisClient.DeserializeObject<GetUserDto>(userJson)!);
 
         var user = _mapper.Map<GetUserDto>(await _userRepository.GetUserById(id));
-        
+
         return user;
     }
 
@@ -56,16 +57,16 @@ public class UserService : IUserService
             throw new DuplicateNameException($"{dto.Email} is already in use");
 
         var user = _mapper.Map<GetUserDto>(await _userRepository.AddUser(_mapper.Map<User>(dto)));
-        
+
         var userJson = _redisClient.SerializeObject(user);
         _redisClient.StoreValue($"User:{user.Id}", userJson);
-        
-        // TODO Create Cart
+
         const string exchangeName = "CreateCartExchange";
         const string routingKey = "CreateCart";
-        
-        //await _messageClient.Send(new CreateCartMessage, exchangeName, routingKey);
-        
+
+
+        _messageClient.Send(new CreateCartMessage(), exchangeName, routingKey);
+
         return user;
     }
 
@@ -78,10 +79,10 @@ public class UserService : IUserService
             throw new ArgumentException("Id int the route does not match the id of the user");
 
         var user = _mapper.Map<GetUserDto>(await _userRepository.UpdateUser(id, _mapper.Map<User>(dto)));
-        
+
         var userJson = _redisClient.SerializeObject(user);
         _redisClient.StoreValue($"User:{id}", userJson);
-        
+
         return user;
     }
 
@@ -91,19 +92,19 @@ public class UserService : IUserService
             throw new ArgumentException("Id could be less than 0");
 
         var user = _mapper.Map<GetUserDto>(await _userRepository.DeleteUser(id));
-        
+
         _redisClient.RemoveValue($"User:{id}");
-        
+
         const string exchangeName = "DeleteCartExchange";
         const string routingKey = "DeleteCart";
-        
+
         _messageClient.Send(new DeleteCartIfUserIsDeletedMessage("Delete Cart", user.Id), exchangeName, routingKey);
-        
+
         // TODO Delete Auth
-        
+
         return user;
     }
-    
+
     public async Task RebuildDatabase()
     {
         await _userRepository.RebuildDatabase();

@@ -1,5 +1,6 @@
 ﻿using Cache;
 using CartService.Core.Helpers;
+using CartService.Core.Helpers.MessageHandlers;
 using CartService.Core.Repositories;
 using CartService.Core.Repositories.Interfaces;
 using CartService.Core.Services.Interfaces;
@@ -28,7 +29,10 @@ public static class DependencyInjectionConfig
 
         // Messaging 
         services.AddSingleton(new MessageClient());
-        
+
+        // MessageHandler
+        services.AddHostedService<CreateCartMessageHandler>();
+
         // Monitoring
         var serviceName = "CartService";
         var serviceVersion = "1.0.0";
