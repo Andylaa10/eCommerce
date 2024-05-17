@@ -6,6 +6,13 @@ namespace UserService.Core.Helpers;
 
 public class DatabaseContext : DbContext
 {
+    public DatabaseContext()
+    {
+        // Postgres doesnt support c#'s DateTime, thats why we need this
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+        AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
+    }
+    
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         string connectionString = ConfigurationManager.AppSettings.Get("USER_SERVICE_CONNECTION_STRING")!;

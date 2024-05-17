@@ -1,5 +1,4 @@
 ﻿using Cache;
-using EasyNetQ;
 using Messaging;
 using UserService.Core.Helpers;
 using UserService.Core.Helpers.MessageHandlers;
@@ -27,10 +26,9 @@ public static class DependencyInjectionConfig
         services.AddSingleton(RedisClientFactory.CreateRedisClient());
 
         // Messaging 
-        const string connectionStringRabbitMq = "host=rabbitmq;port=5672;virtualHost=/;username=guest;password=guest"; // TODO
-        services.AddSingleton(new MessageClient(RabbitHutch.CreateBus(connectionStringRabbitMq)));
+        services.AddSingleton(new MessageClient());
         
-        // // MessageHandler 
-        // services.AddHostedService<CreateUserHandler>();
+        // MessageHandler 
+        services.AddHostedService<CreateUserHandler>();
     }
 }

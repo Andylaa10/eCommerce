@@ -97,7 +97,7 @@ public class UserService : IUserService
         const string exchangeName = "DeleteCartExchange";
         const string routingKey = "DeleteCart";
         
-        await _messageClient.Send(new DeleteCartIfUserIsDeletedMessage("Delete Cart", user.Id), exchangeName, routingKey);
+        _messageClient.Send(new DeleteCartIfUserIsDeletedMessage("Delete Cart", user.Id), exchangeName, routingKey);
         
         // TODO Delete Auth
         

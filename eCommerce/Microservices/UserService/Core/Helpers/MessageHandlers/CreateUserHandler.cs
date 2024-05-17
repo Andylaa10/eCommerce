@@ -1,6 +1,7 @@
 ﻿using EasyNetQ;
 using Messaging;
 using Messaging.SharedMessages;
+using RabbitMQ.Client;
 using UserService.Core.Services.DTOs;
 using UserService.Core.Services.Interfaces;
 
@@ -41,6 +42,12 @@ public class CreateUserHandler : BackgroundService
         }
     }
 
+    private async void HandleExchange(CreateUserMessage user)
+    {
+        Console.WriteLine(user.Message);
+        
+    }
+
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         Console.WriteLine("Message handler is running..");
@@ -48,13 +55,17 @@ public class CreateUserHandler : BackgroundService
         const string connectionStringRabbitMq = "host=rabbitmq;port=5672;virtualHost=/;username=guest;password=guest";
 
         var messageClient = new MessageClient(
-            RabbitHutch.CreateBus(connectionStringRabbitMq)
+            connectionStringRabbitMq
         );
 
         const string exchangeName = "CreateUserExchange";
         const string queueName = "CreateUserQueue";
         const string routingKey = "CreateUser";
 
-        await messageClient.Listen<CreateUserMessage>(HandleCreateUser, exchangeName, queueName, routingKey);
+        messageClient.Listen<CreateUserMessage>(HandleCreateUser, exchangeName, queueName, routingKey);
+
+        // var dlqExchange = await messageClient.DeclareExchange("TestExchange", ExchangeType.Fanout);
+        // const string dlqQueue = "testQueue";
+        // await messageClient.ListenOnDLQ<CreateUserMessage>(dlqExchange, dlqQueue, HandleExchange);
     }
 }

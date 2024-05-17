@@ -9,6 +9,7 @@ public class DatabaseContext : DbContext
 {
     public DatabaseContext()
     {
+        // Postgres doesnt support c#'s DateTime, thats why we need this
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
     }
@@ -16,7 +17,6 @@ public class DatabaseContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         string connectionString = ConfigurationManager.AppSettings.Get("AUTH_SERVICE_CONNECTION_STRING");
-
         //optionsBuilder.UseNpgsql(connectionString);
         optionsBuilder.UseNpgsql("Host=authdb;Port=5432;Database=AuthDB;Username=postgres;Password=postgres");
     }

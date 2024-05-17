@@ -2,7 +2,6 @@
 using AuthService.Core.Repositories;
 using AuthService.Core.Repositories.Interfaces;
 using AuthService.Core.Services.Interfaces;
-using EasyNetQ;
 using Messaging;
 
 namespace AuthService.Configs;
@@ -19,7 +18,6 @@ public static class DependencyInjectionConfig
         services.AddScoped<IAuthService, Core.Services.AuthService>();
 
         // Messaging 
-        const string connectionStringRabbitMq = "host=rabbitmq;port=5672;virtualHost=/;username=guest;password=guest"; // TODO
-        services.AddSingleton(new MessageClient(RabbitHutch.CreateBus(connectionStringRabbitMq)));
+        services.AddSingleton(new MessageClient());
     }
 }
