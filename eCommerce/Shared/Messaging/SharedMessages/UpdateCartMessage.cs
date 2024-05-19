@@ -1,15 +1,15 @@
 ﻿namespace Messaging.SharedMessages;
 
-public class CreateCartMessage
+public class UpdateCartMessage
 {
     public string Message { get; set; }
     public int UserId { get; set; }
-    public float TotalPrice { get; set; }
+    public string Cart { get; set; }
 
-    public CreateCartMessage(string message, int userId, float totalPrice)
+    public UpdateCartMessage(string message, int userId,string cart)
     {
         Message = message;
         UserId = userId;
-        TotalPrice = totalPrice;
+        Cart = cart;
     }
 }

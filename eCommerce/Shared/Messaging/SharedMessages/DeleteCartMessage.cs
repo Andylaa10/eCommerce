@@ -1,11 +1,11 @@
 ﻿namespace Messaging.SharedMessages;
 
-public class DeleteCartIfUserIsDeletedMessage
+public class DeleteCartMessage
 {
     public string Message { get; set; }
     public int UserId { get; set; }
 
-    public DeleteCartIfUserIsDeletedMessage(string message, int userId)
+    public DeleteCartMessage(string message, int userId)
     {
         Message = message;
         UserId = userId;

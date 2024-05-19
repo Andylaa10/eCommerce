@@ -65,7 +65,7 @@ public class UserService : IUserService
         const string routingKey = "CreateCart";
 
 
-        _messageClient.Send(new CreateCartMessage(), exchangeName, routingKey);
+        _messageClient.Send(new CreateCartMessage("Create Cart", user.Id, 0.0f), exchangeName, routingKey);
 
         return user;
     }
@@ -95,12 +95,15 @@ public class UserService : IUserService
 
         _redisClient.RemoveValue($"User:{id}");
 
-        const string exchangeName = "DeleteCartExchange";
-        const string routingKey = "DeleteCart";
+        const string exchangeNameCart = "DeleteCartExchange";
+        const string routingKeyCart = "DeleteCart";
 
-        _messageClient.Send(new DeleteCartIfUserIsDeletedMessage("Delete Cart", user.Id), exchangeName, routingKey);
+        _messageClient.Send(new DeleteCartMessage("Delete Cart", user.Id), exchangeNameCart, routingKeyCart);
 
-        // TODO Delete Auth
+        const string exchangeNameAuth = "DeleteAuthExchange";
+        const string routingKeyAuth = "DeleteAuth";
+        
+        _messageClient.Send(new DeleteAuthMessage("Delete Auth", id), exchangeNameAuth, routingKeyAuth);
 
         return user;
     }

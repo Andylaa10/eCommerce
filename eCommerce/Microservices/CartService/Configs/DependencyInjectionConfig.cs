@@ -32,6 +32,8 @@ public static class DependencyInjectionConfig
 
         // MessageHandler
         services.AddHostedService<CreateCartMessageHandler>();
+        services.AddHostedService<DeleteCartMessageHandler>();
+        services.AddHostedService<UpdateCartMessageHandler>();
 
         // Monitoring
         var serviceName = "CartService";

@@ -29,6 +29,6 @@ public static class DependencyInjectionConfig
         services.AddSingleton(new MessageClient());
         
         // MessageHandler 
-        services.AddHostedService<CreateUserHandler>();
+        services.AddHostedService<CreateUserMessageHandler>();
     }
 }

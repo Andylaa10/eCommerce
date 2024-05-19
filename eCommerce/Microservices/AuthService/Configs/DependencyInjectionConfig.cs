@@ -1,4 +1,5 @@
 ﻿using AuthService.Core.Helpers;
+using AuthService.Core.Helpers.MessageHandlers;
 using AuthService.Core.Repositories;
 using AuthService.Core.Repositories.Interfaces;
 using AuthService.Core.Services.Interfaces;
@@ -19,5 +20,8 @@ public static class DependencyInjectionConfig
 
         // Messaging 
         services.AddSingleton(new MessageClient());
+        
+        // MessageHandlers
+        services.AddHostedService<DeleteAuthMessageHandler>();
     }
 }

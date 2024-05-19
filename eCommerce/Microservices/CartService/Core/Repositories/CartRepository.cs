@@ -29,12 +29,27 @@ public class CartRepository : ICartRepository
         return cart;
     }
 
+    public async Task<Cart> UpdateCart(int userId, Cart dto)
+    {
+        var cart = await _context.Carts.FirstOrDefaultAsync(c => c.UserId == userId);
+        if (cart == null) throw new NullReferenceException();
+
+        cart.TotalPrice = dto.TotalPrice;
+        cart.UpdatedAt = DateTime.Now;
+
+        _context.Carts.Update(cart);
+        await _context.SaveChangesAsync();
+        
+        return cart;
+    }
+
     public async Task<Cart> AddProductToCart(int userId, ProductLine product)
     {
         var cart = await _context.Carts.FirstOrDefaultAsync(c => c.UserId == userId);
         if (cart == null) throw new NullReferenceException();
 
         cart.Products.Add(product);
+        cart.UpdatedAt = DateTime.Now;
         _context.Carts.Update(cart);
         await _context.SaveChangesAsync();
 
@@ -51,6 +66,7 @@ public class CartRepository : ICartRepository
         if (product == null) throw new NullReferenceException();
         
         cart.Products.Remove(product);
+        cart.UpdatedAt = DateTime.Now;
         _context.Carts.Update(cart);
         await _context.SaveChangesAsync();
 

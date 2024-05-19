@@ -5,11 +5,11 @@ using UserService.Core.Services.Interfaces;
 
 namespace UserService.Core.Helpers.MessageHandlers;
 
-public class CreateUserHandler : BackgroundService
+public class CreateUserMessageHandler : BackgroundService
 {
     private readonly IServiceProvider _serviceProvider;
 
-    public CreateUserHandler(IServiceProvider serviceProvider)
+    public CreateUserMessageHandler(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
     }
@@ -51,9 +51,5 @@ public class CreateUserHandler : BackgroundService
         const string routingKey = "CreateUser";
 
         messageClient.Listen<CreateUserMessage>(HandleCreateUser, exchangeName, queueName, routingKey);
-
-        // var dlqExchange = await messageClient.DeclareExchange("TestExchange", ExchangeType.Fanout);
-        // const string dlqQueue = "testQueue";
-        // await messageClient.ListenOnDLQ<CreateUserMessage>(dlqExchange, dlqQueue, HandleExchange);
     }
 }

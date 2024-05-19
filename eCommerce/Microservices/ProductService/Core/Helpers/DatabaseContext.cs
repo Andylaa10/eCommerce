@@ -17,6 +17,8 @@ public class DatabaseContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+        modelBuilder.Entity<Product>().Property(p => p.Id).ValueGeneratedOnAdd();
+
         modelBuilder.Entity<Product>().ToCollection("Products");
     }
 

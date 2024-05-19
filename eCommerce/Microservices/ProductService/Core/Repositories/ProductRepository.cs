@@ -62,6 +62,9 @@ public class ProductRepository : IProductRepository
         productToUpdate.Description = updatedProduct.Description;
         productToUpdate.Price = updatedProduct.Price;
         productToUpdate.UpdatedAt = DateTime.Now;
+        productToUpdate.InStock = updatedProduct.InStock;
+        productToUpdate.NumberInStock = updatedProduct.NumberInStock;
+        
         _context.Products.Update(productToUpdate);
         await _context.SaveChangesAsync();
 

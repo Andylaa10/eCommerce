@@ -8,6 +8,8 @@ public class Product
     public string Title { get; set; }
     public string Description { get; set; }
     public float Price { get; set; }
+    public bool InStock { get; set; }
+    public int NumberInStock { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
 }

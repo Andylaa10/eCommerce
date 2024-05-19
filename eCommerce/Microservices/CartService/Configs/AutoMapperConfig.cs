@@ -13,6 +13,7 @@ public static class AutoMapperConfig
             //DTO to entity
             config.CreateMap<CreateCartDto, Cart>();
             config.CreateMap<AddProductToCartDto, ProductLine>();
+            config.CreateMap<UpdateCartDto, Cart>();
         });
 
         return mapperConfig.CreateMapper();

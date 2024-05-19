@@ -19,6 +19,7 @@ public class DatabaseContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+        modelBuilder.Entity<Cart>().Property(c => c.Id).ValueGeneratedOnAdd();
         modelBuilder.Entity<Cart>().ToCollection("Carts");
     }
 
