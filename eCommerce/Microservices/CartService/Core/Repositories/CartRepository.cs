@@ -29,12 +29,27 @@ public class CartRepository : ICartRepository
         return cart;
     }
 
+    public async Task<Cart> UpdateCart(int userId, Cart dto)
+    {
+        var cart = await GetCartByUserId(userId);
+        if (cart == null) throw new NullReferenceException();
+
+        cart.TotalPrice = dto.TotalPrice;
+        cart.UpdatedAt = DateTime.Now;
+
+        _context.Carts.Update(cart);
+        await _context.SaveChangesAsync();
+        
+        return cart;
+    }
+
     public async Task<Cart> AddProductToCart(int userId, ProductLine product)
     {
-        var cart = await _context.Carts.FirstOrDefaultAsync(c => c.UserId == userId);
+        var cart = await GetCartByUserId(userId);
         if (cart == null) throw new NullReferenceException();
 
         cart.Products.Add(product);
+        cart.UpdatedAt = DateTime.Now;
         _context.Carts.Update(cart);
         await _context.SaveChangesAsync();
 
@@ -44,13 +59,14 @@ public class CartRepository : ICartRepository
 
     public async Task<Cart> RemoveProductFromCart(int userId, string productId)
     {
-        var cart = await _context.Carts.FirstOrDefaultAsync(c => c.UserId == userId);
+        var cart = await GetCartByUserId(userId);
         if (cart == null) throw new NullReferenceException();
 
         var product = cart.Products.FirstOrDefault(p => p.ProductId == productId);
         if (product == null) throw new NullReferenceException();
         
         cart.Products.Remove(product);
+        cart.UpdatedAt = DateTime.Now;
         _context.Carts.Update(cart);
         await _context.SaveChangesAsync();
 
@@ -59,7 +75,7 @@ public class CartRepository : ICartRepository
 
     public async Task<Cart> DeleteCart(int userId)
     {
-        var cart = await _context.Carts.FirstOrDefaultAsync(c => c.UserId == userId);
+        var cart = await GetCartByUserId(userId);
         if (cart == null) throw new NullReferenceException();
 
         _context.Carts.Remove(cart);

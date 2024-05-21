@@ -33,7 +33,7 @@ public class UserService : IUserService
         if (id < 1)
             throw new ArgumentException("Id could be less than 0");
 
-        var userJson = _redisClient.GetValue($"User:{id}");
+        var userJson = await _redisClient.GetValue($"User:{id}");
 
         if (!string.IsNullOrEmpty(userJson))
             return await Task.FromResult(_redisClient.DeserializeObject<GetUserDto>(userJson)!);
@@ -59,13 +59,13 @@ public class UserService : IUserService
         var user = _mapper.Map<GetUserDto>(await _userRepository.AddUser(_mapper.Map<User>(dto)));
 
         var userJson = _redisClient.SerializeObject(user);
-        _redisClient.StoreValue($"User:{user.Id}", userJson);
+        await _redisClient.StoreValue($"User:{user.Id}", userJson);
 
         const string exchangeName = "CreateCartExchange";
         const string routingKey = "CreateCart";
 
 
-        _messageClient.Send(new CreateCartMessage(), exchangeName, routingKey);
+        _messageClient.Send(new CreateCartMessage("Create Cart", user.Id, 0.0f), exchangeName, routingKey);
 
         return user;
     }
@@ -81,7 +81,7 @@ public class UserService : IUserService
         var user = _mapper.Map<GetUserDto>(await _userRepository.UpdateUser(id, _mapper.Map<User>(dto)));
 
         var userJson = _redisClient.SerializeObject(user);
-        _redisClient.StoreValue($"User:{id}", userJson);
+        await _redisClient.StoreValue($"User:{id}", userJson);
 
         return user;
     }
@@ -93,14 +93,17 @@ public class UserService : IUserService
 
         var user = _mapper.Map<GetUserDto>(await _userRepository.DeleteUser(id));
 
-        _redisClient.RemoveValue($"User:{id}");
+        await _redisClient.RemoveValue($"User:{id}");
 
-        const string exchangeName = "DeleteCartExchange";
-        const string routingKey = "DeleteCart";
+        const string exchangeNameCart = "DeleteCartExchange";
+        const string routingKeyCart = "DeleteCart";
 
-        _messageClient.Send(new DeleteCartIfUserIsDeletedMessage("Delete Cart", user.Id), exchangeName, routingKey);
+        _messageClient.Send(new DeleteCartMessage("Delete Cart", user.Id), exchangeNameCart, routingKeyCart);
 
-        // TODO Delete Auth
+        const string exchangeNameAuth = "DeleteAuthExchange";
+        const string routingKeyAuth = "DeleteAuth";
+        
+        _messageClient.Send(new DeleteAuthMessage("Delete Auth", id), exchangeNameAuth, routingKeyAuth);
 
         return user;
     }

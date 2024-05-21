@@ -9,5 +9,5 @@ public class Cart
     public float TotalPrice { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
-    public List<ProductLine> Products { get; } = new ();
+    public List<ProductLine> Products { get; set; } = new ();
 }

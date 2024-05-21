@@ -1,22 +1,21 @@
-using CartService.Core.Services.DTOs;
-using CartService.Core.Services.Interfaces;
+﻿using CartService.Core.Services.Interfaces;
 using Messaging;
 using Messaging.SharedMessages;
 
 namespace CartService.Core.Helpers.MessageHandlers;
 
-public class CreateCartMessageHandler : BackgroundService
+public class DeleteCartMessageHandler : BackgroundService
 {
     private readonly IServiceProvider _serviceProvider;
 
-    public CreateCartMessageHandler(IServiceProvider serviceProvider)
+    public DeleteCartMessageHandler(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
     }
 
-    private async void HandleCreateCart(CreateCartMessage cart)
+    public async void HandleCreateCart(DeleteCartMessage message)
     {
-        Console.WriteLine(cart.Message);
+        Console.WriteLine(message.Message);
 
         // TODO Add monitoring
         // TODO Add dlq
@@ -25,13 +24,8 @@ public class CreateCartMessageHandler : BackgroundService
         {
             using var scope = _serviceProvider.CreateScope();
             var cartService = scope.ServiceProvider.GetRequiredService<ICartService>();
-            var dto = new CreateCartDto
-            {
-                UserId = cart.UserId,
-                TotalPrice = cart.TotalPrice,
-            };
-
-            await cartService.CreateCart(dto);
+            
+            await cartService.DeleteCart(message.UserId);
         }
         catch (Exception e)
         {
@@ -47,10 +41,10 @@ public class CreateCartMessageHandler : BackgroundService
         var messageClient = new MessageClient();
 
 
-        const string exchangeName = "CreateCartExchange";
-        const string queueName = "CreateCartQueue";
-        const string routingKey = "CreateCart";
+        const string exchangeName = "DeleteCartExchange";
+        const string queueName = "DeleteCartQueue";
+        const string routingKey = "DeleteCart";
 
-        messageClient.Listen<CreateCartMessage>(HandleCreateCart, exchangeName, queueName, routingKey);
+        messageClient.Listen<DeleteCartMessage>(HandleCreateCart, exchangeName, queueName, routingKey);
     }
 }

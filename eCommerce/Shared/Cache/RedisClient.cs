@@ -22,27 +22,27 @@ public class RedisClient
         redis = ConnectionMultiplexer.Connect(connectionString);
     }
 
-    public IDatabase GetDatabase()
+    private IDatabase GetDatabase()
     {
         return redis.GetDatabase();
     }
 
-    public void StoreValue(string key, string value)
+    public async Task StoreValue(string key, string value)
     {
         var db = GetDatabase();
-        db.StringSet(key, value);
+        await db.StringSetAsync(key, value);
     }
 
-    public string? GetValue(string key)
+    public async Task<string?> GetValue(string key)
     {
         var db = GetDatabase();
-        return db.StringGet(key);
+        return await db.StringGetAsync(key);
     }
 
-    public void RemoveValue(string key)
+    public async Task RemoveValue(string key)
     {
         var db = GetDatabase();
-        db.KeyDelete(key);
+        await db.KeyDeleteAsync(key);
     }
 
     public string SerializeObject<T>(T obj)

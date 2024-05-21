@@ -1,5 +1,3 @@
-using MongoDB.Bson;
-
 namespace CartService.Core.Entities;
 
 public class ProductLine

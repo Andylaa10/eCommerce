@@ -43,7 +43,7 @@ public class CartController : ControllerBase
     }
 
     [HttpPost]
-    [Route("{cartId}/products")]
+    [Route("{userId}/products")]
     public async Task<IActionResult> AddProductToCart([FromRoute] int userId, [FromBody] AddProductToCartDto dto)
     {
         try
