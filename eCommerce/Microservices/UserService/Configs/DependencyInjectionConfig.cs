@@ -1,5 +1,7 @@
 ﻿using Cache;
 using Messaging;
+using MonitoringService;
+using OpenTelemetry.Trace;
 using UserService.Core.Helpers;
 using UserService.Core.Helpers.MessageHandlers;
 using UserService.Core.Repositories;
@@ -30,5 +32,11 @@ public static class DependencyInjectionConfig
         
         // MessageHandler 
         services.AddHostedService<CreateUserMessageHandler>();
+       
+        // Monitoring
+        var serviceName = "UserService";
+        var serviceVersion = "1.0.0";
+        services.AddOpenTelemetry().Setup(serviceName, serviceVersion);
+        services.AddSingleton(TracerProvider.Default.GetTracer(serviceName));
     }
 }

@@ -8,7 +8,7 @@ public class RedisClient
     private readonly string _serviceName;
     private readonly string _password;
 
-    private ConnectionMultiplexer redis;
+    private ConnectionMultiplexer _redis;
 
     public RedisClient(string serviceName,string password)
     {
@@ -19,12 +19,12 @@ public class RedisClient
     public void Connect()
     {
         string connectionString = $"{_serviceName},password={_password}";
-        redis = ConnectionMultiplexer.Connect(connectionString);
+        _redis = ConnectionMultiplexer.Connect(connectionString);
     }
 
     private IDatabase GetDatabase()
     {
-        return redis.GetDatabase();
+        return _redis.GetDatabase();
     }
 
     public async Task StoreValue(string key, string value)
