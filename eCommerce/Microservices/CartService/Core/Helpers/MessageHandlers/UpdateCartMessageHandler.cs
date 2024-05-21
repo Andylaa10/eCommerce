@@ -1,29 +1,35 @@
-﻿using Cache;
-using CartService.Core.Entities;
-using CartService.Core.Services.DTOs;
+﻿using CartService.Core.Services.DTOs;
 using CartService.Core.Services.Interfaces;
 using Messaging;
 using Messaging.SharedMessages;
+using MonitoringService;
+using OpenTelemetry.Trace;
 
 namespace CartService.Core.Helpers.MessageHandlers;
 
 public class UpdateCartMessageHandler : BackgroundService
 {
     private readonly IServiceProvider _serviceProvider;
+    private readonly Tracer _tracer;
 
-    public UpdateCartMessageHandler(IServiceProvider serviceProvider)
+    public UpdateCartMessageHandler(IServiceProvider serviceProvider, Tracer tracer)
     {
         _serviceProvider = serviceProvider;
+        _tracer = tracer;
     }
 
     public async void HandleUpdateCart(UpdateCartMessage message)
     {
         Console.WriteLine(message.Message);
 
+        using var activity = _tracer.StartActiveSpan("HandleUpdateCart");
+
         // TODO Add monitoring
         // TODO Add dlq
         try
         {
+            LoggingService.Log.Information("Called HandleUpdateCart Message Method");
+
             using var scope = _serviceProvider.CreateScope();
             var cartService = scope.ServiceProvider.GetRequiredService<ICartService>();
 
@@ -31,7 +37,6 @@ public class UpdateCartMessageHandler : BackgroundService
 
             var prices = cart.Products.Select(p => p.Price).ToList();
 
-            Console.WriteLine(prices.Count + " Andy");
             float totalPrice = 0;
 
             if (prices.Count != 0)
@@ -44,6 +49,7 @@ public class UpdateCartMessageHandler : BackgroundService
         }
         catch (Exception e)
         {
+            LoggingService.Log.Error(e.Message);
             Console.WriteLine(e);
             throw new ArgumentException("Something went wrong");
         }

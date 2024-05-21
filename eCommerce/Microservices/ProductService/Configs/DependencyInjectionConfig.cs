@@ -30,7 +30,7 @@ public static class DependencyInjectionConfig
         services.AddSingleton(new MessageClient());
         
         // Monitoring
-        var serviceName = "PatientService";
+        var serviceName = "ProductService";
         var serviceVersion = "1.0.0"; 
         services.AddOpenTelemetry().Setup(serviceName, serviceVersion);
         services.AddSingleton(TracerProvider.Default.GetTracer(serviceName));
