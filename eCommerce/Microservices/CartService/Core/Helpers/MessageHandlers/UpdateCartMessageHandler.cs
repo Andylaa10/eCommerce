@@ -10,12 +10,10 @@ namespace CartService.Core.Helpers.MessageHandlers;
 public class UpdateCartMessageHandler : BackgroundService
 {
     private readonly IServiceProvider _serviceProvider;
-    private readonly RedisClient _redisClient;
 
-    public UpdateCartMessageHandler(IServiceProvider serviceProvider, RedisClient redisClient)
+    public UpdateCartMessageHandler(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
-        _redisClient = redisClient;
     }
 
     public async void HandleUpdateCart(UpdateCartMessage message)
@@ -29,7 +27,7 @@ public class UpdateCartMessageHandler : BackgroundService
             using var scope = _serviceProvider.CreateScope();
             var cartService = scope.ServiceProvider.GetRequiredService<ICartService>();
 
-            var cart = _redisClient.DeserializeObject<Cart>(message.Cart);
+            var cart = await cartService.GetCartByUserId(message.UserId);
 
             var prices = cart.Products.Select(p => p.Price).ToList();
 
@@ -42,7 +40,6 @@ public class UpdateCartMessageHandler : BackgroundService
             }
             
             var dto = new UpdateCartDto{TotalPrice = totalPrice, UserId = message.UserId};
-
             await cartService.UpdateCart(message.UserId, dto);
         }
         catch (Exception e)
@@ -57,7 +54,6 @@ public class UpdateCartMessageHandler : BackgroundService
         Console.WriteLine("Message handler is running..");
 
         var messageClient = new MessageClient();
-
 
         const string exchangeName = "UpdateCartExchange";
         const string queueName = "UpdateCartQueue";

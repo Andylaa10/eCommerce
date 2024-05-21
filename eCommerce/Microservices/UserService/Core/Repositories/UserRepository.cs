@@ -52,7 +52,8 @@ public class UserRepository : IUserRepository
 
         if (userUpdate is null)
             throw new ArgumentException("Could not find the user");
-        
+
+        userUpdate.Email = user.Email;
         userUpdate.UpdatedAt = DateTime.UtcNow;
         userUpdate.Password = user.Password;
 

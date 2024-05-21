@@ -28,7 +28,7 @@ public class CreateCartMessageHandler : BackgroundService
             var dto = new CreateCartDto
             {
                 UserId = cart.UserId,
-                TotalPrice = cart.TotalPrice
+                TotalPrice = cart.TotalPrice,
             };
 
             await cartService.CreateCart(dto);
