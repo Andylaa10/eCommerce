@@ -10,12 +10,14 @@ namespace UserService.Core.Helpers.MessageHandlers;
 public class CreateUserMessageHandler : BackgroundService
 {
     private readonly IServiceProvider _serviceProvider;
-    private Tracer _tracer;
+    private readonly Tracer _tracer;
+    private readonly MessageClient _messageClient;
 
-    public CreateUserMessageHandler(IServiceProvider serviceProvider, Tracer tracer)
+    public CreateUserMessageHandler(IServiceProvider serviceProvider, Tracer tracer, MessageClient messageClient)
     {
         _serviceProvider = serviceProvider;
         _tracer = tracer;
+        _messageClient = messageClient;
     }
 
     private async void HandleCreateUser(CreateUserMessage user)
@@ -23,9 +25,8 @@ public class CreateUserMessageHandler : BackgroundService
         Console.WriteLine(user.Message);
 
         using var activity = _tracer.StartActiveSpan("HandleCreateUser");
-
-        // TODO Add monitoring
-        // TODO Add dlq
+        
+        // TODO Add dlq logic
         try
         {
             LoggingService.Log.Information("Called HandleCreateUser Message Method");
@@ -51,13 +52,11 @@ public class CreateUserMessageHandler : BackgroundService
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         Console.WriteLine("Message handler is running..");
-
-        var messageClient = new MessageClient();
-
+        
         const string exchangeName = "CreateUserExchange";
         const string queueName = "CreateUserQueue";
         const string routingKey = "CreateUser";
 
-        messageClient.Listen<CreateUserMessage>(HandleCreateUser, exchangeName, queueName, routingKey);
+        _messageClient.Listen<CreateUserMessage>(HandleCreateUser, exchangeName, queueName, routingKey);
     }
 }

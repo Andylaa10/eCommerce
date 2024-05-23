@@ -10,11 +10,14 @@ public class DeleteCartMessageHandler : BackgroundService
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly Tracer _tracer;
+    private readonly MessageClient _messageClient;
+
     
-    public DeleteCartMessageHandler(IServiceProvider serviceProvider, Tracer tracer)
+    public DeleteCartMessageHandler(IServiceProvider serviceProvider, Tracer tracer, MessageClient messageClient)
     {
         _serviceProvider = serviceProvider;
         _tracer = tracer;
+        _messageClient = messageClient;
     }
 
     public async void HandleDeleteCart(DeleteCartMessage message)
@@ -23,8 +26,7 @@ public class DeleteCartMessageHandler : BackgroundService
 
         using var activity = _tracer.StartActiveSpan("HandleDeleteCart");
 
-        // TODO Add monitoring
-        // TODO Add dlq
+        // TODO Add dlq logic
 
         try
         {
@@ -46,13 +48,10 @@ public class DeleteCartMessageHandler : BackgroundService
     {
         Console.WriteLine("Message handler is running..");
 
-        var messageClient = new MessageClient();
-
-
         const string exchangeName = "DeleteCartExchange";
         const string queueName = "DeleteCartQueue";
         const string routingKey = "DeleteCart";
 
-        messageClient.Listen<DeleteCartMessage>(HandleDeleteCart, exchangeName, queueName, routingKey);
+        _messageClient.Listen<DeleteCartMessage>(HandleDeleteCart, exchangeName, queueName, routingKey);
     }
 }

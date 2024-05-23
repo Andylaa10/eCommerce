@@ -1,19 +1,23 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MongoDB.EntityFrameworkCore.Extensions;
 using CartService.Core.Entities;
-using ConfigurationManager = System.Configuration.ConfigurationManager;
+using Microsoft.Extensions.Options;
 
 
 namespace CartService.Core.Helpers;
 
 public class DatabaseContext : DbContext
 {
+    private readonly AppSettings.AppSettings _appSettings;
+
+    public DatabaseContext(IOptions<AppSettings.AppSettings> appSettings)
+    {
+        _appSettings = appSettings.Value;
+    }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        string connectionString = ConfigurationManager.AppSettings.Get("CART_SERVICE_CONNECTION_STRING")!;
-        
-        //optionsBuilder.UseMongoDB(connectionString, "CartDB");
-        optionsBuilder.UseMongoDB("mongodb://host.docker.internal:27018", "CartDB");
+        optionsBuilder.UseMongoDB(_appSettings.CartDB, "CartDB");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

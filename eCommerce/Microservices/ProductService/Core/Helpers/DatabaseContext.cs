@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using MongoDB.EntityFrameworkCore.Extensions;
 using ProductService.Core.Entities;
 using ConfigurationManager = System.Configuration.ConfigurationManager;
@@ -7,11 +8,15 @@ namespace ProductService.Core.Helpers;
 
 public class DatabaseContext : DbContext
 {
+    private readonly AppSettings.AppSettings _appSettings;
+
+    public DatabaseContext(IOptions<AppSettings.AppSettings> appSettings)
+    {
+        _appSettings = appSettings.Value;
+    }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        string connectionString = ConfigurationManager.AppSettings.Get("PRODUCT_SERVICE_CONNECTION_STRING")!;
-
-        optionsBuilder.UseMongoDB("mongodb://productdb:27017", "ProductDB");
+        optionsBuilder.UseMongoDB(_appSettings.ProductDB, "ProductDB");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

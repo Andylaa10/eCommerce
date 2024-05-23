@@ -19,8 +19,8 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\Shared\AppSettings\AppSettings.csproj" />
         <ProjectReference Include="..\..\Shared\Cache\Cache.csproj" />
-        <ProjectReference Include="..\..\Shared\ConConfig\ConConfig.csproj" />
         <ProjectReference Include="..\..\Shared\Messaging\Messaging.csproj" />
         <ProjectReference Include="..\..\Shared\MonitoringService\MonitoringService.csproj" />
     </ItemGroup>

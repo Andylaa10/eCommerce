@@ -11,7 +11,7 @@ namespace AuthService.Configs;
 
 public static class DependencyInjectionConfig
 {
-    public static void ConfigureDependencyInjection(this IServiceCollection services)
+    public static void ConfigureDependencyInjection(this IServiceCollection services,  WebApplicationBuilder builder)
     {
         // DB 
         services.AddDbContext<DatabaseContext>();
@@ -19,9 +19,12 @@ public static class DependencyInjectionConfig
         // DI
         services.AddScoped<IAuthRepository, AuthRepository>();
         services.AddScoped<IAuthService, Core.Services.AuthService>();
-
+        
+        // Configure AppSettings
+        services.Configure<AppSettings.AppSettings>(builder.Configuration.GetSection("AppSettings"));
+        
         // Messaging 
-        services.AddSingleton(new MessageClient());
+        services.AddSingleton<MessageClient>();
         
         // MessageHandlers
         services.AddHostedService<DeleteAuthMessageHandler>();

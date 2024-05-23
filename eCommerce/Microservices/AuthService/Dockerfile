@@ -8,8 +8,8 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["./eCommerce/Microservices/AuthService/AuthService.csproj", "./eCommerce/Microservices/AuthService/"]
-COPY ["./eCommerce/Shared/ConConfig/ConConfig.csproj", "./eCommerce/Shared/ConConfig/"]
 COPY ["./eCommerce/Shared/Messaging/Messaging.csproj", "./eCommerce/Shared/Messaging/"]
+COPY ["./eCommerce/Shared/AppSettings/AppSettings.csproj", "./eCommerce/Shared/AppSettings/"]
 COPY ["./eCommerce/Shared/MonitoringService/MonitoringService.csproj", "./eCommerce/Shared/MonitoringService/"]
 RUN dotnet restore "./eCommerce/Microservices/AuthService/AuthService.csproj"
 COPY . .
