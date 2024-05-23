@@ -1,5 +1,6 @@
 ﻿using AuthService.Core.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using ConfigurationManager = System.Configuration.ConfigurationManager;
 
 
@@ -7,8 +8,10 @@ namespace AuthService.Core.Helpers;
 
 public class DatabaseContext : DbContext
 {
-    public DatabaseContext()
+    private readonly AppSettings.AppSettings _appSettings;
+    public DatabaseContext(IOptions<AppSettings.AppSettings> appSettings)
     {
+        _appSettings = appSettings.Value;
         // Postgres doesnt support c#'s DateTime, thats why we need this
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
@@ -16,9 +19,7 @@ public class DatabaseContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        string connectionString = ConfigurationManager.AppSettings.Get("AUTH_SERVICE_CONNECTION_STRING");
-        //optionsBuilder.UseNpgsql(connectionString);
-        optionsBuilder.UseNpgsql("Host=authdb;Port=5432;Database=AuthDB;Username=postgres;Password=postgres");
+        optionsBuilder.UseNpgsql(_appSettings.AuthDB);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

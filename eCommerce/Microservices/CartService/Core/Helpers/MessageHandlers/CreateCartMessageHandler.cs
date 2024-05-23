@@ -11,11 +11,13 @@ public class CreateCartMessageHandler : BackgroundService
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly Tracer _tracer;
+    private readonly MessageClient _messageClient;
 
-    public CreateCartMessageHandler(IServiceProvider serviceProvider, Tracer tracer)
+    public CreateCartMessageHandler(IServiceProvider serviceProvider, Tracer tracer, MessageClient messageClient)
     {
         _serviceProvider = serviceProvider;
         _tracer = tracer;
+        _messageClient = messageClient;
     }
 
     private async void HandleCreateCart(CreateCartMessage cart)
@@ -24,8 +26,7 @@ public class CreateCartMessageHandler : BackgroundService
 
         using var activity = _tracer.StartActiveSpan("HandleCreateCart");
 
-        // TODO Add monitoring
-        // TODO Add dlq
+        // TODO Add dlq logic
 
         try
         {
@@ -51,14 +52,11 @@ public class CreateCartMessageHandler : BackgroundService
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         Console.WriteLine("Message handler is running..");
-
-        var messageClient = new MessageClient();
-
-
+        
         const string exchangeName = "CreateCartExchange";
         const string queueName = "CreateCartQueue";
         const string routingKey = "CreateCart";
 
-        messageClient.Listen<CreateCartMessage>(HandleCreateCart, exchangeName, queueName, routingKey);
+        _messageClient.Listen<CreateCartMessage>(HandleCreateCart, exchangeName, queueName, routingKey);
     }
 }

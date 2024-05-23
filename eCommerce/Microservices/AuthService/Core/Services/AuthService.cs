@@ -10,6 +10,7 @@ using AuthService.Core.Services.Interfaces;
 using Messaging;
 using Messaging.SharedMessages;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace AuthService.Core.Services;
@@ -18,15 +19,13 @@ public class AuthService : IAuthService
 {
     private readonly IAuthRepository _authRepository;
     private readonly MessageClient _messageClient;
+    private readonly AppSettings.AppSettings _appSettings;
 
-
-    private const string SecurityKey = "SecretSecretSecretSecretSecretSecretSecretSecretSecretSecret"; //TODO 
-
-
-    public AuthService(IAuthRepository authRepository, MessageClient messageClient)
+    public AuthService(IAuthRepository authRepository, MessageClient messageClient, IOptions<AppSettings.AppSettings> appSettings)
     {
         _authRepository = authRepository;
         _messageClient = messageClient;
+        _appSettings = appSettings.Value;
     }
 
     public async Task Register(CreateAuthDto auth)
@@ -90,7 +89,7 @@ public class AuthService : IAuthService
         try
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(SecurityKey);
+            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
             var principal = tokenHandler.ValidateToken(token, new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
@@ -125,7 +124,7 @@ public class AuthService : IAuthService
 
     private AuthenticationToken GenerateToken(Auth auth)
     {
-        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SecurityKey));
+        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.Secret));
         var signingCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
         var claims = new List<Claim>

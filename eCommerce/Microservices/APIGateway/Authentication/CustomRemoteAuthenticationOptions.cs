@@ -15,15 +15,17 @@ public class CustomRemoteAuthenticationOptions : AuthenticationSchemeOptions
 
 public class CustomRemoteAuthenticationHandler : AuthenticationHandler<CustomRemoteAuthenticationOptions>
 {
-    private readonly HttpClient _httpClient; 
-    public CustomRemoteAuthenticationHandler(IOptionsMonitor<CustomRemoteAuthenticationOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock) : base(options, logger, encoder, clock)
+    private readonly HttpClient _httpClient;
+    private readonly AppSettings.AppSettings _appSettings;
+    public CustomRemoteAuthenticationHandler(IOptionsMonitor<CustomRemoteAuthenticationOptions> options, ILoggerFactory logger, UrlEncoder encoder, IOptions<AppSettings.AppSettings> appSettings) : base(options, logger, encoder)
     {
         _httpClient = new HttpClient();
+        _appSettings = appSettings.Value;
     }
 
     protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
     {
-        var requestMessage = new HttpRequestMessage(HttpMethod.Get, "http://authservice/api/Auth/ValidateToken");
+        var requestMessage = new HttpRequestMessage(HttpMethod.Get, _appSettings.ValidateTokenUrl);
         requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", Request.Headers.Authorization.ToString().Replace("Bearer ", ""));
 
         var response = await _httpClient.SendAsync(requestMessage);

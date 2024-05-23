@@ -8,6 +8,7 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["./eCommerce/Microservices/APIGateway/APIGateway.csproj", "./eCommerce/Microservices/APIGateway/"]
+COPY ["./eCommerce/Shared/AppSettings/AppSettings.csproj", "./eCommerce/Shared/AppSettings/"]
 RUN dotnet restore "./eCommerce/Microservices/APIGateway/APIGateway.csproj"
 COPY . .
 WORKDIR "/src/eCommerce/Microservices/APIGateway"

@@ -21,4 +21,8 @@
         <Link>.dockerignore</Link>
       </Content>
     </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Shared\AppSettings\AppSettings.csproj" />
+    </ItemGroup>
 </Project>

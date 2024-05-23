@@ -12,7 +12,7 @@ namespace UserService.Configs;
 
 public static class DependencyInjectionConfig
 {
-    public static void ConfigureDependencyInjection(this IServiceCollection services)
+    public static void ConfigureDependencyInjection(this IServiceCollection services, WebApplicationBuilder builder)
     {
         // DB
         services.AddDbContext<DatabaseContext>();
@@ -23,6 +23,9 @@ public static class DependencyInjectionConfig
         
         // Automapper
         services.AddSingleton(AutoMapperConfig.ConfigureAutoMapper());
+        
+        // Configure AppSettings
+        services.Configure<AppSettings.AppSettings>(builder.Configuration.GetSection("AppSettings"));
         
         // Caching
         services.AddSingleton(RedisClientFactory.CreateRedisClient());
