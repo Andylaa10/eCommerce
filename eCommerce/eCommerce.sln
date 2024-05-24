@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService", "Microservice
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService", "Microservices\UserService\UserService.csproj", "{9B7073B9-D136-4F18-B085-22381C19BB9B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductControllerTest", "Tests\ProductControllerTest\ProductControllerTest.csproj", "{6A3FA3ED-11A3-4270-A9B8-387E7775DD9A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonitoringService", "Shared\MonitoringService\MonitoringService.csproj", "{5C3472BB-521D-4393-B145-4D9ADD2654E8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messaging", "Shared\Messaging\Messaging.csproj", "{304B55B4-90A3-4512-AE38-6101C3AE9400}"
@@ -18,6 +16,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIGateway", "Microservices\APIGateway\APIGateway.csproj", "{6573B39B-842B-4989-9BE2-637F2FA92BF5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppSettings", "Shared\AppSettings\AppSettings.csproj", "{E623EC35-0923-414A-89F5-E5DD8BFC31C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService.API.Tests", "Tests\ProductService.API.Tests\ProductService.API.Tests.csproj", "{7CB7EAD0-D092-4B33-A0AA-184011C7F0AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService.Service.Tests", "Tests\ProductService.Service.Tests\ProductService.Service.Tests.csproj", "{5C2A3B0F-80D4-4EC9-BE66-33721849B74E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +43,6 @@ Global
 		{9B7073B9-D136-4F18-B085-22381C19BB9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B7073B9-D136-4F18-B085-22381C19BB9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B7073B9-D136-4F18-B085-22381C19BB9B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6A3FA3ED-11A3-4270-A9B8-387E7775DD9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6A3FA3ED-11A3-4270-A9B8-387E7775DD9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6A3FA3ED-11A3-4270-A9B8-387E7775DD9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6A3FA3ED-11A3-4270-A9B8-387E7775DD9A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5C3472BB-521D-4393-B145-4D9ADD2654E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5C3472BB-521D-4393-B145-4D9ADD2654E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C3472BB-521D-4393-B145-4D9ADD2654E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -65,5 +63,13 @@ Global
 		{E623EC35-0923-414A-89F5-E5DD8BFC31C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E623EC35-0923-414A-89F5-E5DD8BFC31C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E623EC35-0923-414A-89F5-E5DD8BFC31C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CB7EAD0-D092-4B33-A0AA-184011C7F0AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CB7EAD0-D092-4B33-A0AA-184011C7F0AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CB7EAD0-D092-4B33-A0AA-184011C7F0AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CB7EAD0-D092-4B33-A0AA-184011C7F0AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C2A3B0F-80D4-4EC9-BE66-33721849B74E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C2A3B0F-80D4-4EC9-BE66-33721849B74E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C2A3B0F-80D4-4EC9-BE66-33721849B74E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C2A3B0F-80D4-4EC9-BE66-33721849B74E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

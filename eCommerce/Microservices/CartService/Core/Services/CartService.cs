@@ -39,7 +39,6 @@ public class CartService : ICartService
 
     public async Task<Cart> GetCartByUserId(int userId)
     {
-        //TODO Caching is not working for cart by is working for the other services
         if (userId < 1)
             throw new ArgumentException("UserId cannot be less than 1");
         

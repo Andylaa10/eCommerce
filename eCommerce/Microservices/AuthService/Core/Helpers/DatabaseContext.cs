@@ -1,8 +1,6 @@
 ﻿using AuthService.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using ConfigurationManager = System.Configuration.ConfigurationManager;
-
 
 namespace AuthService.Core.Helpers;
 
@@ -34,6 +32,5 @@ public class DatabaseContext : DbContext
 
         #endregion
     }
-
     public DbSet<Auth> Auths { get; init; }
 }
