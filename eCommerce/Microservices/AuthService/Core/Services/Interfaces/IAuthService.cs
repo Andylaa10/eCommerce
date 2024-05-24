@@ -9,5 +9,6 @@ public interface IAuthService
     public Task DeleteAuth(int authId);
     public Task<AuthenticationToken> Login(LoginDto login);
     public Task<AuthenticateResult> ValidateToken(string token);
+    public Task<GetAuthDto> GetAuthById(int id);
     public Task RebuildDatabase();
 }

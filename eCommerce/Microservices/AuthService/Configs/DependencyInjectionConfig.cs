@@ -20,6 +20,9 @@ public static class DependencyInjectionConfig
         services.AddScoped<IAuthRepository, AuthRepository>();
         services.AddScoped<IAuthService, Core.Services.AuthService>();
         
+        // Automapper
+        services.AddSingleton(AutoMapperConfig.ConfigureAutoMapper());
+        
         // Configure AppSettings
         services.Configure<AppSettings.AppSettings>(builder.Configuration.GetSection("AppSettings"));
         

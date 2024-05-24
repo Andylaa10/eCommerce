@@ -7,6 +7,7 @@ using AuthService.Core.Entities;
 using AuthService.Core.Repositories.Interfaces;
 using AuthService.Core.Services.DTOs;
 using AuthService.Core.Services.Interfaces;
+using AutoMapper;
 using Messaging;
 using Messaging.SharedMessages;
 using Microsoft.AspNetCore.Authentication;
@@ -17,14 +18,17 @@ namespace AuthService.Core.Services;
 
 public class AuthService : IAuthService
 {
+    private readonly IMapper _mapper;
     private readonly IAuthRepository _authRepository;
     private readonly MessageClient _messageClient;
     private readonly AppSettings.AppSettings _appSettings;
 
-    public AuthService(IAuthRepository authRepository, MessageClient messageClient, IOptions<AppSettings.AppSettings> appSettings)
+    public AuthService(IAuthRepository authRepository, MessageClient messageClient,
+        IOptions<AppSettings.AppSettings> appSettings, IMapper mapper)
     {
         _authRepository = authRepository;
         _messageClient = messageClient;
+        _mapper = mapper;
         _appSettings = appSettings.Value;
     }
 
@@ -121,6 +125,17 @@ public class AuthService : IAuthService
             return await Task.Run(() => AuthenticateResult.Fail("Invalid token"));
         }
     }
+
+    public async Task<GetAuthDto> GetAuthById(int id)
+    {
+        if (id < 1)
+            throw new ArgumentException("Id could be less than 0");
+
+        var user = _mapper.Map<GetAuthDto>(await _authRepository.GetAuthById(id));
+
+        return user;
+    }
+
 
     private AuthenticationToken GenerateToken(Auth auth)
     {

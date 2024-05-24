@@ -12,7 +12,7 @@ public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;
     private readonly Tracer _tracer;
-    
+
     public AuthController(IAuthService authService, Tracer tracer)
     {
         _authService = authService;
@@ -37,7 +37,7 @@ public class AuthController : ControllerBase
             return BadRequest(e.ToString());
         }
     }
-    
+
     [HttpPost]
     [Route("Login")]
     public async Task<IActionResult> Login([FromBody] LoginDto dto)
@@ -47,7 +47,7 @@ public class AuthController : ControllerBase
         try
         {
             LoggingService.Log.Information("Called Login method");
- 
+
             return Ok(await _authService.Login(dto));
         }
         catch (Exception e)
@@ -56,7 +56,7 @@ public class AuthController : ControllerBase
             return BadRequest(e.ToString());
         }
     }
-    
+
     [HttpGet]
     [Route("ValidateToken")]
     public async Task<bool> ValidateToken()
@@ -80,9 +80,9 @@ public class AuthController : ControllerBase
                 LoggingService.Log.Error("Called Validate Method No Bearer Token");
                 return await Task.Run(() => false);
             }
-            
+
             LoggingService.Log.Information("Called Validate Method");
-            
+
             // decode the token & check if it's valid
             var token = re.Headers["Authorization"].ToString().Replace("Bearer ", "");
             var result = await _authService.ValidateToken(token);
@@ -92,6 +92,23 @@ public class AuthController : ControllerBase
         {
             LoggingService.Log.Error(e.Message);
             return await Task.Run(() => false);
+        }
+    }
+
+    [HttpGet]
+    [Route("{id}")]
+    public async Task<IActionResult> GetAuthById([FromRoute] int id)
+    {
+        using var activity = _tracer.StartActiveSpan("GetAuthById");
+
+        try
+        {
+            LoggingService.Log.Information("Called GetAuthById Method");
+            return Ok(await _authService.GetAuthById(id));
+        }catch (Exception e)
+        {
+            LoggingService.Log.Error(e.Message);
+            return BadRequest(e.Message);
         }
     }
     
@@ -113,5 +130,4 @@ public class AuthController : ControllerBase
             return BadRequest(e.Message);
         }
     }
-    
 }
