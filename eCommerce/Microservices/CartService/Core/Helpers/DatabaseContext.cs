@@ -25,6 +25,5 @@ public class DatabaseContext : DbContext
         base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<Cart>().ToCollection("Carts");
     }
-
     public DbSet<Cart> Carts { get; init; }
 }

@@ -15,15 +15,28 @@ public class AuthRepository : IAuthRepository
         _context = context;
     }
 
-    public async Task Register(Auth auth)
+    public async Task<Auth> Register(Auth auth)
     {
-        var exist = await DoesAuthExists(auth.Email);
+        await using var transaction = await _context.Database.BeginTransactionAsync();
+        try
+        {
+            var exist = await DoesAuthExists(auth.Email);
 
-        if (exist)
-            throw new DuplicateNameException($"{auth.Email} is already in use");
+            if (exist)
+                throw new DuplicateNameException($"{auth.Email} is already in use");
 
-        await _context.Auths.AddAsync(auth);
-        await _context.SaveChangesAsync();
+            await _context.Auths.AddAsync(auth);
+            await _context.SaveChangesAsync();
+            await transaction.CommitAsync();
+
+            return auth;
+        }
+        catch (Exception e)
+        {
+            await transaction.RollbackAsync();
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public async Task<Auth> GetAuthById(int id)

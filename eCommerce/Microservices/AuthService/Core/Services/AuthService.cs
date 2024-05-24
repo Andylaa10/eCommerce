@@ -55,14 +55,20 @@ public class AuthService : IAuthService
             CreatedAt = DateTime.Now
         };
 
-        await _authRepository.Register(newAuth);
+        try
+        {
+            var user = await _authRepository.Register(newAuth);
+            const string exchangeName = "CreateUserExchange";
+            const string routingKey = "CreateUser";
 
-        const string exchangeName = "CreateUserExchange";
-        const string routingKey = "CreateUser";
-
-        _messageClient.Send(
-            new CreateUserMessage("Create user message", newAuth.Email, newAuth.PasswordHash, newAuth.CreatedAt),
-            exchangeName, routingKey);
+            _messageClient.Send(
+                new CreateUserMessage("Create user message", user.Email, user.PasswordHash, user.CreatedAt),
+                exchangeName, routingKey);
+        }
+        catch (Exception e)
+        {
+            throw new ArgumentException(e.Message);
+        }
     }
 
     public async Task DeleteAuth(int authId)
