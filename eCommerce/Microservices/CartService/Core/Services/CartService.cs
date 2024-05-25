@@ -13,11 +13,11 @@ public class CartService : ICartService
 {
     private readonly ICartRepository _cartRepository;
     private readonly IMapper _mapper;
-    private readonly RedisClient _redisClient;
+    private readonly IRedisClient _redisClient;
     private readonly MessageClient _messageClient;
 
 
-    public CartService(ICartRepository cartRepository, IMapper mapper, RedisClient redisClient,
+    public CartService(ICartRepository cartRepository, IMapper mapper, IRedisClient redisClient,
         MessageClient messageClient)
     {
         _cartRepository = cartRepository;

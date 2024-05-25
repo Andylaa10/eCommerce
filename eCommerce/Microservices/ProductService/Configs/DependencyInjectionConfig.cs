@@ -29,6 +29,7 @@ public static class DependencyInjectionConfig
         // Caching
         services.AddSingleton(RedisClientFactory.CreateRedisClient());
         
+        
         // Messaging 
         services.AddSingleton(new MessageClient());
         

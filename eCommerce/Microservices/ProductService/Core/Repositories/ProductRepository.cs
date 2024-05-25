@@ -37,7 +37,9 @@ public class ProductRepository : IProductRepository
     {
         var objectId = new ObjectId(id);
         var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == objectId);
-        return product ?? throw new KeyNotFoundException($"No product with id of {id}");
+        if (product is null)
+            throw new KeyNotFoundException($"No product with id of {id}");
+        return product;
     }
 
     public async Task<Product> CreateProduct(Product product)

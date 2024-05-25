@@ -3,7 +3,7 @@ using StackExchange.Redis;
 
 namespace Cache;
 
-public class RedisClient
+public class RedisClient : IRedisClient
 {
     private readonly string _serviceName;
     private readonly string _password;
@@ -22,7 +22,7 @@ public class RedisClient
         _redis = ConnectionMultiplexer.Connect(connectionString);
     }
 
-    private IDatabase GetDatabase()
+    public IDatabase GetDatabase()
     {
         return _redis.GetDatabase();
     }

@@ -14,10 +14,10 @@ public class UserService : IUserService
 {
     private readonly IMapper _mapper;
     private readonly MessageClient _messageClient;
-    private readonly RedisClient _redisClient;
+    private readonly IRedisClient _redisClient;
     private readonly IUserRepository _userRepository;
 
-    public UserService(IUserRepository userRepository, IMapper mapper, RedisClient redisClient,
+    public UserService(IUserRepository userRepository, IMapper mapper, IRedisClient redisClient,
         MessageClient messageClient)
     {
         _userRepository = userRepository;

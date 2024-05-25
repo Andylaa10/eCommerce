@@ -24,7 +24,7 @@ public class ProductController : ControllerBase
     public async Task<IActionResult> GetProductById([FromRoute] string id)
     {
         using var activity = _tracer.StartActiveSpan("GetProductById");
-
+        
         try
         {
             LoggingService.Log.Information("Called GetProductById Method");
