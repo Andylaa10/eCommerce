@@ -34,8 +34,7 @@ public class AuthRepository : IAuthRepository
         catch (Exception e)
         {
             await transaction.RollbackAsync();
-            Console.WriteLine(e);
-            throw;
+            throw new ArgumentException(e.Message);
         }
     }
 

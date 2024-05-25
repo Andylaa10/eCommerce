@@ -12,10 +12,10 @@ public class ProductService : IProductService
 {
     private readonly IProductRepository _productRepository;
     private readonly IMapper _mapper;
-    private readonly RedisClient _redisClient;
+    private readonly IRedisClient _redisClient;
 
 
-    public ProductService(IProductRepository productRepository, IMapper mapper, RedisClient redisClient)
+    public ProductService(IProductRepository productRepository, IMapper mapper, IRedisClient redisClient)
     {
         _productRepository = productRepository;
         _mapper = mapper;
@@ -38,7 +38,12 @@ public class ProductService : IProductService
         if (!string.IsNullOrEmpty(productJson))
             return await Task.FromResult(_redisClient.DeserializeObject<Product>(productJson)!);
 
-        return await _productRepository.GetProductById(id);
+        var product = await _productRepository.GetProductById(id);
+        
+        if (product == null)
+            throw new KeyNotFoundException($"No product with id of {id}");
+        
+        return product;
     }
 
     public async Task<Product> CreateProduct(CreateProductDto dto)
@@ -73,9 +78,13 @@ public class ProductService : IProductService
         if (string.IsNullOrEmpty(id))
             throw new ArgumentException("Id cannot be null or empty");
 
+        
         var product = await _productRepository.DeleteProduct(id);
-        await _redisClient.RemoveValue($"Product:{product.Id}");
 
+        if (product is null)
+            throw new KeyNotFoundException($"No product with id of {id}");
+        
+        await _redisClient.RemoveValue($"Product:{product.Id}");
         return product;
     }
 }

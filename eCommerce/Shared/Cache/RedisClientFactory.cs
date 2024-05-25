@@ -2,7 +2,7 @@
 
 public static class RedisClientFactory
 {
-    public static RedisClient CreateRedisClient()
+    public static IRedisClient CreateRedisClient()
     {
         return new RedisClient("redis",""); 
     }

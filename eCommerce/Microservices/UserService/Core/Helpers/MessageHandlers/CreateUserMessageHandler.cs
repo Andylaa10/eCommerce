@@ -25,7 +25,6 @@ public class CreateUserMessageHandler : BackgroundService
         Console.WriteLine(user.Message);
 
         using var activity = _tracer.StartActiveSpan("HandleCreateUser");
-        
         // TODO Add dlq logic
         try
         {

@@ -1,1 +1,10 @@
 global using Xunit;
+global using Microsoft.AspNetCore.Mvc;
+global using MongoDB.Bson;
+global using Moq;
+global using OpenTelemetry.Trace;
+global using ProductService.Controllers;
+global using ProductService.Core.Entities;
+global using ProductService.Core.Entities.Helper;
+global using ProductService.Core.Services.DTOs;
+global using ProductService.Core.Services.Interfaces;
