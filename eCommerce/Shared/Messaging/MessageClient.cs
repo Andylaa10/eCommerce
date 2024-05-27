@@ -44,7 +44,10 @@ public class MessageClient
             type: ExchangeType.Fanout);
         
         channel.QueueDeclare(
-            queue: queueName, 
+            queue: queueName,
+            exclusive: false,
+            durable: true,
+            autoDelete: false,
             arguments: new Dictionary<string, object>{
                 {"x-dead-letter-exchange", $"{exchangeName}-dlq"},
                 {"x-message-ttl", 5000},
