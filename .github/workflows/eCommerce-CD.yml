@@ -1,5 +1,5 @@
 #CI Pipeline 
-name: eCommerce - Continuous Development
+name: eCommerce - Continuous Deployment
 
 on:
   push:
