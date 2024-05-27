@@ -24,32 +24,32 @@ jobs:
         with:
           file: ././eCommerce/Microservices/APIGateway/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/eCommerce-api-gateway:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/ecommerce-api-gateway:latest
         
       - name: Build and push AuthService image
         uses: docker/build-push-action@v5
         with:
           file: ././eCommerce/Microservices/AuthService/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/eCommerce-authentication:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/ecommerce-authentication:latest
         
       - name: Build and push CartService image
         uses: docker/build-push-action@v5
         with:
           file: ././eCommerce/Microservices/CartService/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/eCommerce-cart:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/ecommerce-cart:latest
           
       - name: Build and push ProductService image
         uses: docker/build-push-action@v5
         with:
           file: ././eCommerce/Microservices/ProductService/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/eCommerce-product:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/ecommerce-product:latest
           
       - name: Build and push UserService image
         uses: docker/build-push-action@v5
         with:
           file: ././eCommerce/Microservices/UserService/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/eCommerce-user:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/ecommerce-user:latest
