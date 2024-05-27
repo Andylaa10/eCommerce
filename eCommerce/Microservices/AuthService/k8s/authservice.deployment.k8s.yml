@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: userservice
+  name: authservice
   namespace: default
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: userservice
+      app: authservice
   template:
     metadata:
       labels:
-        app: userservice
+        app: authservice
     spec:
       containers:
-        - name: userservice
-          image: astmatikerne/ecommerce-user:latest
+        - name: authservice
+          image: astmatikerne/ecommerce-authentication:latest
           ports:
             - containerPort: 8080
