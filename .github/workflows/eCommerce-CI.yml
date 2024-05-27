@@ -1,7 +1,5 @@
-
-
-#CI CD Pipeline 
-name: CI/CD - Test, Validate and Deploy
+#CI Pipeline 
+name: eCommerce - Continuous Integration
 
 on:
   push:
