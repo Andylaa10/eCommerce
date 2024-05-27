@@ -20,15 +20,15 @@ public static class DependencyInjectionConfig
         // DI
         services.AddScoped<ICartRepository, CartRepository>();
         services.AddScoped<ICartService, Core.Services.CartService>();
+        
+        // Caching
+        services.AddScoped<IRedisClient, RedisClient>();
 
         // Automapper
         services.AddSingleton(AutoMapperConfig.ConfigureAutoMapper());
         
         // Configure AppSettings
         services.Configure<AppSettings.AppSettings>(builder.Configuration.GetSection("AppSettings"));
-        
-        // Caching
-        services.AddSingleton(RedisClientFactory.CreateRedisClient());
 
         // Messaging 
         services.AddSingleton(new MessageClient());
