@@ -19,9 +19,37 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           
+      - name: Build and push APIGateway image
+        uses: docker/build-push-action@v5
+        with:
+          file: ././eCommerce/Microservices/APIGateway/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/eCommerce-api-gateway:latest
+        
       - name: Build and push AuthService image
         uses: docker/build-push-action@v5
         with:
           file: ././eCommerce/Microservices/AuthService/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/measurement:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/eCommerce-authentication:latest
+        
+      - name: Build and push CartService image
+        uses: docker/build-push-action@v5
+        with:
+          file: ././eCommerce/Microservices/CartService/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/eCommerce-cart:latest
+          
+      - name: Build and push ProductService image
+        uses: docker/build-push-action@v5
+        with:
+          file: ././eCommerce/Microservices/ProductService/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/eCommerce-product:latest
+          
+      - name: Build and push UserService image
+        uses: docker/build-push-action@v5
+        with:
+          file: ././eCommerce/Microservices/UserService/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/eCommerce-user:latest
