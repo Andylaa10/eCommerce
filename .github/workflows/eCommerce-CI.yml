@@ -1,0 +1,26 @@
+#CI Pipeline 
+name: eCommerce - Continuous Integration
+
+on:
+  push:
+    branches: [ "development", "main", "pipeline_setup" ]
+    
+jobs:
+  validate_backend: 
+    name: validate backend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - name: Restore dependencies
+        run: dotnet restore 
+        working-directory: ./eCommerce
+      - name: Build
+        run: dotnet build --no-restore
+        working-directory: ./eCommerce
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
+        working-directory: ./eCommerce
