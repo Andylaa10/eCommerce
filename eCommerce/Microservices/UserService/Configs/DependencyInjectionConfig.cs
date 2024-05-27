@@ -21,15 +21,15 @@ public static class DependencyInjectionConfig
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IUserService, Core.Services.UserService>();
         
+        // Caching
+        services.AddScoped<IRedisClient, RedisClient>();
+        
         // Automapper
         services.AddSingleton(AutoMapperConfig.ConfigureAutoMapper());
         
         // Configure AppSettings
         services.Configure<AppSettings.AppSettings>(builder.Configuration.GetSection("AppSettings"));
         
-        // Caching
-        services.AddSingleton(RedisClientFactory.CreateRedisClient());
-
         // Messaging 
         services.AddSingleton(new MessageClient());
         

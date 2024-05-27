@@ -5,16 +5,10 @@ namespace Cache;
 
 public class RedisClient : IRedisClient
 {
-    private readonly string _serviceName;
-    private readonly string _password;
+    private readonly string _serviceName = "redis";
+    private readonly string _password = "";
 
     private ConnectionMultiplexer _redis;
-
-    public RedisClient(string serviceName,string password)
-    {
-        _serviceName = serviceName;
-        _password = password;
-    }
 
     public void Connect()
     {

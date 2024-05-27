@@ -1,20 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: authservice
+  name: authservice-deploy
   namespace: default
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
-      app: authservice
+      app: auth-service-deploy
   template:
     metadata:
+      name: authserviceapp-deploy
       labels:
-        app: authservice
+        env: prod
+        app: auth-service-deploy
+        app.kubernetes.io/name: auth-service-deploy
     spec:
       containers:
-        - name: authservice
-          image: astmatikerne/ecommerce-authentication:latest
+        - name: auth-service-deploy
+          image: ecommerce-authentication:latest
           ports:
             - containerPort: 8080
+              name: http-web-api
