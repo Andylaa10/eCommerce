@@ -1,9 +1,9 @@
-#CI Pipeline 
+#CD Pipeline 
 name: eCommerce - Continuous Deployment
 
 on:
   push:
-    branches: [ "development", "main", "pipeline_setup" ]
+    branches: [ "development", "main", "kubernetes_cd_pipeline" ]
 
 jobs:
   docker_hub_deploy:
