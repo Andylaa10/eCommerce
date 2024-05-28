@@ -53,25 +53,30 @@ jobs:
           file: ././eCommerce/Microservices/UserService/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/ecommerce-user:latest
-  
-  kubernetes_deploy:
-    name: Deploy to Kubernetes
+          
+  deploy:
+    name: Deploy
+    if: github.ref == 'refs/heads/master'
+    needs: [ test, build ]
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout the repository
-        uses: actions/checkout@v3
-        
-      - name: Set up kubectl
-        uses: azure/setup-kubectl@v1
+      - name: Set the Kubernetes context
+        uses: azure/k8s-set-context@v2
         with:
-          version: 'latest'
-          install: true
-          
-      - name: Deploy to Kubernetes
-        run: |
-          kubectl apply -f ./eCommerce/Microservices/AuthService/authservice.k8s.yml
-          kubectl apply -f ./eCommerce/Microservices/ProductService/productservice.k8s.yml
-          kubectl apply -f ./eCommerce/Microservices/CartService/cartservice.k8s.yml
-          kubectl apply -f ./eCommerce/Microservices/UserService/userservice.k8s.yml
-          kubectl apply -f ./eCommerce/Microservices/APIGateway/apigateway.k8s.yml
-    
+          method: service-account
+          k8s-url: "ecommerce-dns-m4z9nr9i.hcp.northeurope.azmk8s.io"
+          k8s-secret: ${{ secrets.KUBERNETES_SECRET }}
+
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Deploy to the Kubernetes cluster
+        uses: azure/k8s-deploy@v1
+        with:
+          namespace: default
+          manifests: |
+            ./eCommerce/Shared/Messaging/rabbitmq.k8s.yml
+            ./eCommerce/Microservices/AuthService/authservice.k8s.yml
+            ./eCommerce/Microservices/CartService/cartservice.k8s.yml
+            ./eCommerce/Microservices/ProductService/productservice.k8s.yml
+            ./eCommerce/Microservices/UserService/userservice.k8s.yml
