@@ -3,7 +3,7 @@ name: eCommerce - Continuous Deployment
 
 on:
   push:
-    branches: [ "development", "main", "pipeline_setup", "kubernetes_cd_pipeline" ]
+    branches: [ "main", "kubernetes_cd_pipeline" ]
     
 jobs:
   docker_hub_deploy:
@@ -56,7 +56,6 @@ jobs:
           
   azure_kubernetes_deploy:
     name: Deploy
-    if: github.ref == 'refs/heads/master'
     needs: [ docker_hub_deploy ]
     runs-on: ubuntu-latest
     steps:
