@@ -38,3 +38,37 @@ spec:
           ports:
             - containerPort: 8080
               name: http-web-api
+              
+---
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: product-mongodb
+spec:
+  serviceName: product-mongodb
+  replicas: 1
+  selector:
+    matchLabels:
+      app: product-mongodb
+  template:
+    metadata:
+      labels:
+        app: product-mongodb
+    spec:
+      containers:
+        - name: mongodb
+          image: mongo:latest
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: product-mongodb-storage
+              mountPath: /data/db
+  volumeClaimTemplates:
+    - metadata:
+        name: product-mongodb-storage
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 1Gi
