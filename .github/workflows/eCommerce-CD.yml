@@ -72,13 +72,13 @@ jobs:
           kubectl apply -f ././eCommerce/Shared/Messaging/rabbitmq.k8s.yml
           kubectl apply -f ././eCommerce/Microservices/AuthService/Kubernetes/authservice.service.k8s.yml
           kubectl apply -f ././eCommerce/Microservices/AuthService/Kubernetes/authservice.storage.k8s.yml
-          kubectl apply -f ././eCommerce/Microservices/AuthService/Kubernetes/authservice.deployment.k8s.yml
+          kubectl apply -f ././eCommerce/Microservices/AuthService/Kubernetes/authservice.deploy.k8s.yml
           kubectl apply -f ././eCommerce/Microservices/CartService/Kubernetes/cartservice.service.k8s.yml
           kubectl apply -f ././eCommerce/Microservices/CartService/Kubernetes/cartservice.storage.k8s.yml
-          kubectl apply -f ././eCommerce/Microservices/CartService/Kubernetes/cartservice.deployment.k8s.yml
+          kubectl apply -f ././eCommerce/Microservices/CartService/Kubernetes/cartservice.deploy.k8s.yml
           kubectl apply -f ././eCommerce/Microservices/ProductService/Kubernetes/productservice.service.k8s.yml
           kubectl apply -f ././eCommerce/Microservices/ProductService/Kubernetes/productservice.storage.k8s.yml
-          kubectl apply -f ././eCommerce/Microservices/ProductService/Kubernetes/productservice.deployment.k8s.yml
+          kubectl apply -f ././eCommerce/Microservices/ProductService/Kubernetes/productservice.deploy.k8s.yml
           kubectl apply -f ././eCommerce/Microservices/UserService/Kubernetes/userservice.service.k8s.yml
-          kubectl apply -f ././eCommerce/Microservices/UserService/Kubernetes/userservice.deployment.k8s.yml
+          kubectl apply -f ././eCommerce/Microservices/UserService/Kubernetes/userservice.deploy.k8s.yml
           kubectl apply -f ././eCommerce/Microservices/UserService/Kubernetes/userservice.storage.k8s.yml
