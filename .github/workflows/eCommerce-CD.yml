@@ -3,7 +3,7 @@ name: eCommerce - Continuous Deployment
 
 on:
   push:
-    branches: [ "development", "main", "pipeline_setup" ]
+    branches: [ "development", "main", "pipeline_setup", "kubernetes_cd_pipeline" ]
     
 jobs:
   docker_hub_deploy:
@@ -53,3 +53,25 @@ jobs:
           file: ././eCommerce/Microservices/UserService/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/ecommerce-user:latest
+  
+    kubernetes_deploy:
+      name: Deploy to Kubernetes
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout the repository
+          uses: actions/checkout@v3
+          
+        - name: Set up kubectl
+          uses: azure/setup-kubectl@v1
+          with:
+            version: 'latest'
+            install: true
+          
+        - name: Deploy to Kubernetes
+          run: |
+            kubectl apply -f ./eCommerce/Microservices/AuthService/authservice.k8s.yml
+            kubectl apply -f ./eCommerce/Microservices/ProductService/productservice.k8s.yml
+            kubectl apply -f ./eCommerce/Microservices/CartService/cartservice.k8s.yml
+            kubectl apply -f ./eCommerce/Microservices/UserService/userservice.k8s.yml
+            kubectl apply -f ./eCommerce/Microservices/APIGateway/apigateway.k8s.yml
+    

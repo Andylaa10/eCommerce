@@ -1,13 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userservice-deploy
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-service-deploy
+  template:
+    metadata:
+      name: userserviceapp-deploy
+      labels:
+        env: prod
+        app: user-service-deploy
+        app.kubernetes.io/name: user-service-deploy
+    spec:
+      containers:
+        - name: user-service-deploy
+          image: astmatikerne/ecommerce-user:latest
+          ports:
+            - containerPort: 8080
+              name: http-web-api
+
+---
+
 apiVersion: v1
 kind: Service
 metadata:
-  name: user-lb-service
+  name: product-lb-service
 spec:
   selector:
-    app.kubernetes.io/name: user-service-deploy
+    app.kubernetes.io/name: product-service-deploy
   ports:
-    - name: userservice-ports
+    - name: productservice-ports
       protocol: TCP
-      port: 9091
+      port: 9092
       targetPort: 8080
   type: LoadBalancer
