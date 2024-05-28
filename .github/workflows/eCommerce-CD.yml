@@ -4,10 +4,9 @@ name: eCommerce - Continuous Deployment
 on:
   push:
     branches: [ "main", "kubernetes_cd_pipeline" ]
-    
+
 jobs:
   azure_kubernetes_deploy:
-    needs: [ azure_kubernetes_deploy ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
@@ -17,7 +16,7 @@ jobs:
         uses: azure/k8s-set-context@v1
         with:
           kubeconfig: ${{ secrets.KUBECONFIG }}
-          
+
       - name: Deploy
         run: |
           kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml          
