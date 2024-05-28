@@ -1,15 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: product-lb-service
+  name: user-lb-service
 spec:
   selector:
-    app.kubernetes.io/name: product-service-deploy
+    app.kubernetes.io/name: user-service-deploy
   ports:
-    - name: productservice-ports
+    - name: userservice-ports
       protocol: TCP
-      port: 9092
+      port: 9091
       targetPort: 8080
   type: LoadBalancer
-
-
