@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cartservice-deploy
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cart-service-deploy
+  template:
+    metadata:
+      name: cartserviceapp-deploy
+      labels:
+        env: prod
+        app: cart-service-deploy
+        app.kubernetes.io/name: cart-service-deploy
+    spec:
+      containers:
+        - name: cart-service-deploy
+          image: astmatikerne/ecommerce-cart:latest
+          ports:
+            - containerPort: 8080
+              name: http-web-api

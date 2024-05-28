@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userservice-deploy
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-service-deploy
+  template:
+    metadata:
+      name: userserviceapp-deploy
+      labels:
+        env: prod
+        app: user-service-deploy
+        app.kubernetes.io/name: user-service-deploy
+    spec:
+      containers:
+        - name: user-service-deploy
+          image: astmatikerne/ecommerce-user:latest
+          ports:
+            - containerPort: 8080
+              name: http-web-api
