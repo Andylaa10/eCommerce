@@ -39,5 +39,38 @@ spec:
             - containerPort: 8080
               name: http-web-api
 
+---
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: cart-mongodb
+spec:
+  serviceName: cart-mongodb
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cart-mongodb
+  template:
+    metadata:
+      labels:
+        app: cart-mongodb
+    spec:
+      containers:
+        - name: mongodb
+          image: mongo:latest
+          ports:
+            - containerPort: 27018
+          volumeMounts:
+            - name: cart-mongodb-storage
+              mountPath: /data/db
+  volumeClaimTemplates:
+    - metadata:
+        name: cart-mongodb-storage
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 1Gi
 
 
