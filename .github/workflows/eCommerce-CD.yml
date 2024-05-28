@@ -6,76 +6,22 @@ on:
     branches: [ "main", "kubernetes_cd_pipeline" ]
     
 jobs:
-  docker_hub_deploy:
-    name: Deploy docker images to Docker Hub
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out the repository
-        uses: actions/checkout@v3
-
-      - name: Login to Docker hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          
-      - name: Build and push APIGateway image
-        uses: docker/build-push-action@v5
-        with:
-          file: ././eCommerce/Microservices/APIGateway/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/ecommerce-api-gateway:latest
-        
-      - name: Build and push AuthService image
-        uses: docker/build-push-action@v5
-        with:
-          file: ././eCommerce/Microservices/AuthService/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/ecommerce-authentication:latest
-        
-      - name: Build and push CartService image
-        uses: docker/build-push-action@v5
-        with:
-          file: ././eCommerce/Microservices/CartService/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/ecommerce-cart:latest
-          
-      - name: Build and push ProductService image
-        uses: docker/build-push-action@v5
-        with:
-          file: ././eCommerce/Microservices/ProductService/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/ecommerce-product:latest
-          
-      - name: Build and push UserService image
-        uses: docker/build-push-action@v5
-        with:
-          file: ././eCommerce/Microservices/UserService/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/ecommerce-user:latest
-          
   azure_kubernetes_deploy:
-    name: Deploy
-    needs: [ docker_hub_deploy ]
+    needs: [ azure_kubernetes_deploy ]
     runs-on: ubuntu-latest
     steps:
-      - name: Set the Kubernetes context
-        uses: azure/k8s-set-context@v2
-        with:
-          method: service-account
-          k8s-url: "ecommerce-dns-m4z9nr9i.hcp.northeurope.azmk8s.io"
-          k8s-secret: ${{ secrets.KUBERNETES_SECRET }}
-
       - name: Checkout source code
         uses: actions/checkout@v3
 
-      - name: Deploy to the Kubernetes cluster
-        uses: azure/k8s-deploy@v1
+      - name: Set up Kubectl
+        uses: azure/k8s-set-context@v1
         with:
-          namespace: default
-          manifests: |
-            ./eCommerce/Shared/Messaging/rabbitmq.k8s.yml
-            ./eCommerce/Microservices/AuthService/authservice.k8s.yml
-            ./eCommerce/Microservices/CartService/cartservice.k8s.yml
-            ./eCommerce/Microservices/ProductService/productservice.k8s.yml
-            ./eCommerce/Microservices/UserService/userservice.k8s.yml
+          kubeconfig: ${{ secrets.KUBECONFIG }}
+          
+      - name: Deploy
+        run: |
+          kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml          
+          kubectl apply -f Microservices/AuthService/authservice.k8s.yml
+          kubectl apply -f Microservices/CartService/cartservice.k8s.yml
+          kubectl apply -f Microservices/ProductService/productservice.k8s.yml
+          kubectl apply -f Microservices/UserService/userservice.k8s.yml
