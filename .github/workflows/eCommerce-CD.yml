@@ -54,10 +54,10 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/ecommerce-user:latest
           
-  deploy:
+  azure_kubernetes_deploy:
     name: Deploy
     if: github.ref == 'refs/heads/master'
-    needs: [ test, build ]
+    needs: [ docker_hub_deploy ]
     runs-on: ubuntu-latest
     steps:
       - name: Set the Kubernetes context
