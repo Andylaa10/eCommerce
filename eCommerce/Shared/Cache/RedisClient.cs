@@ -1,51 +1,63 @@
-﻿using System.Text.Json;
-using StackExchange.Redis;
-
-namespace Cache;
-
-public class RedisClient : IRedisClient
-{
-    private readonly string _serviceName = "redis";
-    private readonly string _password = "";
-
-    private ConnectionMultiplexer _redis;
-
-    public void Connect()
-    {
-        string connectionString = $"{_serviceName},password={_password}";
-        _redis = ConnectionMultiplexer.Connect(connectionString);
-    }
-
-    public IDatabase GetDatabase()
-    {
-        return _redis.GetDatabase();
-    }
-
-    public async Task StoreValue(string key, string value)
-    {
-        var db = GetDatabase();
-        await db.StringSetAsync(key, value);
-    }
-
-    public async Task<string?> GetValue(string key)
-    {
-        var db = GetDatabase();
-        return await db.StringGetAsync(key);
-    }
-
-    public async Task RemoveValue(string key)
-    {
-        var db = GetDatabase();
-        await db.KeyDeleteAsync(key);
-    }
-
-    public string SerializeObject<T>(T obj)
-    {
-        return JsonSerializer.Serialize(obj);
-    }
-
-    public T? DeserializeObject<T>(string json)
-    {
-        return JsonSerializer.Deserialize<T>(json);
-    }
+﻿using System;  
+using System.Text.Json;  
+using StackExchange.Redis;  
+using System.Threading.Tasks;  
+  
+namespace Cache  
+{  
+    public class RedisClient : IRedisClient  
+    {  
+        private readonly string _serviceName;  
+        private readonly string _password;  
+        private ConnectionMultiplexer _redis;  
+  
+        public RedisClient()  
+        {  
+            _serviceName = Environment.GetEnvironmentVariable("REDIS_SERVICE_NAME") ?? "redis-service";  
+            _password = Environment.GetEnvironmentVariable("REDIS_PASSWORD") ?? "";  
+        }  
+  
+        public void Connect()  
+        {  
+            string connectionString = $"{_serviceName}:6379";  
+            if (!string.IsNullOrEmpty(_password))  
+            {  
+                connectionString += $",password={_password}";  
+            }  
+            _redis = ConnectionMultiplexer.Connect(connectionString);  
+        }  
+  
+        public IDatabase GetDatabase()  
+        {  
+            return _redis.GetDatabase();  
+        }  
+  
+        public async Task StoreValue(string key, string value)  
+        {  
+            var db = GetDatabase();  
+            await db.StringSetAsync(key, value);  
+        }  
+  
+        public async Task<string?> GetValue(string key)  
+        {  
+            var db = GetDatabase();  
+            return await db.StringGetAsync(key);  
+        }  
+  
+        public async Task RemoveValue(string key)  
+        {  
+            var db = GetDatabase();  
+            await db.KeyDeleteAsync(key);  
+        }  
+  
+        public string SerializeObject<T>(T obj)  
+        {  
+            return JsonSerializer.Serialize(obj);  
+        }  
+  
+        public T? DeserializeObject<T>(string json)  
+        {  
+            return JsonSerializer.Deserialize<T>(json);  
+        }  
+    }  
 }
