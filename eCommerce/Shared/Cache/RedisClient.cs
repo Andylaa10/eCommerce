@@ -7,24 +7,27 @@ namespace Cache
 {  
     public class RedisClient : IRedisClient  
     {  
-        private readonly string _serviceName;  
-        private readonly string _password;  
+        private readonly string _serviceName = "my-redis-master.redis.svc.cluster.local:6379";  
+        private readonly string _password = "SuperSecret7!";  
         private ConnectionMultiplexer _redis;  
-  
-        public RedisClient()  
-        {  
-            _serviceName = Environment.GetEnvironmentVariable("REDIS_SERVICE_NAME") ?? "redis-service";  
-            _password = Environment.GetEnvironmentVariable("REDIS_PASSWORD") ?? "";  
-        }  
-  
+        
         public void Connect()  
         {  
-            string connectionString = $"{_serviceName}:6379";  
-            if (!string.IsNullOrEmpty(_password))  
+            try  
             {  
-                connectionString += $",password={_password}";  
+                string connectionString = $"{_serviceName},password={_password},abortConnect=false";  
+                _redis = ConnectionMultiplexer.Connect(connectionString);  
             }  
-            _redis = ConnectionMultiplexer.Connect(connectionString);  
+            catch (RedisConnectionException ex)  
+            {  
+                Console.WriteLine($"Error connecting to Redis: {ex.Message}");  
+                throw;  
+            }  
+            catch (Exception ex)  
+            {  
+                Console.WriteLine($"Unexpected error: {ex.Message}");  
+                throw;  
+            }  
         }  
   
         public IDatabase GetDatabase()  

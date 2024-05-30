@@ -69,9 +69,7 @@ jobs:
       - name: Deploy
         run: |
           kubectl apply -f "https://github.com/rabbitmq/cluster-operator/releases/latest/download/cluster-operator.yml"
-          kubectl apply -f ././eCommerce/Shared/Messaging/rabbitmq.k8s.yml
-          kubectl apply -f ././eCommerce/Shared/Cache/redis.configmap.k8s.yml -n redis
-          kubectl apply -f ././eCommerce/Shared/Cache/redis.statefulset.k8s.yml -n redis
+          kubectl apply -f ././eCommerce/Shared/Cache/Kubernetes/redis.k8s.yml
           kubectl apply -f ././eCommerce/Microservices/ProductService/Kubernetes/productservice.deploy.k8s.yml
           kubectl apply -f ././eCommerce/Microservices/ProductService/Kubernetes/productservice.service.k8s.yml
           kubectl apply -f ././eCommerce/Microservices/ProductService/Kubernetes/productservice.storage.k8s.yml
