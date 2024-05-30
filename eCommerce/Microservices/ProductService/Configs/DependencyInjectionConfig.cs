@@ -21,7 +21,7 @@ public static class DependencyInjectionConfig
         services.AddScoped<IProductService, Core.Services.ProductService>();
         
         // Caching
-        // services.AddScoped<IRedisClient, RedisClient>();
+        services.AddScoped<IRedisClient, RedisClient>();
         
         // Automapper
         services.AddSingleton(AutoMapperConfig.ConfigureAutoMapper());
