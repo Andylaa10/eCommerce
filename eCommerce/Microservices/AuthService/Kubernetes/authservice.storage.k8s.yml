@@ -4,9 +4,9 @@ metadata:
   name: authdb-secret
 type: Opaque
 data:
-  POSTGRES_USER: postgres
-  POSTGRES_PASSWORD: postgres
-
+  POSTGRES_USER: "postgres"
+  POSTGRES_PASSWORD: "postgres"
+  
 ---
 
 apiVersion: apps/v1
@@ -43,6 +43,8 @@ spec:
           volumeMounts:
             - name: auth-postgres-storage
               mountPath: /var/lib/postgresql/data
+              subPath: postgres
+
   volumeClaimTemplates:
     - metadata:
         name: auth-postgres-storage
