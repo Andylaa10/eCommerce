@@ -9,5 +9,6 @@ spec:
     - name: authservice-ports
       protocol: TCP
       port: 9090
+      targetPort: 8080
   type: LoadBalancer
 
