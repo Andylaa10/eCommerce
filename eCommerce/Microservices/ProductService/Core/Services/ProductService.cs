@@ -33,10 +33,10 @@ public class ProductService : IProductService
         if (string.IsNullOrEmpty(id))
             throw new ArgumentException("Id cannot be null or empty");
 
-        var productJson = await _redisClient.GetValue($"Product:{id}");
+        //var productJson = await _redisClient.GetValue($"Product:{id}");
 
-        if (!string.IsNullOrEmpty(productJson))
-            return await Task.FromResult(_redisClient.DeserializeObject<Product>(productJson)!);
+        //if (!string.IsNullOrEmpty(productJson))
+        //    return await Task.FromResult(_redisClient.DeserializeObject<Product>(productJson)!);
 
         var product = await _productRepository.GetProductById(id);
         
@@ -50,8 +50,8 @@ public class ProductService : IProductService
     {
         var product = await _productRepository.CreateProduct(_mapper.Map<Product>(dto));
 
-        var productJson = _redisClient.SerializeObject(product);
-        await _redisClient.StoreValue($"Product:{product.Id}", productJson);
+        //var productJson = _redisClient.SerializeObject(product);
+        //await _redisClient.StoreValue($"Product:{product.Id}", productJson);
 
         return product;
     }
@@ -67,8 +67,8 @@ public class ProductService : IProductService
 
         var product = await _productRepository.UpdateProduct(id, _mapper.Map<Product>(dto));
 
-        var productJson = _redisClient.SerializeObject(product);
-        await _redisClient.StoreValue($"Product:{product.Id}", productJson);
+       // var productJson = _redisClient.SerializeObject(product);
+       // await _redisClient.StoreValue($"Product:{product.Id}", productJson);
 
         return product;
     }
@@ -84,7 +84,7 @@ public class ProductService : IProductService
         if (product is null)
             throw new KeyNotFoundException($"No product with id of {id}");
         
-        await _redisClient.RemoveValue($"Product:{product.Id}");
+        //await _redisClient.RemoveValue($"Product:{product.Id}");
         return product;
     }
 }
