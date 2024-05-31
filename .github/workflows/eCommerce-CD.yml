@@ -2,9 +2,11 @@
 name: eCommerce - Continuous Deployment
 
 on:
+  pull_request:
+    branches: [ "main" , "development" ]
   push:
-    branches: [ "development", "main", "kubernetes_cd_pipeline" ]
-
+    branches: [ "pipeline_setup" ]
+    
 jobs:
   docker_hub_deploy:
     name: Docker image deploy

@@ -2,8 +2,10 @@
 name: eCommerce - Continuous Integration
 
 on:
+  pull_request:
+    branches: [ "main" , "development" ]
   push:
-    branches: [ "development", "main", "pipeline_setup" ]
+    branches: [ "pipeline_setup" ]
     
 jobs:
   validate_backend: 
