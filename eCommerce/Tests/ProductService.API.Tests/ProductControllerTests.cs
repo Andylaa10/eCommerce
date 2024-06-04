@@ -3,13 +3,12 @@ namespace ProductService.API.Tests;
 public class ProductControllerTests
 {
     private readonly Mock<IProductService> _productService = new();
-    private readonly Mock<TracerProvider> _tracerProvider = new();
     private readonly ProductController _productController;
 
     public ProductControllerTests()
     {
         _productController =
-            new ProductController(_productService.Object, _tracerProvider.Object.GetTracer("TestTracer"));
+            new ProductController(_productService.Object);
     }
 
     public static IEnumerable<object[]> GetProducts_TestCase()
