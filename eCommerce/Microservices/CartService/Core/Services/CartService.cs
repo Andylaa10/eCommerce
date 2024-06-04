@@ -36,8 +36,12 @@ public class CartService : ICartService
 
     public async Task<Cart> CreateCart(CreateCartDto dto)
     {
+        using var activity = _tracer.StartActiveSpan("CreateCart");
+
         try
         {
+            LoggingService.Log.Information("Called CreateCart Method");
+
             // Retry policy
             var retryPolicy = Policy<Cart>
                 .Handle<Exception>()
@@ -75,57 +79,84 @@ public class CartService : ICartService
         }
         catch (Exception e)
         {
-            throw new Exception(e.Message);
+            LoggingService.Log.Error(e.Message);
+            throw new ArgumentException(e.Message);
         }
     }
 
     public async Task<Cart> GetCartByUserId(int userId)
     {
-        _tracer.StartActiveSpan("GetCartByUserId");
+        using var activity = _tracer.StartActiveSpan("GetCartByUserId");
 
-        if (userId < 1)
-            throw new ArgumentException("UserId cannot be less than 1");
+        if (userId < 1) throw new ArgumentException("UserId cannot be less than 1");
 
-        var cartJson = await _redisClient.GetValue($"Cart:{userId}");
+        try
+        {
+            LoggingService.Log.Information("Called GetCartByUserId Method");
+            var cartJson = await _redisClient.GetValue($"Cart:{userId}");
 
-        if (!string.IsNullOrEmpty(cartJson))
-            return await Task.FromResult(_redisClient.DeserializeObject<Cart>(cartJson)!);
+            if (!string.IsNullOrEmpty(cartJson))
+                return await Task.FromResult(_redisClient.DeserializeObject<Cart>(cartJson)!);
 
-        return await _cartRepository.GetCartByUserId(userId);
+            return await _cartRepository.GetCartByUserId(userId);
+        }
+        catch (Exception e)
+        {
+            LoggingService.Log.Error(e.Message);
+            throw new ArgumentException(e.Message);
+        }
     }
 
     public async Task<Cart> UpdateCart(int userId, UpdateCartDto dto)
     {
         _tracer.StartActiveSpan("UpdateCart");
 
-        if (userId < 1)
-            throw new ArgumentException("UserId can not be less than 1");
+        if (userId < 1) throw new ArgumentException("UserId can not be less than 1");
 
-        var cart = await _cartRepository.UpdateCart(userId, _mapper.Map<Cart>(dto));
+        try
+        {
+            LoggingService.Log.Information("Called UpdateCart Method");
 
-        var cartJson = _redisClient.SerializeObject(cart);
-        await _redisClient.StoreValue($"Cart:{userId}", cartJson);
+            var cart = await _cartRepository.UpdateCart(userId, _mapper.Map<Cart>(dto));
 
-        return cart;
+            var cartJson = _redisClient.SerializeObject(cart);
+            await _redisClient.StoreValue($"Cart:{userId}", cartJson);
+
+            return cart;
+        }
+        catch (Exception e)
+        {
+            LoggingService.Log.Error(e.Message);
+            throw new ArgumentException(e.Message);
+        }
     }
 
     public async Task<Cart> AddProductToCart(int userId, AddProductToCartDto dto)
     {
         _tracer.StartActiveSpan("AddProductToCart");
 
-        if (userId < 1)
-            throw new ArgumentException("UserId can not be less than 1");
+        if (userId < 1) throw new ArgumentException("UserId can not be less than 1");
 
-        var cart = await _cartRepository.AddProductToCart(userId, _mapper.Map<ProductLine>(dto));
+        try
+        {
+            LoggingService.Log.Information("Called AddProductToCart Method");
 
-        var cartJson = _redisClient.SerializeObject(cart);
-        await _redisClient.StoreValue($"Cart:{userId}", cartJson);
+            var cart = await _cartRepository.AddProductToCart(userId, _mapper.Map<ProductLine>(dto));
 
-        const string exchangeName = "UpdateCartExchange";
-        const string routingKey = "UpdateCart";
-        _messageClient.Send(new UpdateCartMessage("Update cart", userId), exchangeName, routingKey);
+            var cartJson = _redisClient.SerializeObject(cart);
+            await _redisClient.StoreValue($"Cart:{userId}", cartJson);
 
-        return cart;
+            const string exchangeName = "UpdateCartExchange";
+            const string routingKey = "UpdateCart";
+            _messageClient.Send(new UpdateCartMessage("Update cart", userId), exchangeName, routingKey);
+
+            return cart;
+        }
+        catch (Exception e)
+        {
+            LoggingService.Log.Error(e.Message);
+            throw new ArgumentException(e.Message);
+        }
     }
 
     public async Task<Cart> RemoveProductFromCart(int userId, string productId)
@@ -133,22 +164,30 @@ public class CartService : ICartService
         _tracer.StartActiveSpan("RemoveProductFromCart");
 
 
-        if (userId < 1)
-            throw new ArgumentException("UserId can not be less than 1");
+        if (userId < 1) throw new ArgumentException("UserId can not be less than 1");
 
-        if (string.IsNullOrEmpty(productId))
-            throw new ArgumentException("ProductId cannot be null or empty");
+        if (string.IsNullOrEmpty(productId)) throw new ArgumentException("ProductId cannot be null or empty");
 
-        var cart = await _cartRepository.RemoveProductFromCart(userId, productId);
+        try
+        {
+            LoggingService.Log.Information("Called RemoveProductFromCart Method");
 
-        var cartJson = _redisClient.SerializeObject(cart);
-        await _redisClient.StoreValue($"Cart:{userId}", cartJson);
+            var cart = await _cartRepository.RemoveProductFromCart(userId, productId);
 
-        const string exchangeName = "UpdateCartExchange";
-        const string routingKey = "UpdateCart";
-        _messageClient.Send(new UpdateCartMessage("Update cart", userId), exchangeName, routingKey);
+            var cartJson = _redisClient.SerializeObject(cart);
+            await _redisClient.StoreValue($"Cart:{userId}", cartJson);
 
-        return cart;
+            const string exchangeName = "UpdateCartExchange";
+            const string routingKey = "UpdateCart";
+            _messageClient.Send(new UpdateCartMessage("Update cart", userId), exchangeName, routingKey);
+
+            return cart;
+        }
+        catch (Exception e)
+        {
+            LoggingService.Log.Error(e.Message);
+            throw new ArgumentException(e.Message);
+        }
     }
 
     public async Task<Cart> DeleteCart(int userId)
@@ -158,8 +197,18 @@ public class CartService : ICartService
         if (userId < 1)
             throw new ArgumentException("UserId can not be less than 1");
 
-        await _redisClient.RemoveValue($"Cart:{userId}");
+        try
+        {
+            LoggingService.Log.Information("Called DeleteCart Method");
 
-        return await _cartRepository.DeleteCart(userId);
+            await _redisClient.RemoveValue($"Cart:{userId}");
+
+            return await _cartRepository.DeleteCart(userId);
+        }
+        catch (Exception e)
+        {
+            LoggingService.Log.Error(e.Message);
+            throw new ArgumentException(e.Message);
+        }
     }
 }
