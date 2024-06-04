@@ -13,6 +13,8 @@ using Messaging.SharedMessages;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using MonitoringService;
+using OpenTelemetry.Trace;
 
 namespace AuthService.Core.Services;
 
@@ -22,18 +24,24 @@ public class AuthService : IAuthService
     private readonly IAuthRepository _authRepository;
     private readonly MessageClient _messageClient;
     private readonly AppSettings.AppSettings _appSettings;
+    private readonly Tracer _tracer;
+
 
     public AuthService(IAuthRepository authRepository, MessageClient messageClient,
-        IOptions<AppSettings.AppSettings> appSettings, IMapper mapper)
+        IOptions<AppSettings.AppSettings> appSettings, IMapper mapper, Tracer tracer)
     {
         _authRepository = authRepository;
         _messageClient = messageClient;
         _mapper = mapper;
         _appSettings = appSettings.Value;
+        _tracer = tracer;
     }
 
     public async Task Register(CreateAuthDto auth)
     {
+        using var activity = _tracer.StartActiveSpan("Register");
+        LoggingService.Log.Information("Called Register Method");
+
         var exist = await _authRepository.DoesAuthExists(auth.Email);
 
         if (exist)
@@ -43,7 +51,6 @@ public class AuthService : IAuthService
 
         using var rng = RandomNumberGenerator.Create();
         rng.GetBytes(saltBytes);
-
 
         var salt = Convert.ToBase64String(saltBytes);
 
@@ -67,26 +74,51 @@ public class AuthService : IAuthService
         }
         catch (Exception e)
         {
+            LoggingService.Log.Error(e.Message);
             throw new ArgumentException(e.Message);
         }
     }
 
     public async Task DeleteAuth(int authId)
     {
-        var auth = await _authRepository.GetAuthById(authId);
-        if (auth is null)
-            throw new KeyNotFoundException($"No user with id of {authId}");
-        await _authRepository.DeleteAuth(authId);
+        using var activity = _tracer.StartActiveSpan("DeleteAuth");
+
+        try
+        {
+            LoggingService.Log.Information("Called DeleteAuth method");
+
+            var auth = await _authRepository.GetAuthById(authId);
+            if (auth is null)
+                throw new KeyNotFoundException($"No user with id of {authId}");
+            await _authRepository.DeleteAuth(authId);
+        }
+        catch (Exception e)
+        {
+            LoggingService.Log.Error(e.Message);
+            throw new ArgumentException(e.Message);
+        }
     }
 
     public async Task<AuthenticationToken> Login(LoginDto login)
     {
-        var loggedInUser = await _authRepository.GetAuthByEmail(login.Email);
-        if (loggedInUser == null) throw new Exception("Invalid login");
+        using var activity = _tracer.StartActiveSpan("Login");
 
-        if (BCrypt.Net.BCrypt.Verify(login.Password + loggedInUser.Salt, loggedInUser.PasswordHash))
+        try
         {
-            return GenerateToken(loggedInUser);
+            LoggingService.Log.Information("Called Login method");
+
+            var loggedInUser = await _authRepository.GetAuthByEmail(login.Email);
+            if (loggedInUser == null) throw new Exception("Invalid login");
+
+            if (BCrypt.Net.BCrypt.Verify(login.Password + loggedInUser.Salt, loggedInUser.PasswordHash))
+            {
+                return GenerateToken(loggedInUser);
+            }
+        }
+        catch (Exception e)
+        {
+            LoggingService.Log.Error(e.Message);
+            throw new ArgumentException(e.Message);
         }
 
         throw new Exception("Invalid login");
@@ -94,10 +126,14 @@ public class AuthService : IAuthService
 
     public async Task<AuthenticateResult> ValidateToken(string token)
     {
+        using var activity = _tracer.StartActiveSpan("ValidateToken");
+
         if (token.IsNullOrEmpty()) return await Task.Run(() => AuthenticateResult.Fail("Invalid token"));
 
         try
         {
+            LoggingService.Log.Information("Called ValidateToken method");
+
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
             var principal = tokenHandler.ValidateToken(token, new TokenValidationParameters
@@ -126,20 +162,33 @@ public class AuthService : IAuthService
             var ticket = new AuthenticationTicket(claimPrincipal, "dev");
             return AuthenticateResult.Success(ticket);
         }
-        catch
+        catch (Exception e)
         {
+            LoggingService.Log.Error(e.Message);
             return await Task.Run(() => AuthenticateResult.Fail("Invalid token"));
         }
     }
 
     public async Task<GetAuthDto> GetAuthById(int id)
     {
+        using var activity = _tracer.StartActiveSpan("GetAuthById");
+
         if (id < 1)
             throw new ArgumentException("Id could be less than 0");
 
-        var user = _mapper.Map<GetAuthDto>(await _authRepository.GetAuthById(id));
+        try
+        {
+            LoggingService.Log.Information("Called GetAuthById Method");
 
-        return user;
+            var user = _mapper.Map<GetAuthDto>(await _authRepository.GetAuthById(id));
+
+            return user;
+        }
+        catch (Exception e)
+        {
+            LoggingService.Log.Error(e.Message);
+            throw new ArgumentException(e.Message);
+        }
     }
 
 
@@ -171,6 +220,17 @@ public class AuthService : IAuthService
 
     public async Task RebuildDatabase()
     {
-        await _authRepository.RebuildDatabase();
+        using var activity = _tracer.StartActiveSpan("RebuildDatabase");
+
+        try
+        {
+            LoggingService.Log.Information("Called RebuildDatabase Method");
+            await _authRepository.RebuildDatabase();
+        }
+        catch (Exception e)
+        {
+            LoggingService.Log.Error(e.Message);
+            throw new ArgumentException(e.Message);
+        }
     }
 }
