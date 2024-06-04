@@ -1,3 +1,5 @@
+using OpenTelemetry.Trace;
+
 namespace ProductService.Service.Tests;
 
 public class ProductServiceTests
@@ -5,11 +7,16 @@ public class ProductServiceTests
     private readonly Mock<IProductRepository> _productRepository = new();
     private readonly Mock<IMapper> _mapper = new();
     private readonly Mock<IRedisClient> _redisClient = new();
+    private readonly Mock<TracerProvider> _tracerProvider = new();
     private readonly Core.Services.ProductService _productService;
-    
+
     public ProductServiceTests()
     {
-        _productService = new Core.Services.ProductService(_productRepository.Object, _mapper.Object, _redisClient.Object);
+        _productService = new Core.Services.ProductService(
+            _productRepository.Object,
+            _mapper.Object,
+            _redisClient.Object,
+            _tracerProvider.Object.GetTracer("TestTracer"));
     }
 
     public static IEnumerable<object[]> GetProducts_TestCase()
@@ -89,7 +96,7 @@ public class ProductServiceTests
             PageNumber = 1,
             PageSize = 1
         };
-        
+
         yield return
         [
             new Product[]
@@ -111,7 +118,7 @@ public class ProductServiceTests
             },
             new PaginatedResult<Product>
             {
-                Items = [ product1, product2 ],
+                Items = [product1, product2],
                 TotalCount = 5
             },
             paginatedDto2
@@ -125,12 +132,12 @@ public class ProductServiceTests
             },
             new PaginatedResult<Product>
             {
-                Items = [ product4, product5],
+                Items = [product4, product5],
                 TotalCount = 5
             },
             paginatedDto3
         ];
-        
+
         yield return
         [
             new[]
@@ -139,12 +146,12 @@ public class ProductServiceTests
             },
             new PaginatedResult<Product>
             {
-                Items = [ product1, product2, product3, product4, product5],
+                Items = [product1, product2, product3, product4, product5],
                 TotalCount = 5
             },
             paginatedDto4
         ];
-        
+
         yield return
         [
             new[]
@@ -153,12 +160,13 @@ public class ProductServiceTests
             },
             new PaginatedResult<Product>
             {
-                Items = [ product2 ],
+                Items = [product2],
                 TotalCount = 5
             },
             paginatedDto5
         ];
     }
+
     public static IEnumerable<object[]> GetProductByIdInvalid_TestCase()
     {
         yield return
@@ -195,10 +203,10 @@ public class ProductServiceTests
 
         _productRepository.Setup(p => p.GetProducts(dto.PageNumber, dto.PageSize))
             .ReturnsAsync(paginatedResult);
-        
+
         // Act
         var result = await _productService.GetProducts(dto);
-        
+
         // Assert
         Assert.Equal(expectedResult.Items.Count, result.Items.Count);
         Assert.True(expectedResult.Items.SequenceEqual(result.Items));
@@ -229,7 +237,7 @@ public class ProductServiceTests
             InStock = true,
             NumberInStock = 44
         };
-        
+
         _productRepository.Setup(p => p.CreateProduct(It.IsAny<Product>())).ReturnsAsync(product);
 
         // Act
@@ -241,8 +249,8 @@ public class ProductServiceTests
     }
 
     [Theory]
-    [InlineData("66504a166d44c191e7db8890")]
-    [InlineData("66504b15b826b7d8c9e4f62f")]
+    [InlineData("665db48d4c12d4ff114eb132")]
+    [InlineData("665db48c4c12d4ff114eb131")]
     public async Task GetProductByIdProductValid(string productId)
     {
         // Arrange
@@ -270,7 +278,7 @@ public class ProductServiceTests
         {
             product1, product2
         };
-        
+
         _productRepository.Setup(p => p.GetProductById(productId))!.ReturnsAsync(fakeRepo.Find(p =>
             p.Id == new ObjectId(productId)));
 
@@ -293,13 +301,13 @@ public class ProductServiceTests
     {
         // Arrange
         _productRepository.Setup(s => s.GetProductById(productId)).Throws<ArgumentException>();
-        
+
         // Act
-        var exception = await Assert.ThrowsAsync<ArgumentException>(async () => await _productService.GetProductById(productId));
+        var exception =
+            await Assert.ThrowsAsync<ArgumentException>(async () => await _productService.GetProductById(productId));
 
         // Assert
         Assert.Equal(expectedMessage, exception.Message);
         _productRepository.Verify(r => r.GetProductById(It.IsAny<string>()), Times.Never);
     }
-    
 }
