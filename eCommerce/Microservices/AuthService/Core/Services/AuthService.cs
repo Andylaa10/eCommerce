@@ -220,11 +220,11 @@ public class AuthService : IAuthService
 
     public async Task RebuildDatabase()
     {
-        using var activity = _tracer.StartActiveSpan("RebuildDatabase");
+        using var activity = _tracer.StartActiveSpan("Rebuild Auth Database");
 
         try
         {
-            LoggingService.Log.Information("Called RebuildDatabase Method");
+            LoggingService.Log.Information("Called Rebuild Auth Database Method");
             await _authRepository.RebuildDatabase();
         }
         catch (Exception e)

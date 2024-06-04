@@ -22,8 +22,6 @@ public class DeleteAuthMessageHandler : BackgroundService
     private async void HandleDeleteAuth(DeleteAuthMessage message)
     {
         using var activity = _tracer.StartActiveSpan("HandleDeleteAuth");
-
-        // TODO Add dlq logic
         try
         {
             Console.WriteLine(message.Message);

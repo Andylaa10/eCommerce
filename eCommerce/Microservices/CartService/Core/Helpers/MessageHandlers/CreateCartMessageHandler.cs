@@ -22,14 +22,10 @@ public class CreateCartMessageHandler : BackgroundService
 
     private async void HandleCreateCart(CreateCartMessage cart)
     {
-        Console.WriteLine(cart.Message);
-
         using var activity = _tracer.StartActiveSpan("HandleCreateCart");
-
-        // TODO Add dlq logic
-
         try
         {
+            Console.WriteLine(cart.Message);
             LoggingService.Log.Information("Called HandleCreateCart Message Method");
             using var scope = _serviceProvider.CreateScope();
             var cartService = scope.ServiceProvider.GetRequiredService<ICartService>();

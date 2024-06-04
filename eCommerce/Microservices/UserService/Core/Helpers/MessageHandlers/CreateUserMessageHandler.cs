@@ -22,12 +22,10 @@ public class CreateUserMessageHandler : BackgroundService
 
     private async void HandleCreateUser(CreateUserMessage user)
     {
-        Console.WriteLine(user.Message);
-
         using var activity = _tracer.StartActiveSpan("HandleCreateUser");
-        // TODO Add dlq logic
         try
         {
+            Console.WriteLine(user.Message);
             LoggingService.Log.Information("Called HandleCreateUser Message Method");
             using var scope = _serviceProvider.CreateScope();
             var userService = scope.ServiceProvider.GetRequiredService<IUserService>();

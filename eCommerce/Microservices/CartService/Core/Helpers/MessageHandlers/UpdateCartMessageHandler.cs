@@ -23,13 +23,10 @@ public class UpdateCartMessageHandler : BackgroundService
 
     public async void HandleUpdateCart(UpdateCartMessage message)
     {
-        Console.WriteLine(message.Message);
-
         using var activity = _tracer.StartActiveSpan("HandleUpdateCart");
-
-        // TODO Add dlq
         try
         {
+            Console.WriteLine(message.Message);
             LoggingService.Log.Information("Called HandleUpdateCart Message Method");
 
             using var scope = _serviceProvider.CreateScope();
