@@ -2,6 +2,12 @@
 **eCommerce** is a backend based software project that focuses on optimizing databases for developers, system integration and the development of large systems. The project uses the polyglot persistence principle for using multiple databases for the same system (Relational, Document-based & key-value store). The architecture is built with a focus on distributed microservices - where a CI/CD pipeline is used to validate the codebase & deploy the application via a combination of Docker hub and Azure's Kubernetes Service. Furthermore the project is focused on building a system that correlates to fault isolative architecture via the usage of Polly, in combination with monitoring via Seq and Zipkin. Finally the usage of a dead letter queue also supports the focus of developing a large scalable system
 <br>
 
+## Project developed by: 
+- [@Andylaa10](https://github.com/Andylaa10)
+- [@KristianHollaender](https://github.com/KristianHollaender)
+- [@MarcusIversen](https://github.com/MarcusIversen)  
+ 
+
 ## Setup steps/guide 
 - **.NET8** is required for this application.
 - **Docker (Desktop)** is required for composing this application.
