@@ -173,11 +173,11 @@ public class UserService : IUserService
 
     public async Task RebuildDatabase()
     {
-        using var activity = _tracer.StartActiveSpan("RebuildUserDatabase");
+        using var activity = _tracer.StartActiveSpan("Rebuild User Database");
 
         try
         {
-            LoggingService.Log.Information("Called RebuildUserDatabase Method");
+            LoggingService.Log.Information("Called Rebuild User Database Method");
 
             await _userRepository.RebuildDatabase();
         }

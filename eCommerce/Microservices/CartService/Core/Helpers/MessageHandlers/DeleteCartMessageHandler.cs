@@ -22,14 +22,10 @@ public class DeleteCartMessageHandler : BackgroundService
 
     public async void HandleDeleteCart(DeleteCartMessage message)
     {
-        Console.WriteLine(message.Message);
-
         using var activity = _tracer.StartActiveSpan("HandleDeleteCart");
-
-        // TODO Add dlq logic
-
         try
         {
+            Console.WriteLine(message.Message);
             LoggingService.Log.Information("Called HandleDeleteCart Message Method");
             using var scope = _serviceProvider.CreateScope();
             var cartService = scope.ServiceProvider.GetRequiredService<ICartService>();
