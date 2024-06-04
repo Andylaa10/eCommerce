@@ -6,15 +6,33 @@
 ## Setup steps/guide 
 - **.NET8** is required for this application.
 - **Docker (Desktop)** is required for composing this application.
-- In `../appsettings.json` for each service u can either: 
-  - Use the standard Secret & DB configuration
-  - Configure the secret & DB configurations with the following syntax:
+- In `../appsettings.json` assure that the syntax is as following: 
 
+### appsettings.json for Postgres
 ```
  "AppSettings": {
     "Secret": "InsertYourSecretHere",
     "AuthDB": "Host=authdb;Port=5432;Database=AuthDB;Username=postgres;Password=postgres"
   }
+```
+### appsettings.json for MongoDB
+```
+"AppSettings": {
+    "CartDB": "mongodb://host.docker.internal:27018"
+  }
+```
+## Running the application
+- Go to `../eCommerce` and do following command
+```
+docker compose up --build
+```
+- To stop application do the following command(s)
+```
+docker compose down
+```
+or
+```
+ctrl+c + docker compose down
 ```
 
 ## Databases for Developers
