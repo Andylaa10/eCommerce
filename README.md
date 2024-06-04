@@ -71,11 +71,8 @@ The flow of our pipeline is as following:
 ## :chart_with_upwards_trend: Development of Large Systems
 ### Introduction (Coming soon...)
 ### Scope (Coming soon...)
+## 
 
-<br>
-<br>
-<div style="display: flex; justify-content: center; gap: 10px;">  
-    <img src="https://media.discordapp.net/attachments/1042375108494377041/1217761415792824350/Screenshot_2024-03-14_at_10.08.42.png?ex=665f8272&is=665e30f2&hm=3aa3c29ad9736662d4cb3cba4e0592e446dcbf929f450b0a061133be3d5e4e2c&=&format=webp&quality=lossless&width=1102&height=1102" style="width: 200px; height: auto; border-radius: 50%;">  
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlFDjuPCZsAWuOUpxWPT8TFMdEgkwEgdCKrQ&s" style="width: 200px; height: auto; border-radius: 50%;">  
-</div>  
+<img src="https://media.discordapp.net/attachments/1042375108494377041/1217761415792824350/Screenshot_2024-03-14_at_10.08.42.png?ex=665f8272&is=665e30f2&hm=3aa3c29ad9736662d4cb3cba4e0592e446dcbf929f450b0a061133be3d5e4e2c&=&format=webp&quality=lossless&width=1102&height=1102" style="width: 200px; height: auto; border-radius: 50%;">  
+
 
