@@ -1,6 +1,6 @@
 ﻿{
   "GlobalConfiguration": {
-    "baseURL": "http://localhost:5206"
+    "baseURL": "http://localhost:5206",
   },
   "Routes": [
     {
@@ -157,6 +157,13 @@
         "AuthenticationProviderKey": "dev",
         "AllowedScopes": [
         ]
+      },
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "1s",
+        "PeriodTimespan": 1,
+        "Limit": 1
       }
     },
     {
