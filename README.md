@@ -1,6 +1,5 @@
-# eCommerce - Exam Project
-## :computer: Product
-**eCommerce** is a backend based software project that focuses on optimizing databases, system integration and the development of large systems. The project uses the polyglot persistence principle for using multiple databases for the same system. The architecture is built with a focus on distributed microservices - where a CI/CD pipeline is used to validate the codebase & deploy the application via a combination of Docker hub and the Azure Kubernetes Service. Furthermore the project is focused on building a system that correlates to fault isolative architecture via the usage of Polly, in combination with monitoring via Seq and Zipkin. At last the usage of a dead letter queue also supports the focus on developing a large scalable system
+# :computer: eCommerce - Exam Project 
+**eCommerce** is a backend based software project that focuses on optimizing databases for developers, system integration and the development of large systems. The project uses the polyglot persistence principle for using multiple databases for the same system (Relational, Document-based & key-value store). The architecture is built with a focus on distributed microservices - where a CI/CD pipeline is used to validate the codebase & deploy the application via a combination of Docker hub and Azure's Kubernetes Service. Furthermore the project is focused on building a system that correlates to fault isolative architecture via the usage of Polly, in combination with monitoring via Seq and Zipkin. Finally the usage of a dead letter queue also supports the focus of developing a large scalable system
 <br>
 
 ## Setup steps/guide 
