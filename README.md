@@ -52,7 +52,7 @@ For the database part of this project we implemented three different database ty
 
 This is the architecture of the databases and it is created with focus on using the polyglot persistence principle.
 
- <img src="https://media.discordapp.net/attachments/1042375108494377041/1247476446738518070/image.png?ex=66602a79&is=665ed8f9&hm=10d59c93209062cf4a618740e702edc6c38a0d15c3d6379f0ebf5737f1e3968b&=&format=webp&quality=lossless&width=1374&height=1102" style="width: 500px; height: auto; border-radius: 50%;">  
+ <img src="https://media.discordapp.net/attachments/1042375108494377041/1247476446738518070/image.png?ex=66714df9&is=666ffc79&hm=4a8e9114688cf93ee969c8df2e1b61ca78a5c6dfa667f78ce95d48da15e43ec4&=&format=webp&quality=lossless&width=1374&height=1102" style="width: 500px; height: auto; border-radius: 50%;">  
 
 ## :hammer_and_wrench: System Integration 
 ### Introduction
@@ -66,11 +66,18 @@ For the system integration part of this project, we implemented a Continous Inte
 The flow of our pipeline is as following: 
 
 
- <img src="https://media.discordapp.net/attachments/1042375108494377041/1247472418457653258/image.png?ex=666026b9&is=665ed539&hm=bd45d8006f01dbc72e578094a079ae9c583be2af660df88504d81a10b34cc925&=&format=webp&quality=lossless&width=614&height=700" style="width: 450px; height: auto; border-radius: 50%;">  
+ <img src="https://media.discordapp.net/attachments/1042375108494377041/1247472418457653258/image.png?ex=66714a39&is=666ff8b9&hm=e9fcae02cf294f4ba3a887e6c3cbfb3374760c0054850737435b984f2fa19bf7&=&format=webp&quality=lossless&width=966&height=1102" style="width: 450px; height: auto; border-radius: 50%;">  
 
 ## :chart_with_upwards_trend: Development of Large Systems
-### Introduction (Coming soon...)
-### Scope (Coming soon...)
+### Introduction
+There are a variety of thoughts and considerations in building scalable software, which essentially can define the foundation of a software product. The fault-isolated architecture principle is a focus point that can ensure higher availability and optimize the functionality of software. Isolating microservices into "swimlanes" and combining this with monitoring can significantly enhance scalability. This synopsis will explore the practical implementation of these techniques to research their benefits.
+
+### Scope 
+For the Development of Large Systems part of this project, we implemented a fault isolative architectural approach. Focusing on developing a distributed microservice architecture with swimlanes for each isolated service. Furthermore retry-, circuit breaker- & fallback policies via polly is implemented, while everything is bound around monitoring and logging, via SEQ and Zipkin. Utilizing RabbitMQ for messaging, a Dead Letter Queue (DLQ) is implemented for monitoring and locating errors/bugs/issues. 
+
+The architecture design is as following: 
+
+<img src="https://media.discordapp.net/attachments/1042375108494377041/1252226900009680926/Screenshot_2024-06-17_at_13.34.35.png?ex=667172ae&is=6670212e&hm=dbd9d2379f564fc55ec72132e46ed371846b4117573405a23983d2b057d44195&=&format=webp&quality=lossless&width=738&height=700" style="width: 450px; height: auto; border-radius: 50%;">  
 ## 
 
 <img src="https://media.discordapp.net/attachments/1042375108494377041/1217761415792824350/Screenshot_2024-03-14_at_10.08.42.png?ex=665f8272&is=665e30f2&hm=3aa3c29ad9736662d4cb3cba4e0592e446dcbf929f450b0a061133be3d5e4e2c&=&format=webp&quality=lossless&width=1102&height=1102" style="width: 200px; height: auto; border-radius: 50%;">  
