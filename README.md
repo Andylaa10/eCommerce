@@ -77,8 +77,7 @@ For the Development of Large Systems part of this project, we implemented a faul
 
 The architecture design is as following: 
 
-<img src="https://media.discordapp.net/attachments/1042375108494377041/1252226900009680926/Screenshot_2024-06-17_at_13.34.35.png?ex=667172ae&is=6670212e&hm=dbd9d2379f564fc55ec72132e46ed371846b4117573405a23983d2b057d44195&=&format=webp&quality=lossless&width=738&height=700" style="width: 450px; height: auto; border-radius: 50%;">  
-## 
+<img src="https://media.discordapp.net/attachments/1042375108494377041/1252226900009680926/Screenshot_2024-06-17_at_13.34.35.png?ex=667172ae&is=6670212e&hm=dbd9d2379f564fc55ec72132e46ed371846b4117573405a23983d2b057d44195&=&format=webp&quality=lossless&width=738&height=700" style="width: 450px; height: auto; border-radius: 50%;">   
 
 <img src="https://media.discordapp.net/attachments/1042375108494377041/1217761415792824350/Screenshot_2024-03-14_at_10.08.42.png?ex=665f8272&is=665e30f2&hm=3aa3c29ad9736662d4cb3cba4e0592e446dcbf929f450b0a061133be3d5e4e2c&=&format=webp&quality=lossless&width=1102&height=1102" style="width: 200px; height: auto; border-radius: 50%;">  
 
